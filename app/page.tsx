@@ -108,12 +108,13 @@ export default function Home() {
       <section className="scroll-chapter market-chapter" id="market">
         <div className="chapter-background photo-background" aria-hidden="true"><Image src="/media/roadside.jpg" alt="" fill sizes="100vw" /><span>03</span><strong>global</strong></div>
         <div className="chapter-panels">
-          <article className="chapter-panel market-panel" data-reveal>
+          <article className="chapter-panel market-panel market-proof-panel" data-reveal>
             <div className="panel-copy"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
-            <div className="hero-metrics">{t.market.stats.slice(0, 2).map(([value, label, note]) => <div key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
-          </article>
-          <article className="chapter-panel market-panel" data-reveal>
-            <div className="market-stat-grid">{t.market.stats.slice(2).map(([value, label, note]) => <div key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+            <div className="market-proof">
+              <div className="market-base">{t.market.stats.slice(0, 2).map(([value, label, note]) => <div key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+              <div className="tam-context"><strong>{t.market.stats[2][0]}</strong><div><h3>{t.market.stats[2][1]}</h3><p>{t.market.stats[2][2]}</p></div></div>
+              <div className="market-equation">{t.market.stats.slice(3).map(([value, label, note], index) => <div className={index === 3 ? "revenue-result" : ""} key={label}><span>{index === 0 ? "×" : index === 1 ? "=" : "→"}</span><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+            </div>
           </article>
         </div>
       </section>

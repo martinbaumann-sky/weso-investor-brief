@@ -969,3 +969,79 @@ main { overflow: clip; }
   .issue-scroll-card h3 { margin-top: 32px; font-size: clamp(2.2rem, 10vw, 3.4rem); }
   .issue-scroll-card p { margin-top: 18px; font-size: .82rem; }
 }
+
+/* One connected market proof, ending in annual Weso revenue */
+.market-proof-panel { min-height: 108svh; grid-template-columns: .68fr 1.32fr; }
+.market-proof-panel::before { inset: 5vh -2vw; }
+.market-proof { min-width: 0; }
+.market-base { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.market-base > div {
+  min-height: 205px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 22px;
+  background: rgba(10,10,11,.48);
+}
+.market-base strong, .tam-context > strong, .market-equation strong {
+  font-family: var(--font-weso-display), sans-serif;
+  font-size: clamp(3.6rem, 6vw, 6.5rem);
+  font-weight: 500;
+  line-height: .76;
+  letter-spacing: -.07em;
+}
+.market-base h3, .tam-context h3, .market-equation h3 { margin: 22px 0 0; font-size: .88rem; line-height: 1.1; }
+.market-base p, .tam-context p, .market-equation p { margin: 8px 0 0; font-size: .62rem; line-height: 1.4; opacity: .6; }
+.tam-context {
+  margin-top: 10px;
+  padding: 18px 22px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 20px;
+  background: rgba(10,10,11,.48);
+}
+.tam-context > strong { font-size: clamp(2.8rem, 4.5vw, 4.8rem); }
+.tam-context h3 { margin-top: 0; }
+.market-equation { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+.market-equation > div {
+  position: relative;
+  min-height: 180px;
+  padding: 22px 16px 18px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 20px;
+  background: rgba(10,10,11,.58);
+}
+.market-equation > div > span {
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f20b8f;
+  color: #fff;
+  font-size: .68rem;
+}
+.market-equation strong { font-size: clamp(2.3rem, 3.8vw, 4.3rem); }
+.market-equation h3 { margin-top: 30px; }
+.market-equation .revenue-result { border-color: #c9ff4d; background: #c9ff4d; color: #171518; }
+.market-equation .revenue-result > span { background: #171518; }
+.market-equation .revenue-result p { opacity: .72; }
+
+@media (max-width: 920px) {
+  .market-proof-panel { grid-template-columns: 1fr; min-height: auto; padding-top: 105px; }
+  .market-proof-panel::before { inset: 4vh -10px; }
+}
+
+@media (max-width: 650px) {
+  .market-base { grid-template-columns: 1fr 1fr; }
+  .market-base > div { min-height: 180px; padding: 18px; }
+  .tam-context { grid-template-columns: 1fr; gap: 8px; }
+  .market-equation { grid-template-columns: repeat(2, 1fr); }
+  .market-equation > div { min-height: 165px; }
+}
