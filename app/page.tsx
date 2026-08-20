@@ -8,7 +8,7 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
   const [problemStep, setProblemStep] = useState(0);
-  const [solutionStep, setSolutionStep] = useState(-1);
+  const [solutionStep, setSolutionStep] = useState(0);
   const t = content[lang];
 
   useEffect(() => {
@@ -50,14 +50,21 @@ export default function Home() {
   }, [lang]);
 
   useEffect(() => {
-    const triggers = document.querySelectorAll<HTMLElement>("[data-flow-trigger]");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setSolutionStep(Number((entry.target as HTMLElement).dataset.flowTrigger));
-      });
-    }, { threshold: 0, rootMargin: "-47% 0px -47% 0px" });
-    triggers.forEach((trigger) => observer.observe(trigger));
-    return () => observer.disconnect();
+    const updateSolutionStep = () => {
+      const section = document.querySelector<HTMLElement>("#solution");
+      if (!section) return;
+      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const passed = Math.min(Math.max(-section.getBoundingClientRect().top, 0), travel);
+      const next = Math.min(t.solution.flow.length - 1, Math.floor((passed / travel) * t.solution.flow.length));
+      setSolutionStep(next);
+    };
+    updateSolutionStep();
+    window.addEventListener("scroll", updateSolutionStep, { passive: true });
+    window.addEventListener("resize", updateSolutionStep);
+    return () => {
+      window.removeEventListener("scroll", updateSolutionStep);
+      window.removeEventListener("resize", updateSolutionStep);
+    };
   }, [lang]);
 
   const switchLanguage = () => {
@@ -112,7 +119,6 @@ export default function Home() {
               </div>
               <div className="compact-grid pillars-grid">{t.solution.pillars.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
             </div>
-            <div className="flow-triggers" aria-hidden="true">{t.solution.flow.map((step, index) => <i data-flow-trigger={index} key={step} />)}</div>
           </article>
         </div>
       </section>

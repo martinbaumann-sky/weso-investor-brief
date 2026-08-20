@@ -885,6 +885,7 @@ main { overflow: clip; }
 }
 .solution-graphic-panel::before { display: none; }
 
+.chapter-background > span,
 .chapter-background > strong { display: none; }
 
 @media (max-width: 820px) {
