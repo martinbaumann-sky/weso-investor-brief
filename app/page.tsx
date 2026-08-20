@@ -63,51 +63,68 @@ export default function Home() {
         <a className="hero-scroll" href="#problem" aria-label={t.hero.explore}>↓</a>
       </section>
 
-      <section className="story-section light-section" id="problem">
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p>{t.problem.lead}</p></div>
-        {t.problem.cards.map(([title, body], index) => <article className="section-screen text-moment" key={title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
+      <section className="scroll-chapter problem-chapter" id="problem">
+        <div className="chapter-background" aria-hidden="true"><span>01—02</span><strong>weso</strong></div>
+        <div className="chapter-panels">
+          <article className="chapter-panel" data-reveal>
+            <div className="panel-copy"><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p><p>{t.problem.body}</p></div>
+            <div className="compact-grid issues-grid">{t.problem.cards.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
+          </article>
+          <article className="chapter-panel solution-panel" id="solution" data-reveal>
+            <div className="panel-copy"><p className="eyebrow">{t.solution.label}</p><h2>{t.solution.title}</h2><div className="flow-line">{t.solution.flow.map((step) => <span key={step}>{step}</span>)}</div></div>
+            <div className="compact-grid pillars-grid">{t.solution.pillars.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
+          </article>
+        </div>
       </section>
 
-      <section className="story-section dark-section" id="solution">
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.solution.label}</p><h2>{t.solution.title}</h2></div>
-        {t.solution.flow.map((step, index) => <article className="section-screen flow-moment" key={step} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{step}</h3></article>)}
-        {t.solution.pillars.map(([title, body], index) => <article className="section-screen text-moment pillar-moment" key={title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
+      <section className="scroll-chapter market-chapter" id="market">
+        <div className="chapter-background photo-background" aria-hidden="true"><Image src="/media/roadside.jpg" alt="" fill sizes="100vw" /><span>03</span><strong>global</strong></div>
+        <div className="chapter-panels">
+          <article className="chapter-panel market-panel" data-reveal>
+            <div className="panel-copy"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
+            <div className="hero-metrics">{t.market.stats.slice(0, 2).map(([value, label, note]) => <div key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+          </article>
+          <article className="chapter-panel market-panel" data-reveal>
+            <div className="market-stat-grid">{t.market.stats.slice(2).map(([value, label, note]) => <div key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+          </article>
+        </div>
       </section>
 
-      <section className="story-section market-story" id="market">
-        <div className="market-background" aria-hidden="true"><Image src="/media/roadside.jpg" alt="" fill sizes="100vw" /></div>
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
-        {t.market.stats.map(([value, label, note], index) => <article className="section-screen metric-moment" key={`${value}-${label}`} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><h3>{label}</h3><p>{note}</p></article>)}
+      <section className="scroll-chapter economics-chapter" id="economics">
+        <div className="chapter-background economics-background" aria-hidden="true"><span>{t.market.bridge}</span><strong>→</strong><span>{t.market.bridgeTo}</span></div>
+        <div className="chapter-panels">
+          <article className="chapter-panel economics-panel" data-reveal>
+            <div className="panel-copy"><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
+            <div className="economics-compare"><div><span>FROM</span><h3>{t.economics.from}</h3></div><b>→</b><div className="economics-to"><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
+          </article>
+          <article className="chapter-panel economics-panel results-panel" data-reveal>
+            <div className="result-metrics"><div><strong>{t.economics.savingsValue}</strong><p>{t.economics.savings}</p></div><div><strong>{t.economics.feeValue}</strong><p>{t.economics.fee}</p></div></div>
+            <div className="economics-badges">{t.economics.badges.map((badge) => <span key={badge}>{badge}</span>)}</div>
+          </article>
+        </div>
       </section>
 
-      <section className="story-section light-section" id="economics">
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p>{t.economics.intro}</p></div>
-        <article className="section-screen text-moment economics-moment" data-reveal><span>{t.scale.today}</span><h3>{t.economics.from}</h3></article>
-        <article className="section-screen text-moment economics-moment accent-moment" data-reveal><span>{t.scale.weso}</span><h3>{t.economics.to}</h3></article>
-        <article className="section-screen metric-moment plain-metric" data-reveal><strong>{t.economics.savingsValue}</strong><h3>{t.economics.savings}</h3></article>
-        <article className="section-screen metric-moment plain-metric" data-reveal><strong>{t.economics.feeValue}</strong><h3>{t.economics.fee}</h3></article>
-        {t.economics.badges.map((badge, index) => <article className="section-screen badge-moment" key={badge} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{badge}</h3></article>)}
+      <section className="scroll-chapter scale-chapter" id="scale">
+        <div className="chapter-background scale-background" aria-hidden="true"><span>05</span><strong>scale</strong></div>
+        <div className="chapter-panels">
+          <article className="chapter-panel scale-panel" data-reveal>
+            <div className="panel-copy"><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
+            <div className="stack-compare"><div><span>{t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p></div><div className="weso-stack"><span>{t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></div><div className="capability-row">{t.scale.capabilities.map((item) => <i key={item}>{item}</i>)}</div></div>
+          </article>
+          <article className="chapter-panel team-panel" id="team" data-reveal>
+            <div className="panel-copy"><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
+            <div className="compact-team">{t.team.members.map(([name, role, country, image]) => <div key={name}><Image src={image} alt="" fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
+          </article>
+        </div>
       </section>
 
-      <section className="story-section dark-section" id="scale">
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p>{t.scale.lead}</p></div>
-        <article className="section-screen scale-moment" data-reveal><span>01 · {t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p><div>{t.scale.legacyNodes.map((item) => <i key={item}>{item}</i>)}</div></article>
-        <article className="section-screen scale-moment accent-moment" data-reveal><span>02 · {t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></article>
-        {t.scale.capabilities.map((item, index) => <article className="section-screen capability-moment" key={item} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{item}</h3><p>{t.scale.infrastructure}</p></article>)}
-      </section>
-
-      <section className="story-section team-story" id="team">
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
-        {t.team.members.map(([name, role, country, image]) => <article className="section-screen team-moment" key={name} data-reveal><Image src={image} alt="" fill sizes="(max-width: 800px) 92vw, 760px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></article>)}
-      </section>
-
-      <section className="story-section round-story" id="round">
-        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
-        {t.round.terms.map(([value, label], index) => <article className="section-screen metric-moment" key={label} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><h3>{label}</h3></article>)}
-        <div className="section-screen chapter-screen" data-reveal><p className="eyebrow">{t.round.months}</p></div>
-        {t.round.pipeline.map(([value, label], index) => <article className="section-screen metric-moment" key={label} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><h3>{label}</h3></article>)}
-        {t.round.uses.map(([title, body], index) => <article className="section-screen text-moment" key={title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
-        <footer className="section-screen closing" data-reveal><h2>{t.round.closing}</h2><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div><p>weso.ai · {t.round.emailAddress}</p></footer>
+      <section className="compact-round" id="round">
+        <div className="round-inner" data-reveal>
+          <div className="round-heading"><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
+          <div className="round-data"><div className="round-terms-compact">{t.round.terms.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div><p className="pipeline-label">{t.round.months}</p><div className="pipeline-compact">{t.round.pipeline.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
+          <div className="uses-compact">{t.round.uses.map(([title, body]) => <div key={title}><h3>{title}</h3><p>{body}</p></div>)}</div>
+          <footer className="round-footer"><h3>{t.round.closing}</h3><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div></footer>
+        </div>
       </section>
     </main>
   );
