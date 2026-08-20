@@ -89,7 +89,7 @@ export default function Home() {
         <div className="orchestration" data-reveal>
           <div className="orbit orbit-a" /><div className="orbit orbit-b" />
           <div className="weso-node"><small>ONE LAYER</small><strong>weso</strong><span>AI operations</span></div>
-          {t.solution.flow.slice(0, 6).map((step, index) => <span className={`flow-node n${index + 1}`} key={step}>{step}</span>)}
+          {t.solution.flow.map((step, index) => <span className={`flow-node n${index + 1}`} key={step}>{step}</span>)}
         </div>
         <div className="pillar-grid">{t.solution.pillars.map(([title, body], index) => <article key={title} data-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
       </section>
@@ -101,8 +101,7 @@ export default function Home() {
         </div>
         <div className="market-content">
           <div className="section-heading compact" data-reveal><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
-          <div className="market-kpis">{[t.market.stats[0], t.market.stats[2], t.market.stats[6]].map(([value, label, note], index) => <article key={value} data-reveal><span>0{index + 1}</span><strong>{value}</strong><div><h3>{label}</h3><p>{note}</p></div></article>)}</div>
-          <div className="market-bars" data-reveal aria-label="Market opportunity progression">{[38, 62, 88].map((width, index) => <div key={width}><span>{["Target market", "Service events", "Revenue layer"][index]}</span><i><b style={{ width: `${width}%` }} /></i></div>)}</div>
+          <div className="market-kpis">{t.market.stats.map(([value, label, note], index) => <article key={`${value}-${label}`} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><div><h3>{label}</h3><p>{note}</p></div></article>)}</div>
         </div>
       </section>
 
@@ -121,6 +120,10 @@ export default function Home() {
       <section className="scale-section" id="scale">
         <div className="section-heading inverse" data-reveal><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p>{t.scale.lead}</p></div>
         <div className="flywheel" data-reveal><div className="flywheel-center"><strong>weso</strong><span>{t.scale.infrastructure}</span></div>{t.scale.capabilities.map((item, index) => <div className={`flywheel-item f${index + 1}`} key={item}><span>0{index + 1}</span><strong>{item}</strong></div>)}</div>
+        <div className="scale-summary">
+          <article data-reveal><span>01</span><h3>{t.scale.today}</h3><p>{t.scale.todaySub}</p><strong>{t.scale.paysLegacy}</strong><small>{t.scale.legacyTerms}</small><div>{t.scale.legacyNodes.map((item) => <i key={item}>{item}</i>)}</div></article>
+          <article className="weso-summary" data-reveal><span>02</span><h3>{t.scale.weso}</h3><p>{t.scale.wesoSub}</p><strong>{t.scale.paysWeso}</strong><small>{t.scale.wesoTerms}</small><div>{t.scale.capabilities.map((item) => <i key={item}>{item}</i>)}</div></article>
+        </div>
       </section>
 
       <section className="team-section" id="team">
@@ -134,6 +137,7 @@ export default function Home() {
           <div className="round-terms">{t.round.terms.map(([value, label]) => <article key={label} data-reveal><strong>{value}</strong><span>{label}</span></article>)}</div>
         </div>
         <div className="pipeline" data-reveal><p>{t.round.months}</p><div>{t.round.pipeline.map(([value, label]) => <article key={label}><strong>{value}</strong><span>{label}</span></article>)}</div></div>
+        <div className="use-grid">{t.round.uses.map(([title, body], index) => <article key={title} data-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
         <footer className="closing" data-reveal><h2>{t.round.closing}</h2><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div><p>weso.ai · {t.round.emailAddress}</p></footer>
       </section>
     </main>
