@@ -795,3 +795,104 @@ main { overflow: clip; }
   .solution-sticky .pillars-grid h3 { margin-top: 10px; font-size: .76rem; }
   .solution-sticky .pillars-grid p { margin-top: 7px; font-size: .57rem; }
 }
+
+/* Progressive problem sequence */
+.problem-sequence-panel {
+  display: block;
+  min-height: 165svh;
+  padding: 0;
+  color: var(--ink);
+}
+.problem-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: clamp(90px, 11vh, 130px) 0 clamp(42px, 7vh, 78px);
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(40px, 7vw, 100px);
+  align-items: center;
+}
+.problem-sticky .panel-copy h2 { color: var(--ink); }
+.problem-sticky .panel-copy .panel-lead { max-width: 29rem; color: var(--ink); opacity: .66; }
+.issue-stage {
+  position: relative;
+  min-height: 390px;
+  display: flex;
+  align-items: center;
+}
+.issue-progress {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+}
+.issue-progress i { height: 3px; border-radius: 999px; background: rgba(23,21,24,.12); overflow: hidden; }
+.issue-progress i::after { content: ""; display: block; width: 0; height: 100%; background: linear-gradient(90deg, #f20b8f, #6427ff); transition: width .55s ease; }
+.issue-progress i.is-active::after { width: 100%; }
+.issue-card {
+  position: absolute;
+  inset: 58px 0 0;
+  padding: clamp(28px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(23,21,24,.1);
+  border-radius: 30px;
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 30px 90px rgba(39,23,48,.08);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  transform: translateY(34px) scale(.96);
+  pointer-events: none;
+  transition: opacity .6s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+}
+.issue-card.is-current { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.issue-card > span { font-size: .65rem; font-weight: 700; letter-spacing: .16em; color: #f20b8f; }
+.issue-card h3 {
+  max-width: 13ch;
+  margin: 46px 0 0;
+  font-family: var(--font-weso-display), sans-serif;
+  font-size: clamp(2.5rem, 4.4vw, 5rem);
+  font-weight: 500;
+  line-height: .9;
+  letter-spacing: -.055em;
+}
+.issue-card p { max-width: 30rem; margin: 24px 0 0; font-size: clamp(.9rem, 1.2vw, 1.05rem); line-height: 1.5; opacity: .62; }
+.problem-triggers {
+  position: absolute;
+  z-index: -1;
+  inset: 22svh 0 22svh;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  pointer-events: none;
+}
+.problem-triggers i { display: block; }
+
+.solution-graphic-panel {
+  background: #171518;
+  box-shadow: 0 0 0 100vmax #171518;
+  clip-path: inset(0 -100vmax);
+}
+.solution-graphic-panel::before { display: none; }
+
+@media (max-width: 820px) {
+  .problem-sequence-panel { min-height: 160svh; }
+  .problem-sticky { padding: 88px 0 36px; grid-template-columns: 1fr; gap: 22px; align-content: center; }
+  .problem-sticky .panel-copy h2 { max-width: 11ch; font-size: clamp(3rem, 10vw, 4.8rem); }
+  .problem-sticky .panel-copy .panel-lead { margin-top: 16px; font-size: 1rem; }
+  .issue-stage { min-height: 330px; }
+}
+
+@media (max-width: 560px) {
+  .problem-sequence-panel { min-height: 150svh; }
+  .problem-sticky { padding-top: 74px; }
+  .problem-sticky .panel-copy h2 { font-size: clamp(2.8rem, 13vw, 4.1rem); }
+  .issue-stage { min-height: 300px; }
+  .issue-card { top: 50px; padding: 24px; border-radius: 22px; }
+  .issue-card h3 { margin-top: 32px; font-size: clamp(2.2rem, 10vw, 3.4rem); }
+  .issue-card p { margin-top: 18px; font-size: .82rem; }
+}

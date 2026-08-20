@@ -7,6 +7,7 @@ import { content, type Lang } from "./content";
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
+  const [problemStep, setProblemStep] = useState(0);
   const [solutionStep, setSolutionStep] = useState(-1);
   const t = content[lang];
 
@@ -34,6 +35,17 @@ export default function Home() {
       entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible"));
     }, { threshold: 0.12, rootMargin: "0px 0px -7%" });
     nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [lang]);
+
+  useEffect(() => {
+    const triggers = document.querySelectorAll<HTMLElement>("[data-problem-trigger]");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setProblemStep(Number((entry.target as HTMLElement).dataset.problemTrigger));
+      });
+    }, { threshold: 0, rootMargin: "-47% 0px -47% 0px" });
+    triggers.forEach((trigger) => observer.observe(trigger));
     return () => observer.disconnect();
   }, [lang]);
 
@@ -78,9 +90,15 @@ export default function Home() {
       <section className="scroll-chapter problem-chapter" id="problem">
         <div className="chapter-background" aria-hidden="true"><span>01—02</span><strong>weso</strong></div>
         <div className="chapter-panels">
-          <article className="chapter-panel" data-reveal>
-            <div className="panel-copy"><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p><p>{t.problem.body}</p></div>
-            <div className="compact-grid issues-grid">{t.problem.cards.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
+          <article className="chapter-panel problem-sequence-panel">
+            <div className="problem-sticky">
+              <div className="panel-copy" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p></div>
+              <div className="issue-stage">
+                <div className="issue-progress" aria-hidden="true">{t.problem.cards.map((_, index) => <i className={index <= problemStep ? "is-active" : ""} key={index} />)}</div>
+                {t.problem.cards.map(([title, body], index) => <article className={`issue-card ${index === problemStep ? "is-current" : ""}`} aria-hidden={index !== problemStep} key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
+              </div>
+            </div>
+            <div className="problem-triggers" aria-hidden="true">{t.problem.cards.map(([title], index) => <i data-problem-trigger={index} key={title} />)}</div>
           </article>
           <article className="chapter-panel solution-panel solution-graphic-panel" id="solution">
             <div className="solution-sticky">
