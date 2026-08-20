@@ -7,6 +7,8 @@ import { content, type Lang } from "./content";
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
+  const [solutionStep, setSolutionStep] = useState(0);
+  const [scaleView, setScaleView] = useState<"today" | "weso">("today");
   const t = content[lang];
 
   useEffect(() => {
@@ -88,25 +90,34 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section problem-section" id="problem">
-        <div className="section-heading" data-reveal>
-          <p className="section-label">{t.problem.label}</p>
-          <h2>{t.problem.title}</h2>
+      <section className="problem-section" id="problem">
+        <div className="problem-section-intro">
+          <div className="section-heading" data-reveal>
+            <p className="section-label">{t.problem.label}</p>
+            <h2>{t.problem.title}</h2>
+          </div>
+          <div className="problem-intro" data-reveal>
+            <p className="lead">{t.problem.lead}</p>
+            <p>{t.problem.body}</p>
+          </div>
+          <div className="broken-heading" data-reveal>
+            <h3>{t.problem.marketTitle}</h3>
+            <p>{t.problem.marketLead}</p>
+          </div>
         </div>
-        <div className="problem-intro" data-reveal>
-          <p className="lead">{t.problem.lead}</p>
-          <p>{t.problem.body}</p>
-        </div>
-        <div className="broken-heading" data-reveal>
-          <h3>{t.problem.marketTitle}</h3>
-          <p>{t.problem.marketLead}</p>
-        </div>
-        <div className="problem-grid">
+        <div className="problem-story">
           {t.problem.cards.map(([title, body], index) => (
-            <article className={`problem-card problem-card-${index + 1}`} key={title} data-reveal style={{ "--delay": `${index * 90}ms` } as React.CSSProperties}>
-              <span className="card-index">0{index + 1}.</span>
-              <h4>{title}</h4>
-              <p>{body}</p>
+            <article className={`problem-slide problem-slide-${index + 1}`} key={title}>
+              <div className="problem-slide-inner">
+                <header>
+                  <span>{t.problem.marketTitle}</span>
+                  <div aria-label={`${index + 1} / ${t.problem.cards.length}`}>
+                    {t.problem.cards.map((_, dotIndex) => <i className={dotIndex === index ? "active" : ""} key={dotIndex} />)}
+                  </div>
+                </header>
+                <span className="problem-slide-index">0{index + 1}.</span>
+                <div className="problem-slide-copy"><h4>{title}</h4><p>{body}</p></div>
+              </div>
             </article>
           ))}
         </div>
@@ -117,12 +128,23 @@ export default function Home() {
           <p className="section-label">{t.solution.label}</p>
           <h2>{t.solution.title}</h2>
         </div>
-        <div className="flow-rail" aria-label={t.solution.flow.join(", ")} data-reveal>
-          {t.solution.flow.map((step, index) => (
-            <div className="flow-step" key={step} style={{ "--i": index } as React.CSSProperties}>
-              <span>{String(index + 1).padStart(2, "0")}</span><strong>{step}</strong>
+        <div className="solution-journey" data-reveal>
+          <div className="journey-tabs" role="tablist" aria-label={t.solution.flow.join(", ")}>
+            {t.solution.flow.map((step, index) => (
+              <button type="button" role="tab" aria-selected={solutionStep === index} aria-label={`${index + 1}. ${step}`} className={solutionStep === index ? "active" : ""} onClick={() => setSolutionStep(index)} key={step}>
+                {String(index + 1).padStart(2, "0")}
+              </button>
+            ))}
+          </div>
+          <div className="journey-stage" role="tabpanel" aria-live="polite">
+            <span>{String(solutionStep + 1).padStart(2, "0")} / {String(t.solution.flow.length).padStart(2, "0")}</span>
+            <h3 key={`${lang}-${solutionStep}`}>{t.solution.flow[solutionStep]}</h3>
+            <div className="journey-progress" aria-hidden="true"><i style={{ width: `${((solutionStep + 1) / t.solution.flow.length) * 100}%` }} /></div>
+            <div className="journey-actions">
+              <button type="button" onClick={() => setSolutionStep((solutionStep - 1 + t.solution.flow.length) % t.solution.flow.length)} aria-label="Previous step">←</button>
+              <button type="button" onClick={() => setSolutionStep((solutionStep + 1) % t.solution.flow.length)} aria-label="Next step">→</button>
             </div>
-          ))}
+          </div>
         </div>
         <div className="pillar-grid">
           {t.solution.pillars.map(([title, body], index) => (
@@ -207,8 +229,12 @@ export default function Home() {
           <div><p className="section-label">{t.scale.label}</p><h2>{t.scale.title}</h2></div>
           <p>{t.scale.lead}</p>
         </div>
-        <div className="comparison-grid">
-          <article className="comparison-panel legacy-panel" data-reveal>
+        <div className="comparison-switch" role="tablist" aria-label={`${t.scale.today} / ${t.scale.weso}`} data-reveal>
+          <button type="button" role="tab" aria-selected={scaleView === "today"} className={scaleView === "today" ? "active" : ""} onClick={() => setScaleView("today")}><span>01</span>{t.scale.today}</button>
+          <button type="button" role="tab" aria-selected={scaleView === "weso"} className={scaleView === "weso" ? "active" : ""} onClick={() => setScaleView("weso")}><span>02</span>{t.scale.weso}</button>
+        </div>
+        <div className="comparison-stage" role="tabpanel">
+          {scaleView === "today" ? <article className="comparison-panel legacy-panel is-active" key="today">
             <header><b>{t.scale.today}</b><span>{t.scale.todaySub}</span></header>
             <div className="diagram-node insurer-node"><strong>{t.scale.insurer}</strong><small>{t.scale.owner}</small></div>
             <div className="diagram-arrow">↓</div>
@@ -216,8 +242,7 @@ export default function Home() {
             <div className="legacy-nodes">{t.scale.legacyNodes.map((node) => <span key={node}>{node}</span>)}</div>
             <div className="diagram-arrow">↓</div>
             <div className="diagram-node policy-node"><strong>{t.scale.policyholder}</strong><small>{t.scale.receives}</small></div>
-          </article>
-          <article className="comparison-panel weso-panel" data-reveal>
+          </article> : <article className="comparison-panel weso-panel is-active" key="weso">
             <header><b>{t.scale.weso}</b><span>{t.scale.wesoSub}</span></header>
             <div className="diagram-node insurer-node"><strong>{t.scale.insurer}</strong><small>{t.scale.owner}</small></div>
             <div className="diagram-arrow">↓</div>
@@ -225,7 +250,7 @@ export default function Home() {
             <div className="weso-core"><strong>weso</strong><span>{t.scale.infrastructure}</span><div>{t.scale.capabilities.map((item) => <small key={item}>{item}</small>)}</div></div>
             <div className="diagram-arrow">↓</div>
             <div className="diagram-node policy-node"><strong>{t.scale.policyholder}</strong><small>{t.scale.receives}</small></div>
-          </article>
+          </article>}
         </div>
       </section>
 
