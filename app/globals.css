@@ -182,10 +182,28 @@ img { display: block; max-width: 100%; }
 .term-grid article:last-child strong { color: #c692ff; }
 .term-grid span { color: #bbb1b7; font-size: .75rem; text-transform: uppercase; letter-spacing: .1em; }
 .pipeline-title { margin: 100px 0 35px; color: var(--pink); font-size: .78rem; font-weight: 900; text-transform: uppercase; letter-spacing: .12em; }
-.pipeline-grid { display: grid; grid-template-columns: .8fr .8fr 1.4fr; gap: 12px; }
-.pipeline-grid article { display: flex; flex-direction: column; min-height: 210px; padding: 27px; border-radius: 24px; background: #fff; color: var(--ink); }
-.pipeline-grid strong { font-size: clamp(4rem, 8vw, 8rem); line-height: .8; letter-spacing: -.07em; }
-.pipeline-grid span { max-width: 260px; margin-top: auto; font-size: 1.05rem; line-height: 1.2; }
+.pipeline-grid { display: grid; grid-template-columns: .9fr .9fr 1.25fr; gap: 14px; }
+.pipeline-card { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; min-height: 260px; padding: 24px; border: 1px solid rgba(255,255,255,.7); border-radius: 28px; background: linear-gradient(145deg, #fff 0%, #f6f2f5 100%); color: var(--ink); box-shadow: 0 24px 55px rgba(0,0,0,.2); transition-delay: var(--delay); }
+.pipeline-card::before { content: ""; position: absolute; z-index: -1; inset: 0; opacity: .18; background-image: radial-gradient(circle at center, currentColor 0 1px, transparent 1.2px); background-size: 18px 18px; mask-image: linear-gradient(135deg, transparent 20%, #000); }
+.pipeline-card::after { content: ""; position: absolute; z-index: -1; width: 190px; aspect-ratio: 1; right: -70px; bottom: -95px; border-radius: 50%; background: radial-gradient(circle, rgba(255,7,147,.28), transparent 68%); }
+.pipeline-card-2 { background: linear-gradient(145deg, #fff 0%, #eee8ff 100%); }
+.pipeline-card-2::after { background: radial-gradient(circle, rgba(90,24,255,.3), transparent 68%); }
+.pipeline-card-3 { border-color: rgba(190,159,255,.55); background: linear-gradient(135deg, #7117ed 0%, #4b16ca 54%, #281066 100%); color: #fff; box-shadow: 0 28px 70px rgba(73,20,190,.38); }
+.pipeline-card-3::after { width: 260px; right: -55px; bottom: -135px; background: radial-gradient(circle, rgba(255,7,147,.65), transparent 67%); }
+.pipeline-card-top { display: flex; align-items: center; justify-content: space-between; }
+.pipeline-card-top span { margin: 0; color: currentColor; font-size: .68rem; line-height: 1; font-weight: 900; letter-spacing: .16em; opacity: .54; }
+.pipeline-card-top i { display: block; width: 9px; height: 9px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 0 6px rgba(255,7,147,.1); }
+.pipeline-card-2 .pipeline-card-top i { background: var(--violet); box-shadow: 0 0 0 6px rgba(90,24,255,.1); }
+.pipeline-card-3 .pipeline-card-top i { background: #ff72c0; box-shadow: 0 0 0 6px rgba(255,255,255,.1); }
+.pipeline-grid strong { display: block; margin: auto 0 18px; font-size: clamp(5rem, 8.5vw, 9rem); line-height: .72; letter-spacing: -.08em; font-weight: 650; }
+.pipeline-grid strong span { max-width: none; margin: 0; font: inherit; line-height: inherit; color: inherit; }
+.pipeline-card-1 strong { color: var(--pink); }
+.pipeline-card-2 strong { color: var(--violet); }
+.pipeline-card-meta { display: flex; align-items: end; justify-content: space-between; gap: 18px; padding-top: 17px; border-top: 1px solid rgba(28,23,26,.16); }
+.pipeline-card-3 .pipeline-card-meta { border-color: rgba(255,255,255,.25); }
+.pipeline-card-meta span { max-width: 260px; margin: 0; font-size: 1rem; line-height: 1.15; font-weight: 700; }
+.pipeline-card-meta b { display: grid; place-items: center; flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 1rem; }
+.pipeline-card-3 .pipeline-card-meta b { background: #fff; color: var(--violet); }
 .use-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 60px; }
 .use-grid article { display: flex; gap: 18px; padding: 25px; border-top: 1px solid #5a5155; }
 .use-grid article > span { color: var(--pink); font-size: 2rem; }
@@ -262,7 +280,7 @@ img { display: block; max-width: 100%; }
   .term-grid { grid-template-columns: repeat(2, 1fr); }
   .term-grid article { min-height: 150px; }
   .pipeline-grid, .use-grid { grid-template-columns: 1fr; }
-  .pipeline-grid article { min-height: 180px; }
+  .pipeline-card { min-height: 220px; }
   .closing { margin-top: 100px; }
   .closing a { width: 100%; }
 }

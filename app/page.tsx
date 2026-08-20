@@ -261,7 +261,13 @@ export default function Home() {
         <div className="round-heading" data-reveal><p className="section-label">{t.round.label}</p><h2>{t.round.title}</h2></div>
         <div className="term-grid">{t.round.terms.map(([value, label]) => <article key={label} data-reveal><strong>{value}</strong><span>{label}</span></article>)}</div>
         <p className="pipeline-title" data-reveal>{t.round.months}</p>
-        <div className="pipeline-grid">{t.round.pipeline.map(([value, label]) => <article key={label} data-reveal><strong><AnimatedNumber value={value} /></strong><span>{label}</span></article>)}</div>
+        <div className="pipeline-grid">{t.round.pipeline.map(([value, label], index) => (
+          <article className={`pipeline-card pipeline-card-${index + 1}`} key={label} data-reveal style={{ "--delay": `${index * 80}ms` } as React.CSSProperties}>
+            <div className="pipeline-card-top" aria-hidden="true"><span>0{index + 1}</span><i /></div>
+            <strong><span>{value}</span></strong>
+            <div className="pipeline-card-meta"><span>{label}</span><b aria-hidden="true">↗</b></div>
+          </article>
+        ))}</div>
         <div className="use-grid">{t.round.uses.map(([title, body], index) => <article key={title} data-reveal><span>{index === 0 ? "✦" : index === 1 ? "◇" : "◎"}</span><div><h3>{title}</h3><p>{body}</p></div></article>)}</div>
         <footer className="closing" data-reveal>
           <h2>{t.round.closing}</h2>
