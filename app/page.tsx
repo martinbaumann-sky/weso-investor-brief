@@ -59,86 +59,55 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-copy" data-reveal>
-          <p className="eyebrow">{t.hero.kicker}</p>
-          <h1>{t.hero.titleA}<br /><em>{t.hero.titleB}</em></h1>
-          <div className="hero-bottom"><p>{t.hero.body}</p><a href="#problem">{t.hero.explore}<span>↓</span></a></div>
-        </div>
-        <div className="hero-visual" data-reveal>
-          <Image src="/media/city-network.jpg" alt="Aerial city road network at night" fill priority sizes="(max-width: 800px) 100vw, 48vw" />
-          <div className="hero-grid" aria-hidden="true" />
-          <div className="signal-card"><span className="signal-dot" /><small>LIVE OPS</small><strong>03:14</strong><p>AI dispatch → provider matched</p></div>
-          <div className="hero-stat"><strong>450M+</strong><span>{t.market.stats[1][1]}</span></div>
-          <div className="hero-caption"><span>AI</span><p>{t.hero.signal}</p></div>
-        </div>
+        <h1 data-reveal>{t.hero.titleA}<br /><em>{t.hero.titleB}</em></h1>
+        <a className="hero-scroll" href="#problem" aria-label={t.hero.explore}>↓</a>
       </section>
 
-      <section className="problem-section" id="problem">
-        <div className="section-heading" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p>{t.problem.lead}</p></div>
-        <div className="problem-layout">
-          <figure className="editorial-photo" data-reveal>
-            <Image src="/media/operations.jpg" alt="Customer operations team coordinating service requests" fill sizes="(max-width: 800px) 100vw, 50vw" />
-            <figcaption><span>Legacy model</span><strong>Manual handoffs.<br />Fragmented ownership.</strong></figcaption>
-          </figure>
-          <div className="problem-cards">{t.problem.cards.map(([title, body], index) => <article key={title} data-reveal style={{ "--delay": `${index * 70}ms` } as React.CSSProperties}><span>0{index + 1}</span><div><h3>{title}</h3><p>{body}</p></div></article>)}</div>
-        </div>
+      <section className="story-section light-section" id="problem">
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p>{t.problem.lead}</p></div>
+        {t.problem.cards.map(([title, body], index) => <article className="section-screen text-moment" key={title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
       </section>
 
-      <section className="solution-section" id="solution">
-        <div className="section-heading inverse" data-reveal><p className="eyebrow">{t.solution.label}</p><h2>{t.solution.title}</h2></div>
-        <div className="orchestration" data-reveal>
-          <div className="orbit orbit-a" /><div className="orbit orbit-b" />
-          <div className="weso-node"><small>ONE LAYER</small><strong>weso</strong><span>AI operations</span></div>
-          {t.solution.flow.map((step, index) => <span className={`flow-node n${index + 1}`} key={step}>{step}</span>)}
-        </div>
-        <div className="pillar-grid">{t.solution.pillars.map(([title, body], index) => <article key={title} data-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
+      <section className="story-section dark-section" id="solution">
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.solution.label}</p><h2>{t.solution.title}</h2></div>
+        {t.solution.flow.map((step, index) => <article className="section-screen flow-moment" key={step} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{step}</h3></article>)}
+        {t.solution.pillars.map(([title, body], index) => <article className="section-screen text-moment pillar-moment" key={title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
       </section>
 
-      <section className="market-section" id="market">
-        <div className="market-photo" data-reveal>
-          <Image src="/media/roadside.jpg" alt="Roadside service vehicle carrying a car" fill sizes="(max-width: 800px) 100vw, 48vw" />
-          <div className="market-photo-copy"><span>REAL WORLD EXECUTION</span><strong>Every request becomes a coordinated service.</strong></div>
-        </div>
-        <div className="market-content">
-          <div className="section-heading compact" data-reveal><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
-          <div className="market-kpis">{t.market.stats.map(([value, label, note], index) => <article key={`${value}-${label}`} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><div><h3>{label}</h3><p>{note}</p></div></article>)}</div>
-        </div>
+      <section className="story-section market-story" id="market">
+        <div className="market-background" aria-hidden="true"><Image src="/media/roadside.jpg" alt="" fill sizes="100vw" /></div>
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
+        {t.market.stats.map(([value, label, note], index) => <article className="section-screen metric-moment" key={`${value}-${label}`} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><h3>{label}</h3><p>{note}</p></article>)}
       </section>
 
-      <section className="economics-section" id="economics">
-        <div className="section-heading" data-reveal><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p>{t.economics.intro}</p></div>
-        <div className="economics-dashboard">
-          <div className="economics-shift" data-reveal>
-            <article><span>{t.scale.today}</span><h3>{t.economics.from}</h3><div className="cost-line legacy-cost"><i /><i /><i /><i /></div></article><b>→</b>
-            <article className="weso-economics"><span>{t.scale.weso}</span><h3>{t.economics.to}</h3><div className="cost-line"><i /><i /></div></article>
-          </div>
-          <div className="savings-visual" data-reveal><div className="ring"><strong>{t.economics.savingsValue}</strong><span>{t.economics.savings}</span></div><div className="fee"><strong>{t.economics.feeValue}</strong><span>{t.economics.fee}</span></div></div>
-        </div>
-        <div className="badge-row" data-reveal>{t.economics.badges.map((badge) => <span key={badge}>{badge}</span>)}</div>
+      <section className="story-section light-section" id="economics">
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p>{t.economics.intro}</p></div>
+        <article className="section-screen text-moment economics-moment" data-reveal><span>{t.scale.today}</span><h3>{t.economics.from}</h3></article>
+        <article className="section-screen text-moment economics-moment accent-moment" data-reveal><span>{t.scale.weso}</span><h3>{t.economics.to}</h3></article>
+        <article className="section-screen metric-moment plain-metric" data-reveal><strong>{t.economics.savingsValue}</strong><h3>{t.economics.savings}</h3></article>
+        <article className="section-screen metric-moment plain-metric" data-reveal><strong>{t.economics.feeValue}</strong><h3>{t.economics.fee}</h3></article>
+        {t.economics.badges.map((badge, index) => <article className="section-screen badge-moment" key={badge} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{badge}</h3></article>)}
       </section>
 
-      <section className="scale-section" id="scale">
-        <div className="section-heading inverse" data-reveal><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p>{t.scale.lead}</p></div>
-        <div className="flywheel" data-reveal><div className="flywheel-center"><strong>weso</strong><span>{t.scale.infrastructure}</span></div>{t.scale.capabilities.map((item, index) => <div className={`flywheel-item f${index + 1}`} key={item}><span>0{index + 1}</span><strong>{item}</strong></div>)}</div>
-        <div className="scale-summary">
-          <article data-reveal><span>01</span><h3>{t.scale.today}</h3><p>{t.scale.todaySub}</p><strong>{t.scale.paysLegacy}</strong><small>{t.scale.legacyTerms}</small><div>{t.scale.legacyNodes.map((item) => <i key={item}>{item}</i>)}</div></article>
-          <article className="weso-summary" data-reveal><span>02</span><h3>{t.scale.weso}</h3><p>{t.scale.wesoSub}</p><strong>{t.scale.paysWeso}</strong><small>{t.scale.wesoTerms}</small><div>{t.scale.capabilities.map((item) => <i key={item}>{item}</i>)}</div></article>
-        </div>
+      <section className="story-section dark-section" id="scale">
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p>{t.scale.lead}</p></div>
+        <article className="section-screen scale-moment" data-reveal><span>01 · {t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p><div>{t.scale.legacyNodes.map((item) => <i key={item}>{item}</i>)}</div></article>
+        <article className="section-screen scale-moment accent-moment" data-reveal><span>02 · {t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></article>
+        {t.scale.capabilities.map((item, index) => <article className="section-screen capability-moment" key={item} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{item}</h3><p>{t.scale.infrastructure}</p></article>)}
       </section>
 
-      <section className="team-section" id="team">
-        <div className="section-heading" data-reveal><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
-        <div className="team-grid">{t.team.members.map(([name, role, country, image], index) => <article key={name} data-reveal style={{ "--delay": `${(index % 3) * 60}ms` } as React.CSSProperties}><div className="portrait"><Image src={image} alt={name} width={420} height={520} unoptimized /></div><span>{country}</span><h3>{name}</h3><p>{role}</p></article>)}</div>
+      <section className="story-section team-story" id="team">
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
+        {t.team.members.map(([name, role, country, image]) => <article className="section-screen team-moment" key={name} data-reveal><Image src={image} alt="" fill sizes="(max-width: 800px) 92vw, 760px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></article>)}
       </section>
 
-      <section className="round-section" id="round">
-        <div className="round-top">
-          <div className="section-heading inverse" data-reveal><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
-          <div className="round-terms">{t.round.terms.map(([value, label]) => <article key={label} data-reveal><strong>{value}</strong><span>{label}</span></article>)}</div>
-        </div>
-        <div className="pipeline" data-reveal><p>{t.round.months}</p><div>{t.round.pipeline.map(([value, label]) => <article key={label}><strong>{value}</strong><span>{label}</span></article>)}</div></div>
-        <div className="use-grid">{t.round.uses.map(([title, body], index) => <article key={title} data-reveal><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
-        <footer className="closing" data-reveal><h2>{t.round.closing}</h2><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div><p>weso.ai · {t.round.emailAddress}</p></footer>
+      <section className="story-section round-story" id="round">
+        <div className="section-screen intro-screen" data-reveal><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
+        {t.round.terms.map(([value, label], index) => <article className="section-screen metric-moment" key={label} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><h3>{label}</h3></article>)}
+        <div className="section-screen chapter-screen" data-reveal><p className="eyebrow">{t.round.months}</p></div>
+        {t.round.pipeline.map(([value, label], index) => <article className="section-screen metric-moment" key={label} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong><h3>{label}</h3></article>)}
+        {t.round.uses.map(([title, body], index) => <article className="section-screen text-moment" key={title} data-reveal><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
+        <footer className="section-screen closing" data-reveal><h2>{t.round.closing}</h2><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div><p>weso.ai · {t.round.emailAddress}</p></footer>
       </section>
     </main>
   );
