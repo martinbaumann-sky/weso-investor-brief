@@ -1045,3 +1045,11 @@ main { overflow: clip; }
   .market-equation { grid-template-columns: repeat(2, 1fr); }
   .market-equation > div { min-height: 165px; }
 }
+
+/* The source logo is square with internal padding; cover crops that padding. */
+.brand-lockup { width: clamp(112px, 7vw, 148px); height: 42px; }
+.brand-lockup img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 680px) {
+  .brand-lockup { width: 94px; height: 34px; }
+}
