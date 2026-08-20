@@ -127,7 +127,10 @@ export default function Home() {
             <div className="economics-compare"><div><span>FROM</span><h3>{t.economics.from}</h3></div><b>→</b><div className="economics-to"><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
-            <div className="result-metrics"><div><strong>{t.economics.savingsValue}</strong><p>{t.economics.savings}</p></div><div><strong>{t.economics.feeValue}</strong><p>{t.economics.fee}</p></div></div>
+            <div className="savings-focus">
+              <div className="savings-result"><strong>{t.economics.savingsValue}</strong><p>{t.economics.savings}</p></div>
+              <p className="business-model-note">{t.economics.modelNote}</p>
+            </div>
           </article>
         </div>
       </section>

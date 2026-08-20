@@ -62,6 +62,7 @@ export const content = {
       savings: "savings for insurance companies",
       feeValue: "35%",
       fee: "fee for service — Weso, per service",
+      modelNote: "This saving is enabled by Weso’s fee-for-service model. Weso earns a 35% fee on each service delivered.",
       badges: ["One platform", "AI-driven operations", "Usage-based economics"],
     },
     scale: {
@@ -171,6 +172,7 @@ export const content = {
       savings: "de ahorro para las aseguradoras",
       feeValue: "35%",
       fee: "fee por servicio — Weso, por servicio",
+      modelNote: "Este ahorro es posible gracias al modelo fee-for-service de Weso. Weso genera un fee de 35% por cada servicio realizado.",
       badges: ["Una plataforma", "Operaciones impulsadas por IA", "Economía basada en uso"],
     },
     scale: {
