@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
+  const [solutionStep, setSolutionStep] = useState(-1);
   const t = content[lang];
 
   useEffect(() => {
@@ -33,6 +34,17 @@ export default function Home() {
       entries.forEach((entry) => entry.isIntersecting && entry.target.classList.add("is-visible"));
     }, { threshold: 0.12, rootMargin: "0px 0px -7%" });
     nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [lang]);
+
+  useEffect(() => {
+    const triggers = document.querySelectorAll<HTMLElement>("[data-flow-trigger]");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setSolutionStep(Number((entry.target as HTMLElement).dataset.flowTrigger));
+      });
+    }, { threshold: 0, rootMargin: "-47% 0px -47% 0px" });
+    triggers.forEach((trigger) => observer.observe(trigger));
     return () => observer.disconnect();
   }, [lang]);
 
@@ -70,9 +82,19 @@ export default function Home() {
             <div className="panel-copy"><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p><p>{t.problem.body}</p></div>
             <div className="compact-grid issues-grid">{t.problem.cards.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
           </article>
-          <article className="chapter-panel solution-panel" id="solution" data-reveal>
-            <div className="panel-copy"><p className="eyebrow">{t.solution.label}</p><h2>{t.solution.title}</h2><div className="flow-line">{t.solution.flow.map((step) => <span key={step}>{step}</span>)}</div></div>
-            <div className="compact-grid pillars-grid">{t.solution.pillars.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
+          <article className="chapter-panel solution-panel solution-graphic-panel" id="solution">
+            <div className="solution-sticky">
+              <div className="panel-copy" data-reveal><p className="eyebrow">{t.solution.label}</p><h2>{t.solution.title}</h2></div>
+              <div className="process-visual" style={{ "--flow-progress": `${Math.max(0, solutionStep) / (t.solution.flow.length - 1) * 100}%` } as CSSProperties}>
+                <div className="process-graph" role="list" aria-label={t.solution.title}>
+                  <div className="process-line" aria-hidden="true"><i /></div>
+                  {t.solution.flow.map((step, index) => <div className={`process-node ${index <= solutionStep ? "is-shown" : ""} ${index === solutionStep ? "is-current" : ""}`} role="listitem" aria-current={index === solutionStep ? "step" : undefined} key={step}><b>{String(index + 1).padStart(2, "0")}</b><span>{step}</span></div>)}
+                </div>
+                <p className="process-caption" aria-live="polite">{solutionStep >= 0 ? t.solution.flow[solutionStep] : t.solution.title}</p>
+              </div>
+              <div className="compact-grid pillars-grid">{t.solution.pillars.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
+            </div>
+            <div className="flow-triggers" aria-hidden="true">{t.solution.flow.map((step, index) => <i data-flow-trigger={index} key={step} />)}</div>
           </article>
         </div>
       </section>
