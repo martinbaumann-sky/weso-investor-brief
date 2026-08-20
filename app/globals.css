@@ -1053,3 +1053,5 @@ main { overflow: clip; }
 @media (max-width: 680px) {
   .brand-lockup { width: 94px; height: 34px; }
 }
+
+.hero h1 .hero-dot { color: #f20b8f; -webkit-text-fill-color: #f20b8f; }
