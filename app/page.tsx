@@ -1,48 +1,8 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
-
-function AnimatedNumber({ value }: { value: string }) {
-  const [display, setDisplay] = useState(value);
-  const reactId = useId();
-  const id = `metric-${reactId.replaceAll(":", "")}`;
-
-  useEffect(() => {
-    const el = document.getElementById(id);
-    const match = value.match(/([0-9]+(?:[.,][0-9]+)?)/);
-    if (!el || !match) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      const frame = requestAnimationFrame(() => setDisplay(value));
-      return () => cancelAnimationFrame(frame);
-    }
-    const raw = match[1];
-    const target = Number(raw.replace(",", "."));
-    const separator = raw.includes(",") ? "," : ".";
-    const decimals = raw.includes(",") || raw.includes(".") ? raw.split(/[,.]/)[1].length : 0;
-    const prefix = value.slice(0, match.index);
-    const suffix = value.slice((match.index ?? 0) + raw.length);
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      const start = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min((now - start) / 950, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const number = (target * eased).toFixed(decimals).replace(".", separator);
-        setDisplay(`${prefix}${number}${suffix}`);
-        if (p < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-      observer.disconnect();
-    }, { threshold: .35 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [id, value]);
-
-  return <span id={id}>{display}</span>;
-}
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
@@ -178,22 +138,50 @@ export default function Home() {
       </section>
 
       <section className="section market-section" id="market">
-        <div className="market-sticky">
-          <div className="market-copy" data-reveal>
-            <p className="section-label">{t.market.label}</p>
-            <h2>{t.market.title}</h2>
-            <div className="world-map" aria-hidden="true">
-              <span className="continent c1" /><span className="continent c2" /><span className="continent c3" /><span className="continent c4" /><span className="continent c5" />
-              {["d1","d2","d3","d4","d5","d6","d7","d8"].map((dot) => <i className={`map-dot ${dot}`} key={dot} />)}
-            </div>
-          </div>
-          <div className="stat-stack">
-            {t.market.stats.map(([value, label, note], index) => (
-              <article className={`stat-card ${index === 6 ? "featured" : ""}`} key={`${value}-${label}`} data-reveal style={{ "--delay": `${index * 55}ms` } as React.CSSProperties}>
-                <span className="stat-number"><AnimatedNumber value={value} /></span>
-                <div><h3>{label}</h3><p>{note}</p></div>
-              </article>
+        <div className="market-heading" data-reveal>
+          <div><p className="section-label">{t.market.label}</p><h2>{t.market.title}</h2></div>
+          <p>{t.market.stats[0][2]}</p>
+        </div>
+
+        <div className="market-model" data-reveal>
+          <div className="market-foundation">
+            {t.market.stats.slice(0, 3).map(([value, label, note], index) => (
+              <div className="foundation-step" key={`${value}-${label}`}>
+                <article className={`foundation-card foundation-card-${index + 1}`}>
+                  <span className="model-index">0{index + 1}</span>
+                  <strong>{value}</strong>
+                  <h3>{label}</h3>
+                  <p>{note}</p>
+                </article>
+                {index < 2 && <span className="foundation-arrow" aria-hidden="true">→</span>}
+              </div>
             ))}
+          </div>
+
+          <div className="market-capture">
+            <article className="capture-target">
+              <span>{t.market.stats[3][1]}</span>
+              <strong>{t.market.stats[3][0]}</strong>
+              <p>{t.market.stats[3][2]}</p>
+            </article>
+            <div className="capture-connector" aria-hidden="true"><span>↓</span></div>
+            <div className="capture-equations">
+              {[t.market.stats[5], t.market.stats[6]].map(([value, label, note], index) => (
+                <article className={`market-equation ${index === 1 ? "revenue-equation" : ""}`} key={label}>
+                  <div className="equation-volume">
+                    <strong>{t.market.stats[4][0]}</strong>
+                    <span>{t.market.stats[4][1]}</span>
+                  </div>
+                  <b aria-hidden="true">×</b>
+                  <div className="equation-assumption"><span>{note}</span></div>
+                  <b aria-hidden="true">=</b>
+                  <div className="equation-result">
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </div>
         <div className="bridge-line" data-reveal><span>{t.market.bridge}</span><b aria-hidden="true">→</b><span>{t.market.bridgeTo}</span></div>
