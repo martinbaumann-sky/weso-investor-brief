@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
   const host = requestHeaders.get("x-forwarded-host") ?? requestHeaders.get("host") ?? "localhost:3001";
   const protocol = requestHeaders.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
-  const image = `${protocol}://${host}/og.png`;
+  const image = `${protocol}://${host}/og-simplified.png`;
   const title = "Weso — The AI Operations Layer for Insurance Services";
   const description = "AI-native, real-time insurance service infrastructure with usage-based economics.";
 
@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
-    openGraph: { title, description, type: "website", images: [{ url: image, width: 1536, height: 1024, alt: title }] },
+    openGraph: { title, description, type: "website", images: [{ url: image, width: 1732, height: 908, alt: title }] },
     twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
