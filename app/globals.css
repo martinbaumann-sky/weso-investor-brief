@@ -133,7 +133,8 @@ img { display: block; max-width: 100%; }
 .economy-card h3 { margin: auto 0 0; max-width: 500px; font-size: clamp(2.6rem, 4.8vw, 5.2rem); line-height: .9; letter-spacing: -.065em; }
 .economy-card.weso h3 { color: transparent; background: linear-gradient(135deg, var(--pink), var(--violet), #6878ff); background-clip: text; -webkit-background-clip: text; }
 .economy-card p { margin: 16px 0 0; }
-.economy-arrow { display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; background: #fff; color: var(--ink); font-size: 2rem; font-weight: 800; animation: arrow-nudge 1.6s ease-in-out infinite; }
+.economy-arrow { align-self: center; justify-self: center; display: grid; place-items: center; width: 58px; height: 58px; margin: 0 auto; border-radius: 50%; background: #fff; color: var(--ink); font-size: 2rem; font-weight: 800; line-height: 1; }
+.economy-arrow span { display: block; line-height: .8; transform: translateY(-1px); animation: arrow-nudge 1.6s ease-in-out infinite; }
 .economy-badges { display: flex; flex-direction: column; gap: 12px; height: 100%; }
 .economy-badges span { flex: 1; display: flex; align-items: center; padding: 18px; border: 1px solid #fff; border-radius: 25px; font-size: clamp(1rem, 1.6vw, 1.45rem); line-height: .95; font-weight: 700; }
 .economy-badges .light { background: #fff; color: var(--ink); }
@@ -235,6 +236,7 @@ img { display: block; max-width: 100%; }
 @keyframes dot-pulse { 50% { box-shadow: 0 0 0 14px rgba(90,24,255,0); transform: scale(1.15); } }
 @keyframes capture-pulse { 50% { box-shadow: 0 0 0 16px rgba(255,7,147,0); transform: translateY(5px); } }
 @keyframes arrow-nudge { 50% { transform: translateX(7px); } }
+@keyframes arrow-drop { 50% { transform: rotate(90deg) translateX(7px); } }
 @keyframes line-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 @media (max-width: 1050px) {
@@ -289,7 +291,8 @@ img { display: block; max-width: 100%; }
   .bridge-line { align-items: flex-start; flex-direction: column; text-align: left; }
   .bridge-line b { transform: rotate(90deg); }
   .economy-stage { grid-template-columns: 1fr; }
-  .economy-arrow { transform: rotate(90deg); margin-inline: auto; }
+  .economy-arrow { margin: 2px auto; transform: none; }
+  .economy-arrow span { transform: rotate(90deg); animation-name: arrow-drop; }
   .economy-badges { grid-column: auto; grid-template-columns: 1fr; }
   .economy-badges span { min-height: 105px; }
   .economy-results { grid-template-columns: 1fr; }

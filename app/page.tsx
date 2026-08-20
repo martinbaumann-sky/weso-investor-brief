@@ -192,7 +192,7 @@ export default function Home() {
         </div>
         <div className="economy-stage" data-reveal>
           <article className="economy-card legacy"><span>FROM</span><h3>{t.economics.from}</h3></article>
-          <div className="economy-arrow" aria-hidden="true">→</div>
+          <div className="economy-arrow" aria-hidden="true"><span>→</span></div>
           <article className="economy-card weso"><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></article>
           <aside className="economy-badges">{t.economics.badges.map((badge, i) => <span key={badge} className={i === 1 ? "light" : ""}>{badge}</span>)}</aside>
         </div>
