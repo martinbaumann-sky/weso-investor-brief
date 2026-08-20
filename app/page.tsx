@@ -1,8 +1,106 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
+
+function HeroNetwork() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    const draw = () => {
+      const width = canvas.clientWidth;
+      const height = canvas.clientHeight;
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * ratio);
+      canvas.height = Math.round(height * ratio);
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      context.clearRect(0, 0, width, height);
+
+      const compact = width < 700;
+      const startX = compact ? width * 0.08 : width * 0.48;
+      const joinX = compact ? width * 0.82 : width * 0.89;
+      const joinY = compact ? height * 0.72 : height * 0.51;
+      const sourceYs = compact
+        ? [0.51, 0.58, 0.65, 0.72, 0.79, 0.86].map((value) => value * height)
+        : [0.22, 0.32, 0.41, 0.51, 0.61, 0.72, 0.82].map((value) => value * height);
+
+      context.lineWidth = 1;
+      context.strokeStyle = "rgba(25, 23, 25, .07)";
+      const gridStart = compact ? width * 0.2 : width * 0.55;
+      const gridSize = compact ? 88 : 130;
+      for (let x = gridStart; x < width; x += gridSize) {
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.lineTo(x, height);
+        context.stroke();
+      }
+      for (let y = compact ? height * 0.48 : height * 0.16; y < height * 0.88; y += gridSize) {
+        context.beginPath();
+        context.moveTo(gridStart, y);
+        context.lineTo(width, y);
+        context.stroke();
+      }
+
+      const gradient = context.createLinearGradient(startX, 0, joinX, 0);
+      gradient.addColorStop(0, "rgba(242, 11, 143, .23)");
+      gradient.addColorStop(.55, "rgba(225, 43, 202, .58)");
+      gradient.addColorStop(1, "rgba(90, 24, 255, .92)");
+      context.strokeStyle = gradient;
+      context.lineWidth = compact ? 1.15 : 1.35;
+
+      sourceYs.forEach((sourceY) => {
+        context.beginPath();
+        context.moveTo(startX, sourceY);
+        context.bezierCurveTo(
+          startX + (joinX - startX) * .55,
+          sourceY,
+          startX + (joinX - startX) * .67,
+          joinY,
+          joinX,
+          joinY,
+        );
+        context.stroke();
+
+        context.beginPath();
+        context.fillStyle = "rgba(205, 89, 169, .26)";
+        context.arc(startX, sourceY, compact ? 3.5 : 5.5, 0, Math.PI * 2);
+        context.fill();
+      });
+
+      context.beginPath();
+      context.moveTo(joinX, joinY);
+      context.lineTo(width, joinY);
+      context.strokeStyle = "rgba(90, 24, 255, .88)";
+      context.stroke();
+
+      context.beginPath();
+      context.fillStyle = "#faf9f6";
+      context.strokeStyle = "#6f31ff";
+      context.lineWidth = 1.2;
+      context.arc(joinX, joinY, compact ? 15 : 22, 0, Math.PI * 2);
+      context.fill();
+      context.stroke();
+
+      context.beginPath();
+      context.fillStyle = "#4c12dc";
+      context.arc(joinX, joinY, compact ? 5 : 8, 0, Math.PI * 2);
+      context.fill();
+    };
+
+    draw();
+    const observer = new ResizeObserver(draw);
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, []);
+
+  return <canvas ref={canvasRef} className="hero-network" aria-hidden="true" />;
+}
 
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
@@ -74,11 +172,14 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
+        <HeroNetwork />
         <div className="hero-inner">
-          <div className="hero-meta" data-reveal><p>{t.hero.kicker}</p><span>{t.hero.signal}</span></div>
-          <h1 data-reveal>{t.hero.titleA}<br /><em>{t.hero.titleB}</em></h1>
-          <div className="hero-bottom" data-reveal><p>{t.hero.body}</p><a href="#problem">{t.hero.explore}<span aria-hidden="true">↓</span></a></div>
-          <p className="hero-eyebrow" data-reveal>{t.hero.eyebrow}</p>
+          <h1 data-reveal>{t.hero.titleA}<br /><span>{t.hero.titleB}</span></h1>
+          <div className="hero-notes" data-reveal>
+            <p className="hero-kicker">{t.hero.kicker}</p>
+            <p>{t.hero.body}</p>
+            <a href="#problem" aria-label={t.hero.explore}><span>{t.hero.explore}</span>↓</a>
+          </div>
         </div>
       </section>
 
