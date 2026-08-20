@@ -7,7 +7,6 @@ import { content, type Lang } from "./content";
 export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
-  const [problemStep, setProblemStep] = useState(0);
   const [solutionStep, setSolutionStep] = useState(0);
   const t = content[lang];
 
@@ -36,24 +35,6 @@ export default function Home() {
     }, { threshold: 0.12, rootMargin: "0px 0px -7%" });
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
-  }, [lang]);
-
-  useEffect(() => {
-    const updateProblemStep = () => {
-      const section = document.querySelector<HTMLElement>(".problem-sequence-panel");
-      if (!section) return;
-      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
-      const passed = Math.min(Math.max(-section.getBoundingClientRect().top, 0), travel);
-      const next = Math.min(t.problem.cards.length - 1, Math.floor((passed / travel) * t.problem.cards.length));
-      setProblemStep(next);
-    };
-    updateProblemStep();
-    window.addEventListener("scroll", updateProblemStep, { passive: true });
-    window.addEventListener("resize", updateProblemStep);
-    return () => {
-      window.removeEventListener("scroll", updateProblemStep);
-      window.removeEventListener("resize", updateProblemStep);
-    };
   }, [lang]);
 
   useEffect(() => {
@@ -105,13 +86,8 @@ export default function Home() {
         <div className="chapter-background" aria-hidden="true"><span>01—02</span><strong>weso</strong></div>
         <div className="chapter-panels">
           <article className="chapter-panel problem-sequence-panel">
-            <div className="problem-sticky">
-              <div className="panel-copy" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p></div>
-              <div className="issue-stage">
-                <div className="issue-progress" aria-hidden="true">{t.problem.cards.map((_, index) => <i className={index <= problemStep ? "is-active" : ""} key={index} />)}</div>
-                {t.problem.cards.map(([title, body], index) => <article className={`issue-card ${index === problemStep ? "is-current" : ""}`} aria-hidden={index !== problemStep} key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
-              </div>
-            </div>
+            <div className="panel-copy problem-copy" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p></div>
+            <div className="issue-scroll-list">{t.problem.cards.map(([title, body], index) => <article className="issue-scroll-card" data-reveal key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
           </article>
           <article className="chapter-panel solution-panel solution-graphic-panel" id="solution">
             <div className="solution-sticky">
