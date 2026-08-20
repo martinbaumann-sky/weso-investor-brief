@@ -128,7 +128,6 @@ export default function Home() {
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
             <div className="result-metrics"><div><strong>{t.economics.savingsValue}</strong><p>{t.economics.savings}</p></div><div><strong>{t.economics.feeValue}</strong><p>{t.economics.fee}</p></div></div>
-            <div className="economics-badges">{t.economics.badges.map((badge) => <span key={badge}>{badge}</span>)}</div>
           </article>
         </div>
       </section>
