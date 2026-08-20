@@ -106,7 +106,7 @@ export default function Home() {
       </section>
 
       <section className="scroll-chapter market-chapter" id="market">
-        <div className="chapter-background photo-background" aria-hidden="true"><Image src="/media/roadside.jpg" alt="" fill sizes="100vw" /><span>03</span><strong>global</strong></div>
+        <div className="chapter-background market-abstract-background" aria-hidden="true" />
         <div className="chapter-panels">
           <article className="chapter-panel market-panel market-proof-panel" data-reveal>
             <div className="panel-copy"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>

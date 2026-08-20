@@ -552,6 +552,22 @@ main { overflow: clip; }
   background: linear-gradient(90deg, rgba(8,8,9,.88), rgba(8,8,9,.46)), linear-gradient(0deg, rgba(8,8,9,.65), transparent 55%);
 }
 .photo-background > span, .photo-background > strong { position: relative; z-index: 2; color: #fff; }
+.market-abstract-background {
+  background:
+    linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px),
+    radial-gradient(circle at 78% 44%, rgba(242,11,143,.2), transparent 26%),
+    radial-gradient(circle at 69% 59%, rgba(100,39,255,.2), transparent 38%),
+    linear-gradient(135deg, #111014 0%, #17121d 52%, #0d0c10 100%);
+  background-size: 88px 88px, 88px 88px, auto, auto, auto;
+  color: #fff;
+}
+.market-abstract-background::before {
+  width: min(62vw, 840px);
+  right: -5vw;
+  border-color: rgba(242,11,143,.18);
+  box-shadow: 0 0 0 9vw rgba(100,39,255,.035), 0 0 0 18vw rgba(242,11,143,.025);
+}
 .market-panel { color: #fff; }
 .market-panel::before {
   content: "";
