@@ -70,7 +70,7 @@ export default function Home() {
           <button className="language-switch" type="button" onClick={switchLanguage} aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}>
             <span className={lang === "en" ? "active" : ""}>EN</span><span className={lang === "es" ? "active" : ""}>ES</span>
           </button>
-          <a className="contact-button" href={`mailto:${t.round.emailAddress}`}>{t.nav.contact}<span aria-hidden="true">↗</span></a>
+          <a className="contact-button" href={`mailto:${t.round.emailAddress}`}>{t.nav.contact}</a>
         </nav>
       </header>
 
@@ -78,14 +78,12 @@ export default function Home() {
         <div className="hero-copy">
           <div className="hero-meta" data-reveal>
             <p className="section-kicker">{t.hero.kicker}</p>
-            <span aria-hidden="true" />
             <p className="eyebrow">{t.hero.eyebrow}</p>
           </div>
           <h1 data-reveal>{t.hero.titleA}<br /><span>{t.hero.titleB}</span></h1>
-          <p className="hero-signal" data-reveal>{t.hero.signal}</p>
           <div className="hero-footer" data-reveal>
             <p>{t.hero.body}</p>
-            <a href="#problem" className="scroll-cue">{t.hero.explore}<span aria-hidden="true">↓</span></a>
+            <a href="#problem" className="scroll-cue">{t.hero.explore}</a>
           </div>
         </div>
       </section>
