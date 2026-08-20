@@ -73,21 +73,18 @@ export default function Home() {
       </header>
 
       <section className="hero" id="top">
-        <div className="hero-orbit orbit-one" aria-hidden="true" />
-        <div className="hero-orbit orbit-two" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="section-kicker" data-reveal>{t.hero.kicker}</p>
-          <p className="eyebrow" data-reveal>{t.hero.eyebrow}</p>
+          <div className="hero-meta" data-reveal>
+            <p className="section-kicker">{t.hero.kicker}</p>
+            <span aria-hidden="true" />
+            <p className="eyebrow">{t.hero.eyebrow}</p>
+          </div>
           <h1 data-reveal>{t.hero.titleA}<br /><span>{t.hero.titleB}</span></h1>
+          <p className="hero-signal" data-reveal>{t.hero.signal}</p>
           <div className="hero-footer" data-reveal>
             <p>{t.hero.body}</p>
             <a href="#problem" className="scroll-cue">{t.hero.explore}<span aria-hidden="true">↓</span></a>
           </div>
-        </div>
-        <div className="hero-visual" aria-hidden="true">
-          <div className="signal-chip">{t.hero.signal}</div>
-          <div className="phone-pulse" />
-          <Image src="/assets/p1-3.png" alt="" width={1200} height={896} priority unoptimized />
         </div>
       </section>
 
