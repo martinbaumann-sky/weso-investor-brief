@@ -39,14 +39,21 @@ export default function Home() {
   }, [lang]);
 
   useEffect(() => {
-    const triggers = document.querySelectorAll<HTMLElement>("[data-problem-trigger]");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setProblemStep(Number((entry.target as HTMLElement).dataset.problemTrigger));
-      });
-    }, { threshold: 0, rootMargin: "-47% 0px -47% 0px" });
-    triggers.forEach((trigger) => observer.observe(trigger));
-    return () => observer.disconnect();
+    const updateProblemStep = () => {
+      const section = document.querySelector<HTMLElement>(".problem-sequence-panel");
+      if (!section) return;
+      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const passed = Math.min(Math.max(-section.getBoundingClientRect().top, 0), travel);
+      const next = Math.min(t.problem.cards.length - 1, Math.floor((passed / travel) * t.problem.cards.length));
+      setProblemStep(next);
+    };
+    updateProblemStep();
+    window.addEventListener("scroll", updateProblemStep, { passive: true });
+    window.addEventListener("resize", updateProblemStep);
+    return () => {
+      window.removeEventListener("scroll", updateProblemStep);
+      window.removeEventListener("resize", updateProblemStep);
+    };
   }, [lang]);
 
   useEffect(() => {
@@ -105,7 +112,6 @@ export default function Home() {
                 {t.problem.cards.map(([title, body], index) => <article className={`issue-card ${index === problemStep ? "is-current" : ""}`} aria-hidden={index !== problemStep} key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}
               </div>
             </div>
-            <div className="problem-triggers" aria-hidden="true">{t.problem.cards.map(([title], index) => <i data-problem-trigger={index} key={title} />)}</div>
           </article>
           <article className="chapter-panel solution-panel solution-graphic-panel" id="solution">
             <div className="solution-sticky">

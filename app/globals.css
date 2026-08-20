@@ -802,7 +802,7 @@ main { overflow: clip; }
 /* Progressive problem sequence */
 .problem-sequence-panel {
   display: block;
-  min-height: 165svh;
+  min-height: 200svh;
   padding: 0;
   color: var(--ink);
 }
@@ -889,7 +889,7 @@ main { overflow: clip; }
 .chapter-background > strong { display: none; }
 
 @media (max-width: 820px) {
-  .problem-sequence-panel { min-height: 160svh; }
+  .problem-sequence-panel { min-height: 200svh; }
   .problem-sticky { padding: 88px 0 36px; grid-template-columns: 1fr; gap: 22px; align-content: center; }
   .problem-sticky .panel-copy h2 { max-width: 11ch; font-size: clamp(3rem, 10vw, 4.8rem); }
   .problem-sticky .panel-copy .panel-lead { margin-top: 16px; font-size: 1rem; }
@@ -897,7 +897,7 @@ main { overflow: clip; }
 }
 
 @media (max-width: 560px) {
-  .problem-sequence-panel { min-height: 150svh; }
+  .problem-sequence-panel { min-height: 200svh; }
   .problem-sticky { padding-top: 74px; }
   .problem-sticky .panel-copy h2 { font-size: clamp(2.8rem, 13vw, 4.1rem); }
   .issue-stage { min-height: 300px; }
