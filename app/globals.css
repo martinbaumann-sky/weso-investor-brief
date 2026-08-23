@@ -1024,7 +1024,11 @@ main { overflow: clip; }
 }
 
 /* One connected market proof, ending in annual Weso revenue */
-.market-proof-panel { min-height: 108svh; grid-template-columns: .68fr 1.32fr; }
+.market-proof-panel {
+  width: min(calc(100% - 64px), 1540px);
+  min-height: 108svh;
+  grid-template-columns: .68fr 1.32fr;
+}
 .market-proof-panel::before { inset: 5vh -2vw; }
 .market-proof { min-width: 0; max-width: 100%; overflow: hidden; }
 .market-base { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -1096,7 +1100,7 @@ main { overflow: clip; }
 .market-equation .revenue-result p { opacity: .72; }
 
 @media (max-width: 920px) {
-  .market-proof-panel { grid-template-columns: 1fr; min-height: auto; padding-top: 105px; }
+  .market-proof-panel { width: calc(100% - 36px); grid-template-columns: 1fr; min-height: auto; padding-top: 105px; }
   .market-proof-panel::before { inset: 4vh -10px; }
 }
 
