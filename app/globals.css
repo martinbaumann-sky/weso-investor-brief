@@ -813,6 +813,7 @@ main { overflow: clip; }
 .solution-sticky .pillars-grid {
   grid-column: 1 / -1;
   grid-template-columns: repeat(3, 1fr);
+  margin-bottom: clamp(28px, 4vh, 48px);
 }
 .solution-sticky .pillars-grid > div { min-height: 150px; padding: 18px; }
 .solution-sticky .pillars-grid h3 { margin-top: 20px; font-size: 1rem; }
@@ -835,7 +836,7 @@ main { overflow: clip; }
   .solution-sticky { padding: 88px 0 24px; grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; gap: 20px; align-content: center; }
   .solution-sticky .panel-copy h2 { max-width: 12ch; font-size: clamp(2.8rem, 9.5vw, 4.6rem); }
   .process-caption { margin-top: 24px; font-size: clamp(2.2rem, 8vw, 4rem); }
-  .solution-sticky .pillars-grid { grid-column: auto; }
+  .solution-sticky .pillars-grid { grid-column: auto; margin-bottom: 0; }
 }
 
 @media (max-width: 560px) {
