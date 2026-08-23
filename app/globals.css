@@ -1030,7 +1030,7 @@ main { overflow: clip; }
   grid-template-columns: .68fr 1.32fr;
 }
 .market-proof-panel::before { inset: 5vh -2vw; }
-.market-proof { min-width: 0; max-width: 100%; overflow: hidden; }
+.market-proof { min-width: 0; max-width: 100%; overflow: visible; }
 .market-base { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .market-base > div {
   min-width: 0;
