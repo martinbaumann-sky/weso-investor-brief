@@ -1121,3 +1121,120 @@ main { overflow: clip; }
 }
 
 .hero h1 .hero-dot { color: #f20b8f; -webkit-text-fill-color: #f20b8f; }
+
+/* Phone-only layout: prioritize reading, touch targets and stable scrolling. */
+@media (max-width: 680px) {
+  [id] { scroll-margin-top: 64px; }
+
+  .site-header { min-height: 60px; padding: 8px 16px; }
+  .brand-lockup { width: 92px; height: 44px; padding: 5px 0; }
+  .brand-lockup img { height: 34px; }
+  .language-switch { min-height: 44px; }
+  .language-switch span { min-width: 34px; min-height: 34px; padding: 0 8px; display: grid; place-items: center; }
+
+  .hero { min-height: 100svh; padding: 92px 18px 72px; }
+  .hero h1 { max-width: 10ch; font-size: clamp(3.55rem, 15.5vw, 4.5rem); }
+  .hero-scroll { width: 44px; height: 44px; bottom: 14px; display: grid; place-items: center; }
+
+  .chapter-background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .chapter-panels { margin-top: 0; }
+  .chapter-panel { width: calc(100% - 36px); padding: 84px 0 64px; gap: 32px; }
+  .panel-copy h2 { font-size: clamp(3rem, 13vw, 3.7rem); }
+  .panel-copy .panel-lead { font-size: 1rem; line-height: 1.5; }
+  .eyebrow { font-size: .66rem; line-height: 1.4; }
+
+  .problem-copy { padding: 82px 0 28px; }
+  .problem-copy h2 { font-size: clamp(3rem, 13vw, 3.7rem); }
+  .issue-scroll-list { padding-bottom: 70px; }
+  .issue-scroll-card { min-height: clamp(330px, 44svh, 390px); padding: 24px; }
+  .issue-scroll-card h3 { font-size: clamp(2.2rem, 10vw, 3rem); }
+  .issue-scroll-card p { font-size: .9rem; line-height: 1.5; }
+
+  .solution-graphic-panel { min-height: auto; }
+  .solution-sticky {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding: 88px 0 76px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 36px;
+    overflow: visible;
+  }
+  .solution-sticky .panel-copy h2 { max-width: 10ch; font-size: clamp(3rem, 13vw, 3.8rem); }
+  .process-visual { width: 100%; }
+  .process-graph { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 8px; }
+  .process-line { display: none; }
+  .process-node { opacity: 1; transform: none; }
+  .process-node b { width: 38px; height: 38px; }
+  .process-node span { display: block; max-width: 9ch; margin-top: 8px; font-size: .62rem; opacity: .68; }
+  .process-caption { display: none; }
+  .solution-sticky .pillars-grid { width: 100%; grid-template-columns: 1fr; gap: 10px; }
+  .solution-sticky .pillars-grid > div { min-height: 0; padding: 22px; border-radius: 18px; }
+  .solution-sticky .pillars-grid h3 { margin-top: 20px; font-size: 1.15rem; }
+  .solution-sticky .pillars-grid p { margin-top: 10px; font-size: .82rem; line-height: 1.5; }
+
+  .market-proof-panel { width: calc(100% - 36px); padding-top: 88px; gap: 30px; }
+  .market-proof-panel::before { inset: 24px -10px; }
+  .market-proof-panel .panel-copy h2 { font-size: clamp(3rem, 13vw, 3.7rem); }
+  .market-base { grid-template-columns: 1fr; gap: 8px; }
+  .market-base > div { min-height: 0; padding: 22px; }
+  .market-base strong { font-size: clamp(3.5rem, 17vw, 4.3rem); }
+  .market-base h3, .tam-context h3, .market-equation h3 { margin-top: 16px; font-size: 1rem; }
+  .market-base p, .tam-context p, .market-equation p { font-size: .76rem; line-height: 1.45; }
+  .tam-context { padding: 22px; grid-template-columns: 1fr; gap: 8px; }
+  .tam-context > strong { font-size: clamp(3.2rem, 15vw, 4rem); }
+  .tam-context h3 { margin-top: 4px; }
+  .market-equation { grid-template-columns: 1fr; gap: 10px; }
+  .market-equation > div { min-height: 0; padding: 22px; }
+  .market-equation > div > span { top: 24px; }
+  .market-equation strong { font-size: clamp(3rem, 14vw, 3.8rem); }
+
+  .economics-panel { padding-top: 88px; }
+  .economics-compare > div { min-height: 240px; padding: 24px; }
+  .economics-compare h3 { margin-top: 48px; }
+  .economics-compare p { font-size: .8rem; line-height: 1.45; }
+  .results-panel { padding-top: 76px; }
+  .savings-result { min-height: 320px; padding: 30px 26px; }
+  .business-model-note { font-size: .9rem; }
+
+  .stack-compare > div:not(.capability-row) { min-height: 235px; padding: 22px; }
+  .stack-compare h3 { margin-top: 36px; }
+  .stack-compare p { font-size: .78rem; line-height: 1.45; }
+  .capability-row i { font-size: .72rem; }
+
+  .compact-team { gap: 8px; }
+  .compact-team > div { min-height: 210px; }
+  .compact-team span { font-size: .58rem; }
+  .compact-team h3 { font-size: .96rem; }
+  .compact-team p { font-size: .65rem; line-height: 1.3; }
+
+  .compact-round { padding: 92px 18px 36px; }
+  .round-heading { gap: 20px; }
+  .round-heading h2 { font-size: clamp(2.9rem, 12.5vw, 3.4rem); }
+  .round-data { margin-top: 48px; }
+  .round-terms-compact > div, .pipeline-compact > div { padding: 18px 8px 18px 0; }
+  .round-terms-compact span, .pipeline-compact span { font-size: .72rem; line-height: 1.35; }
+  .uses-compact { margin-top: 28px; gap: 8px; }
+  .uses-compact > div { padding: 20px; }
+  .uses-compact p { font-size: .8rem; line-height: 1.5; }
+  .round-footer { margin-top: 48px; gap: 24px; }
+  .round-footer a { min-height: 48px; display: flex; align-items: center; justify-content: space-between; }
+
+  .issue-scroll-card,
+  .solution-sticky .pillars-grid > div,
+  .market-base > div,
+  .tam-context,
+  .market-equation > div { backdrop-filter: none; }
+}
+
+@media (max-width: 340px) {
+  .compact-team { grid-template-columns: 1fr; }
+  .compact-team > div { min-height: 280px; }
+}
