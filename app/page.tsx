@@ -8,6 +8,7 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
   const [solutionStep, setSolutionStep] = useState(0);
+  const [savingsPercent, setSavingsPercent] = useState(0);
   const t = content[lang];
 
   useEffect(() => {
@@ -54,6 +55,41 @@ export default function Home() {
       window.removeEventListener("resize", updateSolutionStep);
     };
   }, [lang]);
+
+  useEffect(() => {
+    const target = document.querySelector<HTMLElement>(".savings-result");
+    if (!target) return;
+
+    let animationFrame = 0;
+    let hasStarted = false;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || hasStarted) return;
+      hasStarted = true;
+      observer.disconnect();
+
+      if (reduceMotion) {
+        setSavingsPercent(45);
+        return;
+      }
+
+      const duration = 1600;
+      const start = performance.now();
+      const animate = (now: number) => {
+        const elapsed = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - elapsed, 3);
+        setSavingsPercent(Math.round(45 * eased));
+        if (elapsed < 1) animationFrame = requestAnimationFrame(animate);
+      };
+      animationFrame = requestAnimationFrame(animate);
+    }, { threshold: 0.4 });
+
+    observer.observe(target);
+    return () => {
+      observer.disconnect();
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, []);
 
   const switchLanguage = () => {
     const next: Lang = lang === "en" ? "es" : "en";
@@ -128,7 +164,7 @@ export default function Home() {
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
             <div className="savings-focus">
-              <div className="savings-result"><strong>{t.economics.savingsValue}</strong><p>{t.economics.savings}</p></div>
+              <div className="savings-result"><strong aria-label={t.economics.savingsValue}>{savingsPercent}%</strong><p>{t.economics.savings}</p></div>
               <p className="business-model-note">{t.economics.modelNote}</p>
             </div>
           </article>
