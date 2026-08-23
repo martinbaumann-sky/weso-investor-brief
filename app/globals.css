@@ -1152,16 +1152,14 @@ main { overflow: clip; }
   .problem-copy h2 { font-size: clamp(3rem, 13vw, 3.7rem); }
   .issue-scroll-list { padding-bottom: 70px; }
   .issue-scroll-card { min-height: clamp(330px, 44svh, 390px); padding: 24px; }
-  .issue-scroll-card[data-reveal] {
-    opacity: 0;
-    transform: translateY(44px) scale(.965);
-    transform-origin: 50% 70%;
-    transition: opacity 1s cubic-bezier(.16,.78,.2,1), transform 1s cubic-bezier(.16,.78,.2,1);
-    will-change: opacity, transform;
-  }
+  .issue-scroll-card[data-reveal],
   .issue-scroll-card[data-reveal].is-visible {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    opacity: var(--card-opacity, .12);
+    transform: translate3d(0, var(--card-shift, 78px), 0) scale(var(--card-scale, .91));
+    transform-origin: 50% 70%;
+    clip-path: inset(var(--card-clip, 14%) 0 0 0 round 22px);
+    transition: opacity .12s linear, transform .12s linear, clip-path .12s linear;
+    will-change: opacity, transform, clip-path;
   }
   .issue-scroll-card h3 { font-size: clamp(2.2rem, 10vw, 3rem); }
   .issue-scroll-card p { font-size: .9rem; line-height: 1.5; }

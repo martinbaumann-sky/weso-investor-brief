@@ -40,6 +40,53 @@ export default function Home() {
   }, [lang]);
 
   useEffect(() => {
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".issue-scroll-card"));
+    const phone = window.matchMedia("(max-width: 680px)");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+
+    const updateCards = () => {
+      animationFrame = 0;
+      cards.forEach((card) => {
+        if (!phone.matches || reduceMotion.matches) {
+          card.style.setProperty("--card-opacity", "1");
+          card.style.setProperty("--card-shift", "0px");
+          card.style.setProperty("--card-scale", "1");
+          card.style.setProperty("--card-clip", "0%");
+          return;
+        }
+
+        const top = card.getBoundingClientRect().top;
+        const start = window.innerHeight * 0.96;
+        const end = window.innerHeight * 0.5;
+        const raw = Math.min(Math.max((start - top) / (start - end), 0), 1);
+        const eased = raw * raw * (3 - 2 * raw);
+        card.style.setProperty("--card-opacity", String(0.12 + eased * 0.88));
+        card.style.setProperty("--card-shift", `${(1 - eased) * 78}px`);
+        card.style.setProperty("--card-scale", String(0.91 + eased * 0.09));
+        card.style.setProperty("--card-clip", `${(1 - eased) * 14}%`);
+      });
+    };
+
+    const requestUpdate = () => {
+      if (!animationFrame) animationFrame = requestAnimationFrame(updateCards);
+    };
+
+    updateCards();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    phone.addEventListener("change", requestUpdate);
+    reduceMotion.addEventListener("change", requestUpdate);
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      phone.removeEventListener("change", requestUpdate);
+      reduceMotion.removeEventListener("change", requestUpdate);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, [lang]);
+
+  useEffect(() => {
     const updateSolutionStep = () => {
       const section = document.querySelector<HTMLElement>("#solution");
       if (!section) return;
