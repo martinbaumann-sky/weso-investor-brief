@@ -1152,6 +1152,17 @@ main { overflow: clip; }
   .problem-copy h2 { font-size: clamp(3rem, 13vw, 3.7rem); }
   .issue-scroll-list { padding-bottom: 70px; }
   .issue-scroll-card { min-height: clamp(330px, 44svh, 390px); padding: 24px; }
+  .issue-scroll-card[data-reveal] {
+    opacity: 0;
+    transform: translateY(44px) scale(.965);
+    transform-origin: 50% 70%;
+    transition: opacity 1s cubic-bezier(.16,.78,.2,1), transform 1s cubic-bezier(.16,.78,.2,1);
+    will-change: opacity, transform;
+  }
+  .issue-scroll-card[data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
   .issue-scroll-card h3 { font-size: clamp(2.2rem, 10vw, 3rem); }
   .issue-scroll-card p { font-size: .9rem; line-height: 1.5; }
 
@@ -1171,9 +1182,24 @@ main { overflow: clip; }
   .process-visual { width: 100%; }
   .process-graph { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 8px; }
   .process-line { display: none; }
-  .process-node { opacity: 1; transform: none; }
-  .process-node b { width: 38px; height: 38px; }
-  .process-node span { display: block; max-width: 9ch; margin-top: 8px; font-size: .62rem; opacity: .68; }
+  .process-node,
+  .process-node.is-shown {
+    opacity: var(--node-opacity);
+    transform: translateY(var(--node-shift)) scale(var(--node-scale));
+    transition: opacity .16s linear, transform .16s linear;
+  }
+  .process-node b,
+  .process-node.is-shown b,
+  .process-node.is-current b {
+    width: 38px;
+    height: 38px;
+    border-color: rgba(255,255,255,.3);
+    background: var(--node-bg);
+    color: var(--node-color);
+    box-shadow: 0 0 0 var(--node-ring) rgba(201,255,77,.12);
+    transition: background .16s linear, color .16s linear, box-shadow .16s linear;
+  }
+  .process-node span { display: block; max-width: 9ch; margin-top: 8px; font-size: .62rem; opacity: var(--node-opacity); transition: opacity .16s linear; }
   .process-caption { display: none; }
   .solution-sticky .pillars-grid { width: 100%; grid-template-columns: 1fr; gap: 10px; }
   .solution-sticky .pillars-grid > div { min-height: 0; padding: 22px; border-radius: 18px; }

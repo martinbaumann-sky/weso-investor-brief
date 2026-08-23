@@ -8,6 +8,7 @@ export default function Home() {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
   const [solutionStep, setSolutionStep] = useState(0);
+  const [solutionProgress, setSolutionProgress] = useState(0);
   const [savingsPercent, setSavingsPercent] = useState(0);
   const t = content[lang];
 
@@ -42,9 +43,23 @@ export default function Home() {
     const updateSolutionStep = () => {
       const section = document.querySelector<HTMLElement>("#solution");
       if (!section) return;
+
+      if (window.matchMedia("(max-width: 680px)").matches) {
+        const graph = section.querySelector<HTMLElement>(".process-graph");
+        if (!graph) return;
+        const centerY = graph.getBoundingClientRect().top + graph.offsetHeight / 2;
+        const startY = window.innerHeight * 0.56;
+        const endY = window.innerHeight * 0.24;
+        const mobileProgress = Math.min(Math.max((startY - centerY) / (startY - endY), 0), 1);
+        setSolutionProgress(mobileProgress);
+        setSolutionStep(Math.min(t.solution.flow.length - 1, Math.round(mobileProgress * (t.solution.flow.length - 1))));
+        return;
+      }
+
       const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
       const passed = Math.min(Math.max(-section.getBoundingClientRect().top, 0), travel);
       const next = Math.min(t.solution.flow.length - 1, Math.floor((passed / travel) * t.solution.flow.length));
+      setSolutionProgress(0);
       setSolutionStep(next);
     };
     updateSolutionStep();
@@ -131,7 +146,23 @@ export default function Home() {
               <div className="process-visual" style={{ "--flow-progress": `${Math.max(0, solutionStep) / (t.solution.flow.length - 1) * 100}%` } as CSSProperties}>
                 <div className="process-graph" role="list" aria-label={t.solution.title}>
                   <div className="process-line" aria-hidden="true"><i /></div>
-                  {t.solution.flow.map((step, index) => <div className={`process-node ${index <= solutionStep ? "is-shown" : ""} ${index === solutionStep ? "is-current" : ""}`} role="listitem" aria-current={index === solutionStep ? "step" : undefined} key={step}><b>{String(index + 1).padStart(2, "0")}</b><span>{step}</span></div>)}
+                  {t.solution.flow.map((step, index) => {
+                    const position = solutionProgress * (t.solution.flow.length - 1);
+                    const nodeProgress = index === 0 ? 1 : Math.min(Math.max(position - (index - 1), 0), 1);
+                    const nodeActive = Math.min(Math.max(1 - Math.abs(position - index), 0), 1);
+                    const base = [23 + (242 - 23) * nodeProgress, 21 + (11 - 21) * nodeProgress, 24 + (143 - 24) * nodeProgress];
+                    const color = base.map((channel, channelIndex) => Math.round(channel + ([201, 255, 77][channelIndex] - channel) * nodeActive));
+                    const textShade = Math.round(255 - 232 * nodeActive);
+                    const nodeStyle = {
+                      "--node-bg": `rgb(${color.join(" ")})`,
+                      "--node-color": `rgb(${textShade} ${textShade} ${textShade})`,
+                      "--node-opacity": 0.58 + nodeProgress * 0.42,
+                      "--node-shift": `${(1 - nodeProgress) * 8}px`,
+                      "--node-scale": 0.94 + nodeProgress * 0.06,
+                      "--node-ring": `${nodeActive * 8}px`,
+                    } as CSSProperties;
+                    return <div className={`process-node ${index <= solutionStep ? "is-shown" : ""} ${index === solutionStep ? "is-current" : ""}`} style={nodeStyle} role="listitem" aria-current={index === solutionStep ? "step" : undefined} key={step}><b>{String(index + 1).padStart(2, "0")}</b><span>{step}</span></div>;
+                  })}
                 </div>
                 <p className="process-caption" aria-live="polite">{solutionStep >= 0 ? t.solution.flow[solutionStep] : t.solution.title}</p>
               </div>
