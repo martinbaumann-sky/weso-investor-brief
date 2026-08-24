@@ -266,7 +266,7 @@ export default function Home() {
       <section className="compact-round" id="round">
         <div className="round-inner" data-reveal>
           <div className="round-heading"><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
-          <div className="round-data"><div className="round-terms-compact">{t.round.terms.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div><p className="pipeline-label">{t.round.months}</p><div className="pipeline-compact">{t.round.pipeline.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
+          <div className="round-data"><p className="pipeline-label">{t.round.months}</p><div className="pipeline-compact">{t.round.pipeline.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
           <div className="uses-compact">{t.round.uses.map(([title, body]) => <div key={title}><h3>{title}</h3><p>{body}</p></div>)}</div>
           <footer className="round-footer"><h3>{t.round.closing}</h3><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div></footer>
         </div>

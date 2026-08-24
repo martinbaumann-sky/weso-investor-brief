@@ -4,7 +4,7 @@ export const content = {
   en: {
     nav: { thesis: "Thesis", market: "Market", model: "Model", team: "Team", contact: "Contact" },
     hero: {
-      kicker: "Investor brief · Pre-Seed",
+      kicker: "Investor brief · Weso",
       eyebrow: "B2B Infrastructure Platform · B2B2C Experience Layer · Insurtech",
       titleA: "The AI operations layer",
       titleB: "for insurance services.",
@@ -98,9 +98,8 @@ export const content = {
       ],
     },
     round: {
-      label: "06 · The round",
+      label: "06 · The opportunity",
       title: "Building the operating layer insurance has been missing.",
-      terms: [["USD 300K", "Raising"], ["5%", "Equity"], ["Pre-Seed", "Stage"], ["SAFE", "Instrument"]],
       months: "6-month commercial pipeline",
       pipeline: [["4", "in implementation"], ["2", "in decision"], ["182", "insurance companies in pipeline"]],
       uses: [["Technology & AI", "Automate the coordination layer"], ["Insurance integrations", "Connect insurers and service networks"], ["US & EU expansion", "Scale the operating footprint"]],
@@ -114,7 +113,7 @@ export const content = {
   es: {
     nav: { thesis: "Tesis", market: "Mercado", model: "Modelo", team: "Equipo", contact: "Contacto" },
     hero: {
-      kicker: "Resumen para inversionistas · Pre-Seed",
+      kicker: "Resumen para inversionistas · Weso",
       eyebrow: "Plataforma de infraestructura B2B · Experiencia B2B2C · Insurtech",
       titleA: "La capa operativa de IA",
       titleB: "para servicios de seguros.",
@@ -208,9 +207,8 @@ export const content = {
       ],
     },
     round: {
-      label: "06 · La ronda",
+      label: "06 · La oportunidad",
       title: "Construyendo la capa operativa que le faltaba a los seguros.",
-      terms: [["USD 300K", "Capital a levantar"], ["5%", "Equity"], ["Pre-Seed", "Etapa"], ["SAFE", "Instrumento"]],
       months: "Pipeline comercial de 6 meses",
       pipeline: [["4", "en implementación"], ["2", "en decisión"], ["182", "aseguradoras en pipeline"]],
       uses: [["Tecnología e IA", "Automatizar la capa de coordinación"], ["Integraciones con seguros", "Conectar aseguradoras y redes de servicio"], ["Expansión en EE.UU. y UE", "Escalar la presencia operativa"]],
