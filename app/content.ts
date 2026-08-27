@@ -2,7 +2,7 @@ export type Lang = "en" | "es";
 
 export const content = {
   en: {
-    nav: { thesis: "Thesis", market: "Market", model: "Model", team: "Team", contact: "Contact" },
+    nav: { thesis: "Thesis", kpis: "KPIs", market: "Market", model: "Model", team: "Team", contact: "Contact" },
     hero: {
       kicker: "Investor brief · Weso",
       eyebrow: "B2B Infrastructure Platform · B2B2C Experience Layer · Insurtech",
@@ -36,8 +36,23 @@ export const content = {
         ["Usage-based economics", "Unlike legacy per-capita models, Weso operates with a flexible pay-per-use structure enabled by automation and intelligent coordination."],
       ],
     },
+    kpis: {
+      label: "03 · NPS & KPIs",
+      title: "Operational performance, in numbers.",
+      intro: "AI-native coordination is already translating into faster service, greater automation, and a consistently strong customer experience.",
+      metrics: [
+        ["100%", "Voice AI + automation", "Every request is answered in under 10 seconds."],
+        ["8×", "Faster resolution", "Technician assignment and service resolution."],
+        ["5×", "Faster arrival", "Time from request to service arrival."],
+        ["98%", "First-contact resolution", "Cases resolved during the first interaction."],
+        ["95%", "Autonomous coordination", "Completed automatically, without human intervention."],
+        ["100%", "Recorded calls", "Every call captured for traceability and quality."],
+        ["4.8/5", "CSAT", "Customer satisfaction score."],
+        ["<60s", "Human handoff", "Transfer time when a person is needed."],
+      ],
+    },
     market: {
-      label: "03 · Market opportunity",
+      label: "04 · Market opportunity",
       title: "A global operational layer behind insurance.",
       stats: [
         ["850M+", "Insured customers", "Initial target market · US · Europe · Latam"],
@@ -52,7 +67,7 @@ export const content = {
       bridgeTo: "Weso infrastructure",
     },
     economics: {
-      label: "04 · Changing the economics",
+      label: "05 · Changing the economics",
       title: "Why does Weso win now?",
       intro: "From paying for insured members to paying only for services used.",
       from: "Pay for every insured member",
@@ -66,7 +81,7 @@ export const content = {
       badges: ["One platform", "AI-driven operations", "Usage-based economics"],
     },
     scale: {
-      label: "05 · Compounding advantage",
+      label: "06 · Compounding advantage",
       title: "Weso gets stronger with scale.",
       lead: "Every service improves the infrastructure behind the next one.",
       today: "Today",
@@ -98,7 +113,7 @@ export const content = {
       ],
     },
     round: {
-      label: "06 · The opportunity",
+      label: "07 · The opportunity",
       title: "Building the operating layer insurance has been missing.",
       months: "6-month commercial pipeline",
       pipeline: [["4", "in implementation"], ["2", "in decision"], ["182", "insurance companies in pipeline"]],
@@ -111,7 +126,7 @@ export const content = {
     },
   },
   es: {
-    nav: { thesis: "Tesis", market: "Mercado", model: "Modelo", team: "Equipo", contact: "Contacto" },
+    nav: { thesis: "Tesis", kpis: "KPIs", market: "Mercado", model: "Modelo", team: "Equipo", contact: "Contacto" },
     hero: {
       kicker: "Resumen para inversionistas · Weso",
       eyebrow: "Plataforma de infraestructura B2B · Experiencia B2B2C · Insurtech",
@@ -145,8 +160,23 @@ export const content = {
         ["Economía basada en uso", "A diferencia de los modelos legacy por cápita, Weso opera con una estructura flexible de pago por uso habilitada por automatización y coordinación inteligente."],
       ],
     },
+    kpis: {
+      label: "03 · NPS & KPIs",
+      title: "Desempeño operativo, en números.",
+      intro: "La coordinación nativa en IA ya se traduce en un servicio más rápido, mayor automatización y una experiencia de cliente consistentemente sólida.",
+      metrics: [
+        ["100%", "Voice AI + automatización", "Cada solicitud es atendida en menos de 10 segundos."],
+        ["8×", "Resolución más rápida", "Asignación de técnicos y resolución del servicio."],
+        ["5×", "Llegada más rápida", "Tiempo desde la solicitud hasta la llegada al servicio."],
+        ["98%", "Resolución al primer contacto", "Casos resueltos durante la primera interacción."],
+        ["95%", "Coordinación autónoma", "Completada automáticamente, sin intervención humana."],
+        ["100%", "Llamadas grabadas", "Cada llamada registrada para trazabilidad y calidad."],
+        ["4,8/5", "CSAT", "Índice de satisfacción del cliente."],
+        ["<60s", "Transferencia a humano", "Tiempo de transferencia cuando se necesita una persona."],
+      ],
+    },
     market: {
-      label: "03 · Oportunidad de mercado",
+      label: "04 · Oportunidad de mercado",
       title: "Una capa operativa global detrás de los seguros.",
       stats: [
         ["850M+", "Clientes asegurados", "Mercado objetivo inicial · EE.UU. · Europa · Latam"],
@@ -161,7 +191,7 @@ export const content = {
       bridgeTo: "Infraestructura Weso",
     },
     economics: {
-      label: "04 · Cambiando la economía",
+      label: "05 · Cambiando la economía",
       title: "¿Por qué Weso gana ahora?",
       intro: "De pagar por cada asegurado a pagar solo por los servicios utilizados.",
       from: "Pagar por cada asegurado",
@@ -175,7 +205,7 @@ export const content = {
       badges: ["Una plataforma", "Operaciones impulsadas por IA", "Economía basada en uso"],
     },
     scale: {
-      label: "05 · Ventaja acumulativa",
+      label: "06 · Ventaja acumulativa",
       title: "Weso se fortalece con la escala.",
       lead: "Cada servicio mejora la infraestructura detrás del siguiente.",
       today: "Hoy",
@@ -207,7 +237,7 @@ export const content = {
       ],
     },
     round: {
-      label: "06 · La oportunidad",
+      label: "07 · La oportunidad",
       title: "Construyendo la capa operativa que le faltaba a los seguros.",
       months: "Pipeline comercial de 6 meses",
       pipeline: [["4", "en implementación"], ["2", "en decisión"], ["182", "aseguradoras en pipeline"]],

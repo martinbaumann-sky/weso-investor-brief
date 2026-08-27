@@ -169,7 +169,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand-lockup" href="#top" aria-label="Weso home"><Image src="/assets/p1-2.png" alt="Weso" width={400} height={400} priority unoptimized /></a>
         <nav aria-label="Primary navigation">
-          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#market">{t.nav.market}</a><a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
+          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#kpis">{t.nav.kpis}</a><a href="#market">{t.nav.market}</a><a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
           <button className="language-switch" type="button" onClick={switchLanguage} aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}><span className={lang === "en" ? "active" : ""}>EN</span><span className={lang === "es" ? "active" : ""}>ES</span></button>
           <a className="contact-button" href={`mailto:${t.round.emailAddress}`}>{t.nav.contact}<span>↗</span></a>
         </nav>
@@ -216,6 +216,26 @@ export default function Home() {
               <div className="compact-grid pillars-grid">{t.solution.pillars.map(([title, body], index) => <div key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{body}</p></div>)}</div>
             </div>
           </article>
+        </div>
+      </section>
+
+      <section className="kpi-section" id="kpis">
+        <div className="kpi-inner">
+          <div className="kpi-heading" data-reveal>
+            <p className="eyebrow">{t.kpis.label}</p>
+            <h2>{t.kpis.title}</h2>
+            <p>{t.kpis.intro}</p>
+          </div>
+          <div className="kpi-grid" role="list" aria-label={t.kpis.title}>
+            {t.kpis.metrics.map(([value, label, note], index) => (
+              <article className={`kpi-card kpi-card-${index + 1}`} role="listitem" data-reveal key={label}>
+                <p>{label}</p>
+                <strong>{value}</strong>
+                {index === 6 && <span className="csat-stars" aria-label="5 stars">★★★★★</span>}
+                <small>{note}</small>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 

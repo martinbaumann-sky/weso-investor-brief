@@ -543,6 +543,101 @@ main { overflow: clip; }
 }
 
 .photo-background { background: #111; color: #fff; }
+
+/* Operating proof translated from the NPS & KPI reference into the site system. */
+.kpi-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(110px, 14vh, 170px) clamp(24px, 5vw, 72px);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(100,39,255,.22), transparent 30%),
+    radial-gradient(circle at 8% 92%, rgba(242,11,143,.14), transparent 29%),
+    #080809;
+  color: #f8f6f4;
+}
+.kpi-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent);
+}
+.kpi-inner { position: relative; z-index: 1; width: min(100%, 1380px); margin: 0 auto; }
+.kpi-heading { display: grid; grid-template-columns: .52fr 1.08fr .7fr; gap: clamp(24px, 4vw, 68px); align-items: start; }
+.kpi-heading h2 {
+  max-width: 10ch;
+  margin: 0;
+  font-family: var(--font-weso-display), sans-serif;
+  font-size: clamp(3.6rem, 6.8vw, 7.5rem);
+  font-weight: 500;
+  line-height: .86;
+  letter-spacing: -.07em;
+}
+.kpi-heading > p:last-child { max-width: 28rem; margin: 8px 0 0; color: rgba(255,255,255,.62); font-size: clamp(.92rem, 1.25vw, 1.08rem); line-height: 1.55; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: clamp(58px, 8vw, 100px); }
+.kpi-card {
+  position: relative;
+  min-height: 230px;
+  padding: clamp(22px, 2.4vw, 34px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 28px;
+  background: rgba(12,12,14,.76);
+  backdrop-filter: blur(18px);
+}
+.kpi-card:nth-child(-n+4) { grid-column: span 2; min-height: 320px; }
+.kpi-card > p { margin: 0; font-size: clamp(.82rem, 1.15vw, 1.05rem); font-weight: 750; letter-spacing: -.02em; }
+.kpi-card strong {
+  display: block;
+  margin: auto 0 0;
+  font-family: var(--font-weso-display), sans-serif;
+  font-size: clamp(4.4rem, 7.4vw, 8.5rem);
+  font-weight: 520;
+  line-height: .7;
+  letter-spacing: -.08em;
+  color: transparent;
+  background: linear-gradient(105deg, #e8a4ff 0%, #fff 58%, #f88bd1 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+.kpi-card:nth-child(n+5) strong { font-size: clamp(3.5rem, 5.2vw, 5.8rem); }
+.kpi-card small { max-width: 28ch; margin-top: 22px; color: rgba(255,255,255,.62); font-size: .75rem; line-height: 1.38; }
+.kpi-card-2 strong { position: relative; width: fit-content; z-index: 1; }
+.kpi-card-2 strong::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -28% -26%;
+  border: clamp(5px, .6vw, 9px) solid #c9ff4d;
+  border-radius: 50%;
+  transform: rotate(-7deg);
+}
+.kpi-card-5 { border-color: rgba(242,11,143,.62); }
+.kpi-card-7 { background: linear-gradient(145deg, rgba(100,39,255,.33), rgba(242,11,143,.17)); }
+.csat-stars { margin-top: 18px; color: #ffd91a; font-size: clamp(1.25rem, 2vw, 2rem); letter-spacing: .05em; }
+
+@media (max-width: 900px) {
+  .kpi-heading { grid-template-columns: 1fr 1.4fr; }
+  .kpi-heading > p:last-child { grid-column: 2; }
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kpi-card:nth-child(-n+4) { grid-column: auto; }
+}
+
+@media (max-width: 560px) {
+  .kpi-section { padding: 92px 18px 78px; }
+  .kpi-heading { grid-template-columns: 1fr; gap: 20px; }
+  .kpi-heading h2 { max-width: 9ch; font-size: clamp(3rem, 13vw, 3.8rem); }
+  .kpi-heading > p:last-child { grid-column: auto; margin-top: 2px; }
+  .kpi-grid { grid-template-columns: 1fr; margin-top: 48px; }
+  .kpi-card, .kpi-card:nth-child(-n+4) { min-height: 250px; padding: 24px; border-radius: 22px; }
+  .kpi-card strong, .kpi-card:nth-child(n+5) strong { font-size: clamp(4.2rem, 21vw, 5.5rem); }
+  .kpi-card small { font-size: .8rem; }
+}
+
 .photo-background::before { display: none; }
 .photo-background > img { object-fit: cover; filter: saturate(.55) contrast(1.05); }
 .photo-background::after {
