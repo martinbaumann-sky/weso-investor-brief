@@ -40,6 +40,20 @@ export default function Home() {
   }, [lang]);
 
   useEffect(() => {
+    const section = document.querySelector<HTMLElement>(".kpi-section");
+    if (!section) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      section.classList.add("is-in-view");
+      observer.disconnect();
+    }, { threshold: 0.12, rootMargin: "0px 0px -8%" });
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const cards = Array.from(document.querySelectorAll<HTMLElement>(".issue-scroll-card"));
     const phone = window.matchMedia("(max-width: 680px)");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -228,7 +242,7 @@ export default function Home() {
           </div>
           <div className="kpi-grid" role="list" aria-label={t.kpis.title}>
             {t.kpis.metrics.map(([value, label, note], index) => (
-              <article className={`kpi-card kpi-card-${index + 1}`} role="listitem" data-reveal key={label}>
+              <article className={`kpi-card kpi-card-${index + 1}`} role="listitem" style={{ "--kpi-index": index } as CSSProperties} key={label}>
                 <p>{label}</p>
                 <strong>{value}</strong>
                 {index === 6 && <span className="csat-stars" aria-label="5 stars">★★★★★</span>}

@@ -588,22 +588,38 @@ main { overflow: clip; }
   border-radius: 28px;
   background: rgba(12,12,14,.76);
   backdrop-filter: blur(18px);
+  opacity: 0;
+  transform: translate3d(0, 68px, 0) scale(.965);
+  transition:
+    opacity .72s cubic-bezier(.2,.72,.2,1),
+    transform .82s cubic-bezier(.2,.72,.2,1),
+    border-color .35s ease,
+    background .35s ease;
+  transition-delay: calc(var(--kpi-index) * 85ms);
+  will-change: opacity, transform;
 }
+.kpi-section.is-in-view .kpi-card { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
 .kpi-card:nth-child(-n+4) { grid-column: span 2; min-height: 320px; }
 .kpi-card > p { margin: 0; font-size: clamp(.82rem, 1.15vw, 1.05rem); font-weight: 750; letter-spacing: -.02em; }
 .kpi-card strong {
   display: block;
   margin: auto 0 0;
+  padding: .06em 0 .08em;
   font-family: var(--font-weso-display), sans-serif;
   font-size: clamp(4.4rem, 7.4vw, 8.5rem);
   font-weight: 520;
-  line-height: .7;
+  line-height: .88;
   letter-spacing: -.08em;
   color: transparent;
   background: linear-gradient(105deg, #e8a4ff 0%, #fff 58%, #f88bd1 100%);
   background-clip: text;
   -webkit-background-clip: text;
+  opacity: 0;
+  transform: translateY(.22em);
+  transition: opacity .58s ease, transform .72s cubic-bezier(.2,.72,.2,1);
+  transition-delay: calc(180ms + var(--kpi-index) * 85ms);
 }
+.kpi-section.is-in-view .kpi-card strong { opacity: 1; transform: translateY(0); }
 .kpi-card:nth-child(n+5) strong { font-size: clamp(3.5rem, 5.2vw, 5.8rem); }
 .kpi-card small { max-width: 28ch; margin-top: 22px; color: rgba(255,255,255,.62); font-size: .75rem; line-height: 1.38; }
 .kpi-card-2 strong { position: relative; width: fit-content; z-index: 1; }
@@ -619,6 +635,11 @@ main { overflow: clip; }
 .kpi-card-5 { border-color: rgba(242,11,143,.62); }
 .kpi-card-7 { background: linear-gradient(145deg, rgba(100,39,255,.33), rgba(242,11,143,.17)); }
 .csat-stars { margin-top: 18px; color: #ffd91a; font-size: clamp(1.25rem, 2vw, 2rem); letter-spacing: .05em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kpi-card,
+  .kpi-card strong { opacity: 1; transform: none; transition: none; }
+}
 
 @media (max-width: 900px) {
   .kpi-heading { grid-template-columns: 1fr 1.4fr; }
