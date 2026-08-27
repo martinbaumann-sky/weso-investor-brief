@@ -29,11 +29,12 @@ test("server-renders the Weso investor brief and KPI proof", async () => {
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
 });
 
-test("keeps KPI content bilingual and the starter preview removed", async () => {
-  const [content, page, layout] = await Promise.all([
+test("keeps KPI content bilingual and the lower chapters interactive", async () => {
+  const [content, page, layout, css] = await Promise.all([
     readFile(new URL("../app/content.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
   ]);
 
   assert.match(content, /Operational performance, in numbers\./);
@@ -42,6 +43,10 @@ test("keeps KPI content bilingual and the starter preview removed", async () => 
   assert.match(content, /\["95%", "Coordinación autónoma"/);
   assert.match(page, /id="kpis"/);
   assert.match(page, /className="kpi-grid"/);
+  assert.match(page, /data-scroll-reveal/);
+  assert.match(page, /is-scroll-visible/);
+  assert.match(css, /\[data-scroll-reveal\]\.is-scroll-visible/);
+  assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(layout, /Weso — The AI Operations Layer/);
 
   await assert.rejects(access(new URL("../app/_sites-preview", import.meta.url)));

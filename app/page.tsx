@@ -54,6 +54,27 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const nodes = document.querySelectorAll<HTMLElement>("[data-scroll-reveal]");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) {
+      nodes.forEach((node) => node.classList.add("is-scroll-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-scroll-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.16, rootMargin: "0px 0px -9%" });
+
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [lang]);
+
+  useEffect(() => {
     const cards = Array.from(document.querySelectorAll<HTMLElement>(".issue-scroll-card"));
     const phone = window.matchMedia("(max-width: 680px)");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -257,11 +278,11 @@ export default function Home() {
         <div className="chapter-background market-abstract-background" aria-hidden="true" />
         <div className="chapter-panels">
           <article className="chapter-panel market-panel market-proof-panel" data-reveal>
-            <div className="panel-copy"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
             <div className="market-proof">
-              <div className="market-base">{t.market.stats.slice(0, 2).map(([value, label, note]) => <div key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
-              <div className="tam-context"><strong>{t.market.stats[2][0]}</strong><div><h3>{t.market.stats[2][1]}</h3><p>{t.market.stats[2][2]}</p></div></div>
-              <div className="market-equation">{t.market.stats.slice(3).map(([value, label, note], index) => <div className={index === 3 ? "revenue-result" : ""} key={label}><span>{index === 0 ? "×" : index === 1 ? "=" : "→"}</span><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+              <div className="market-base">{t.market.stats.slice(0, 2).map(([value, label, note], index) => <div data-scroll-reveal={index === 0 ? "left" : "right"} style={{ "--reveal-order": index } as CSSProperties} key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+              <div className="tam-context" data-scroll-reveal="card" style={{ "--reveal-order": 2 } as CSSProperties}><strong>{t.market.stats[2][0]}</strong><div><h3>{t.market.stats[2][1]}</h3><p>{t.market.stats[2][2]}</p></div></div>
+              <div className="market-equation">{t.market.stats.slice(3).map(([value, label, note], index) => <div className={index === 3 ? "revenue-result" : ""} data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={label}><span>{index === 0 ? "×" : index === 1 ? "=" : "→"}</span><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
             </div>
           </article>
         </div>
@@ -271,13 +292,13 @@ export default function Home() {
         <div className="chapter-background economics-background" aria-hidden="true"><span>{t.market.bridge}</span><strong>→</strong><span>{t.market.bridgeTo}</span></div>
         <div className="chapter-panels">
           <article className="chapter-panel economics-panel" data-reveal>
-            <div className="panel-copy"><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
-            <div className="economics-compare"><div><span>FROM</span><h3>{t.economics.from}</h3></div><b>→</b><div className="economics-to"><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
+            <div className="economics-compare"><div data-scroll-reveal="left"><span>FROM</span><h3>{t.economics.from}</h3></div><b data-scroll-reveal="pop" style={{ "--reveal-order": 1 } as CSSProperties}>→</b><div className="economics-to" data-scroll-reveal="right" style={{ "--reveal-order": 2 } as CSSProperties}><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
             <div className="savings-focus">
-              <div className="savings-result"><strong aria-label={t.economics.savingsValue}>{savingsPercent}%</strong><p>{t.economics.savings}</p></div>
-              <p className="business-model-note">{t.economics.modelNote}</p>
+              <div className="savings-result" data-scroll-reveal="pop"><strong aria-label={t.economics.savingsValue}>{savingsPercent}%</strong><p>{t.economics.savings}</p></div>
+              <p className="business-model-note" data-scroll-reveal="heading" style={{ "--reveal-order": 1 } as CSSProperties}>{t.economics.modelNote}</p>
             </div>
           </article>
         </div>
@@ -287,22 +308,22 @@ export default function Home() {
         <div className="chapter-background scale-background" aria-hidden="true"><span>05</span><strong>scale</strong></div>
         <div className="chapter-panels">
           <article className="chapter-panel scale-panel" data-reveal>
-            <div className="panel-copy"><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
-            <div className="stack-compare"><div><span>{t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p></div><div className="weso-stack"><span>{t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></div><div className="capability-row">{t.scale.capabilities.map((item) => <i key={item}>{item}</i>)}</div></div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
+            <div className="stack-compare"><div data-scroll-reveal="left"><span>{t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p></div><div className="weso-stack" data-scroll-reveal="right" style={{ "--reveal-order": 1 } as CSSProperties}><span>{t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></div><div className="capability-row">{t.scale.capabilities.map((item, index) => <i data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={item}>{item}</i>)}</div></div>
           </article>
           <article className="chapter-panel team-panel" id="team" data-reveal>
-            <div className="panel-copy"><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
-            <div className="compact-team">{t.team.members.map(([name, role, country, image]) => <div key={name}><Image src={image} alt="" fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
+            <div className="compact-team">{t.team.members.map(([name, role, country, image], index) => <div data-scroll-reveal="card" style={{ "--reveal-order": index % 3 } as CSSProperties} key={name}><Image src={image} alt="" fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
           </article>
         </div>
       </section>
 
       <section className="compact-round" id="round">
         <div className="round-inner" data-reveal>
-          <div className="round-heading"><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
-          <div className="round-data"><p className="pipeline-label">{t.round.months}</p><div className="pipeline-compact">{t.round.pipeline.map(([value, label]) => <div key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
-          <div className="uses-compact">{t.round.uses.map(([title, body]) => <div key={title}><h3>{title}</h3><p>{body}</p></div>)}</div>
-          <footer className="round-footer"><h3>{t.round.closing}</h3><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div></footer>
+          <div className="round-heading" data-scroll-reveal="heading"><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
+          <div className="round-data"><p className="pipeline-label" data-scroll-reveal="heading">{t.round.months}</p><div className="pipeline-compact">{t.round.pipeline.map(([value, label], index) => <div data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
+          <div className="uses-compact">{t.round.uses.map(([title, body], index) => <div data-scroll-reveal="card" style={{ "--reveal-order": index } as CSSProperties} key={title}><h3>{title}</h3><p>{body}</p></div>)}</div>
+          <footer className="round-footer" data-scroll-reveal="heading"><h3>{t.round.closing}</h3><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div></footer>
         </div>
       </section>
     </main>

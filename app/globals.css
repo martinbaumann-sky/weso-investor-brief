@@ -1376,3 +1376,82 @@ main { overflow: clip; }
   .compact-team { grid-template-columns: 1fr; }
   .compact-team > div { min-height: 280px; }
 }
+
+/* Chapter-by-chapter reveals and tactile card responses from KPI proof onward. */
+[data-scroll-reveal] {
+  --reveal-x: 0px;
+  --reveal-y: 52px;
+  --reveal-scale: .965;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate3d(var(--reveal-x), var(--reveal-y), 0) scale(var(--reveal-scale));
+  transform-origin: 50% 65%;
+  transition:
+    opacity .68s cubic-bezier(.2,.72,.2,1),
+    filter .68s ease,
+    transform .82s cubic-bezier(.2,.72,.2,1),
+    border-color .3s ease,
+    background-color .3s ease,
+    box-shadow .3s ease;
+  transition-delay: calc(var(--reveal-order, 0) * 90ms);
+  will-change: opacity, filter, transform;
+}
+[data-scroll-reveal="heading"] { --reveal-y: 38px; --reveal-scale: 1; }
+[data-scroll-reveal="left"] { --reveal-x: -64px; --reveal-y: 0px; --reveal-scale: .98; }
+[data-scroll-reveal="right"] { --reveal-x: 64px; --reveal-y: 0px; --reveal-scale: .98; }
+[data-scroll-reveal="pop"] { --reveal-y: 24px; --reveal-scale: .88; }
+[data-scroll-reveal].is-scroll-visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.market-base > div,
+.tam-context,
+.market-equation > div,
+.economics-compare > div,
+.savings-result,
+.stack-compare > div:not(.capability-row),
+.compact-team > div,
+.pipeline-compact > div,
+.uses-compact > div { cursor: default; }
+
+@media (hover: hover) and (pointer: fine) {
+  .market-base > div.is-scroll-visible:hover,
+  .tam-context.is-scroll-visible:hover,
+  .market-equation > div.is-scroll-visible:hover,
+  .economics-compare > div.is-scroll-visible:hover,
+  .stack-compare > div:not(.capability-row).is-scroll-visible:hover,
+  .compact-team > div.is-scroll-visible:hover,
+  .pipeline-compact > div.is-scroll-visible:hover,
+  .uses-compact > div.is-scroll-visible:hover {
+    transform: translate3d(0, -7px, 0) scale(1.012);
+    border-color: rgba(242,11,143,.58);
+    box-shadow: 0 24px 64px rgba(9,5,14,.18);
+  }
+  .market-equation > .revenue-result.is-scroll-visible:hover {
+    border-color: #fff;
+    box-shadow: 0 22px 70px rgba(201,255,77,.18);
+  }
+  .savings-result.is-scroll-visible:hover { transform: translate3d(0, -5px, 0) scale(1.008); box-shadow: 0 30px 90px rgba(201,255,77,.12); }
+  .compact-team > div.is-scroll-visible:hover img { transform: scale(1.055); filter: saturate(1); }
+  .capability-row i.is-scroll-visible:hover { transform: translate3d(0, -3px, 0) scale(1.035); background: rgba(100,39,255,.18); }
+  .round-footer a { transition: transform .25s ease, background .25s ease, color .25s ease; }
+  .round-footer a:hover { transform: translateY(-3px); background: #fff; color: #551cff; }
+}
+
+@media (max-width: 680px) {
+  [data-scroll-reveal="left"],
+  [data-scroll-reveal="right"] { --reveal-x: 0px; --reveal-y: 44px; --reveal-scale: .97; }
+  [data-scroll-reveal] { transition-delay: calc(var(--reveal-order, 0) * 65ms); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal],
+  [data-scroll-reveal].is-scroll-visible {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+}
