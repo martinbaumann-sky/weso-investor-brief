@@ -531,7 +531,7 @@ main { overflow: clip; }
 /* One-view KPI control room: the viewport stays fixed while evidence enters in sequence. */
 .performance-chapter {
   position: relative;
-  height: 190svh;
+  height: 200svh;
   background: #0b0b0e;
   color: #fff;
 }
@@ -539,7 +539,7 @@ main { overflow: clip; }
   position: sticky;
   top: 0;
   height: 100svh;
-  padding: clamp(92px, 11vh, 118px) clamp(24px, 5vw, 72px) clamp(20px, 3vh, 34px);
+  padding: clamp(78px, 9vh, 98px) clamp(24px, 5vw, 72px) clamp(54px, 7vh, 76px);
   overflow: hidden;
   background:
     radial-gradient(circle at 8% 105%, rgba(242,11,143,.16), transparent 31%),
@@ -592,9 +592,9 @@ main { overflow: clip; }
   position: relative;
   z-index: 1;
   width: min(100%, 1540px);
-  height: calc(100svh - clamp(255px, 31vh, 310px));
-  min-height: 430px;
-  margin: clamp(18px, 2.8vh, 30px) auto 0;
+  height: calc(100svh - clamp(315px, 36vh, 360px));
+  min-height: 380px;
+  margin: clamp(14px, 2vh, 22px) auto 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
