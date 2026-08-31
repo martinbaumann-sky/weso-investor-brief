@@ -39,15 +39,18 @@ test("keeps KPI content bilingual and the lower chapters interactive", async () 
 
   assert.match(content, /Operational performance, in numbers\./);
   assert.match(content, /Desempeño operativo, en números\./);
-  assert.match(content, /\["95%", "Autonomous coordination"/);
-  assert.match(content, /\["95%", "Coordinación autónoma"/);
-  assert.match(page, /id="kpis"/);
-  assert.match(page, /className="kpi-grid"/);
+  assert.match(content, /title: "Autonomous coordination", value: "95%"/);
+  assert.match(content, /title: "Coordinación autónoma", value: "95%"/);
+  assert.match(page, /id="performance"/);
+  assert.match(page, /className="performance-grid"/);
+  assert.match(page, /setPerformanceProgress/);
+  assert.match(css, /\.performance-sticky/);
+  assert.match(css, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
   assert.match(page, /data-scroll-reveal/);
   assert.match(page, /is-scroll-visible/);
   assert.match(css, /\[data-scroll-reveal\]\.is-scroll-visible/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(layout, /Weso — The AI Operations Layer/);
 
-  await assert.rejects(access(new URL("../app/_sites-preview", import.meta.url)));
+  await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });

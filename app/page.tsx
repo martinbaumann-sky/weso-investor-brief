@@ -9,6 +9,7 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const [solutionStep, setSolutionStep] = useState(0);
   const [solutionProgress, setSolutionProgress] = useState(0);
+  const [performanceProgress, setPerformanceProgress] = useState(0);
   const [savingsPercent, setSavingsPercent] = useState(0);
   const t = content[lang];
 
@@ -17,7 +18,8 @@ export default function Home() {
     const saved = window.localStorage.getItem("weso-lang");
     const initial: Lang = params.get("lang") === "es" || saved === "es" ? "es" : "en";
     document.documentElement.lang = initial;
-    setLang(initial);
+    const timer = window.setTimeout(() => setLang(initial), 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -38,20 +40,6 @@ export default function Home() {
     nodes.forEach((node) => observer.observe(node));
     return () => observer.disconnect();
   }, [lang]);
-
-  useEffect(() => {
-    const section = document.querySelector<HTMLElement>(".kpi-section");
-    if (!section) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      section.classList.add("is-in-view");
-      observer.disconnect();
-    }, { threshold: 0.12, rootMargin: "0px 0px -8%" });
-
-    observer.observe(section);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     const nodes = document.querySelectorAll<HTMLElement>("[data-scroll-reveal]");
@@ -151,6 +139,39 @@ export default function Home() {
       window.removeEventListener("scroll", updateSolutionStep);
       window.removeEventListener("resize", updateSolutionStep);
     };
+  }, [lang, t.solution.flow.length]);
+
+  useEffect(() => {
+    const section = document.querySelector<HTMLElement>("#performance");
+    if (!section) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animationFrame = 0;
+    const updatePerformance = () => {
+      animationFrame = 0;
+      if (reduceMotion.matches || window.matchMedia("(max-width: 860px)").matches) {
+        setPerformanceProgress(1);
+        return;
+      }
+
+      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const passed = Math.min(Math.max(-section.getBoundingClientRect().top, 0), travel);
+      setPerformanceProgress(passed / travel);
+    };
+    const requestUpdate = () => {
+      if (!animationFrame) animationFrame = requestAnimationFrame(updatePerformance);
+    };
+
+    updatePerformance();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    reduceMotion.addEventListener("change", requestUpdate);
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      reduceMotion.removeEventListener("change", requestUpdate);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
   }, [lang]);
 
   useEffect(() => {
@@ -204,7 +225,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand-lockup" href="#top" aria-label="Weso home"><Image src="/assets/p1-2.png" alt="Weso" width={400} height={400} priority unoptimized /></a>
         <nav aria-label="Primary navigation">
-          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#kpis">{t.nav.kpis}</a><a href="#market">{t.nav.market}</a><a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
+          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#performance">{t.nav.kpis}</a><a href="#market">{t.nav.market}</a><a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
           <button className="language-switch" type="button" onClick={switchLanguage} aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}><span className={lang === "en" ? "active" : ""}>EN</span><span className={lang === "es" ? "active" : ""}>ES</span></button>
           <a className="contact-button" href={`mailto:${t.round.emailAddress}`}>{t.nav.contact}<span>↗</span></a>
         </nav>
@@ -254,22 +275,36 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="kpi-section" id="kpis">
-        <div className="kpi-inner">
-          <div className="kpi-heading" data-reveal>
-            <p className="eyebrow">{t.kpis.label}</p>
-            <h2>{t.kpis.title}</h2>
-            <p>{t.kpis.intro}</p>
+      <section className="performance-chapter" id="performance">
+        <div className="performance-sticky">
+          <div className="performance-heading">
+            <div>
+              <p className="eyebrow">{t.performance.label}</p>
+              <h2>{t.performance.title}</h2>
+            </div>
+            <p>{t.performance.lead}</p>
           </div>
-          <div className="kpi-grid" role="list" aria-label={t.kpis.title}>
-            {t.kpis.metrics.map(([value, label, note], index) => (
-              <article className={`kpi-card kpi-card-${index + 1}`} role="listitem" style={{ "--kpi-index": index } as CSSProperties} key={label}>
-                <p>{label}</p>
-                <strong>{value}</strong>
-                {index === 6 && <span className="csat-stars" aria-label="5 stars">★★★★★</span>}
-                <small>{note}</small>
-              </article>
-            ))}
+          <div className="performance-grid" role="list" aria-label={t.performance.title}>
+            {t.performance.metrics.map((metric, index) => {
+              const reveal = Math.min(Math.max((performanceProgress - index * 0.065) / 0.42, 0), 1);
+              const eased = 1 - Math.pow(1 - reveal, 3);
+              const metricStyle = {
+                "--metric-opacity": 0.08 + eased * 0.92,
+                "--metric-shift": `${(1 - eased) * 52}px`,
+                "--metric-scale": 0.94 + eased * 0.06,
+              } as CSSProperties;
+              return (
+                <article className={`performance-card performance-card-${index + 1}`} style={metricStyle} role="listitem" key={metric.title}>
+                  <div className="performance-card-top"><span>{String(index + 1).padStart(2, "0")}</span><i aria-hidden="true" /></div>
+                  <div>
+                    <p>{metric.title}</p>
+                    <strong>{metric.value}</strong>
+                    {"stars" in metric && metric.stars && <span className="performance-stars" role="img" aria-label="5 stars">★★★★★</span>}
+                  </div>
+                  <small>{metric.body}</small>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -305,7 +340,7 @@ export default function Home() {
       </section>
 
       <section className="scroll-chapter scale-chapter" id="scale">
-        <div className="chapter-background scale-background" aria-hidden="true"><span>05</span><strong>scale</strong></div>
+        <div className="chapter-background scale-background" aria-hidden="true"><span>06</span><strong>scale</strong></div>
         <div className="chapter-panels">
           <article className="chapter-panel scale-panel" data-reveal>
             <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
