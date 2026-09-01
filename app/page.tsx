@@ -313,11 +313,25 @@ export default function Home() {
         <div className="chapter-background market-abstract-background" aria-hidden="true" />
         <div className="chapter-panels">
           <article className="chapter-panel market-panel market-proof-panel" data-reveal>
-            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2></div>
-            <div className="market-proof">
-              <div className="market-base">{t.market.stats.slice(0, 2).map(([value, label, note], index) => <div data-scroll-reveal={index === 0 ? "left" : "right"} style={{ "--reveal-order": index } as CSSProperties} key={label}><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
-              <div className="tam-context" data-scroll-reveal="card" style={{ "--reveal-order": 2 } as CSSProperties}><strong>{t.market.stats[2][0]}</strong><div><h3>{t.market.stats[2][1]}</h3><p>{t.market.stats[2][2]}</p></div></div>
-              <div className="market-equation">{t.market.stats.slice(3).map(([value, label, note], index) => <div className={index === 3 ? "revenue-result" : ""} data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={label}><span>{index === 0 ? "×" : index === 1 ? "=" : "→"}</span><strong>{value}</strong><h3>{label}</h3><p>{note}</p></div>)}</div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.market.label}</p><h2>{t.market.title}</h2><p className="panel-lead">{t.market.lead}</p></div>
+            <div className="market-funnel" aria-label={t.market.title}>
+              <ol className="market-funnel-stages">
+                {t.market.funnel.map(([value, label, note], index) => (
+                  <li
+                    className={index === t.market.funnel.length - 1 ? "market-funnel-result" : ""}
+                    data-scroll-reveal="pop"
+                    style={{ "--funnel-width": `${100 - index * 14}%`, "--reveal-order": index } as CSSProperties}
+                    key={label}
+                  >
+                    <div className="market-funnel-value"><span>{String(index + 1).padStart(2, "0")}</span><strong>{value}</strong></div>
+                    <div><h3>{label}</h3><p>{note}</p></div>
+                  </li>
+                ))}
+              </ol>
+              <div className="market-funnel-footer" data-scroll-reveal="heading" style={{ "--reveal-order": 3 } as CSSProperties}>
+                <div><span>{t.market.fee[1]}</span><strong>{t.market.fee[0]}</strong></div>
+                <p>{t.market.basis}</p>
+              </div>
             </div>
           </article>
         </div>

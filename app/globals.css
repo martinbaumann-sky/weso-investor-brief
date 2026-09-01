@@ -1155,81 +1155,85 @@ main { overflow: clip; }
   .issue-scroll-card p { margin-top: 18px; font-size: .82rem; }
 }
 
-/* One connected market proof, ending in annual Weso revenue */
+/* Projection funnel: three investor-relevant steps from volume to Weso revenue. */
 .market-proof-panel {
   width: min(calc(100% - 64px), 1540px);
-  min-height: 108svh;
+  min-height: 104svh;
   grid-template-columns: .68fr 1.32fr;
 }
 .market-proof-panel::before { inset: 5vh -2vw; }
-.market-proof { min-width: 0; max-width: 100%; overflow: visible; }
-.market-base { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.market-base > div {
-  min-width: 0;
-  min-height: 205px;
-  padding: 24px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 22px;
-  background: rgba(10,10,11,.48);
-}
-.market-base strong, .tam-context > strong, .market-equation strong {
-  font-family: var(--font-weso-display), sans-serif;
-  font-size: clamp(3.6rem, 6vw, 6.5rem);
-  font-weight: 500;
-  line-height: .76;
-  letter-spacing: -.07em;
-}
-.market-base strong {
-  display: block;
-  max-width: 100%;
-  font-size: clamp(3.3rem, 4.6vw, 5rem);
-  white-space: nowrap;
-}
-.market-base h3, .tam-context h3, .market-equation h3 { margin: 22px 0 0; font-size: .88rem; line-height: 1.1; }
-.market-base p, .tam-context p, .market-equation p { margin: 8px 0 0; font-size: .62rem; line-height: 1.4; opacity: .6; }
-.tam-context {
-  margin-top: 10px;
-  padding: 18px 22px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 24px;
-  align-items: center;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 20px;
-  background: rgba(10,10,11,.48);
-}
-.tam-context > strong { font-size: clamp(2.8rem, 4.5vw, 4.8rem); }
-.tam-context h3 { margin-top: 0; }
-.market-equation { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
-.market-equation > div {
+.market-proof-panel .panel-lead { max-width: 29rem; color: rgba(255,255,255,.62); }
+.market-funnel { min-width: 0; max-width: 100%; }
+.market-funnel-stages { margin: 0; padding: 0; list-style: none; }
+.market-funnel-stages > li {
   position: relative;
-  min-width: 0;
-  min-height: 180px;
-  padding: 22px 16px 18px;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 20px;
-  background: rgba(10,10,11,.58);
+  width: var(--funnel-width);
+  min-height: 152px;
+  margin: 0 auto 14px;
+  padding: 22px 28px;
+  display: grid;
+  grid-template-columns: minmax(230px, .9fr) minmax(190px, 1fr);
+  gap: clamp(22px, 4vw, 52px);
+  align-items: center;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 24px;
+  background: rgba(10,10,11,.6);
+  box-shadow: 0 22px 65px rgba(0,0,0,.16);
 }
-.market-equation > div > span {
+.market-funnel-stages > li:nth-child(2) {
+  border-color: rgba(122,72,255,.48);
+  background: linear-gradient(125deg, rgba(100,39,255,.34), rgba(31,23,43,.76));
+}
+.market-funnel-stages > li:not(:last-child)::after {
+  content: "↓";
   position: absolute;
-  left: -10px;
-  top: 50%;
+  left: 50%;
+  bottom: -20px;
   z-index: 2;
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   display: grid;
   place-items: center;
+  border: 1px solid rgba(255,255,255,.22);
   border-radius: 50%;
-  background: #f20b8f;
-  color: #fff;
-  font-size: .68rem;
+  background: #17121d;
+  color: #f20b8f;
+  font-size: .76rem;
+  transform: translateX(-50%);
 }
-.market-equation strong { font-size: clamp(2.3rem, 3.8vw, 4.3rem); }
-.market-equation h3 { margin-top: 30px; }
-.market-equation .revenue-result { border-color: #c9ff4d; background: #c9ff4d; color: #171518; }
-.market-equation .revenue-result > span { background: #171518; }
-.market-equation .revenue-result p { opacity: .72; }
+.market-funnel-value { display: flex; align-items: baseline; gap: 14px; }
+.market-funnel-value > span {
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: #f20b8f;
+}
+.market-funnel-value > strong {
+  font-family: var(--font-weso-display), sans-serif;
+  font-size: clamp(2.7rem, 4.25vw, 5rem);
+  font-weight: 500;
+  line-height: .82;
+  letter-spacing: -.065em;
+  white-space: nowrap;
+}
+.market-funnel-stages h3 { margin: 0; font-size: clamp(1rem, 1.35vw, 1.25rem); line-height: 1.1; }
+.market-funnel-stages p { margin: 8px 0 0; font-size: .7rem; line-height: 1.45; color: rgba(255,255,255,.6); }
+.market-funnel-stages .market-funnel-result { border-color: #c9ff4d; background: #c9ff4d; color: #171518; }
+.market-funnel-result .market-funnel-value > span { color: #6427ff; }
+.market-funnel-result p { color: rgba(23,21,24,.68); }
+.market-funnel-footer {
+  margin: 22px auto 0;
+  padding: 18px 2px 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid rgba(255,255,255,.2);
+}
+.market-funnel-footer > div { display: flex; align-items: baseline; gap: 14px; }
+.market-funnel-footer span { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+.market-funnel-footer strong { font-family: var(--font-weso-display), sans-serif; font-size: clamp(2.6rem, 4vw, 4.4rem); font-weight: 500; line-height: .8; letter-spacing: -.06em; }
+.market-funnel-footer p { max-width: 28rem; margin: 0; font-size: .65rem; line-height: 1.45; text-align: right; color: rgba(255,255,255,.48); }
 
 @media (max-width: 920px) {
   .market-proof-panel { width: calc(100% - 36px); grid-template-columns: 1fr; min-height: auto; padding-top: 105px; }
@@ -1237,11 +1241,9 @@ main { overflow: clip; }
 }
 
 @media (max-width: 650px) {
-  .market-base { grid-template-columns: 1fr 1fr; }
-  .market-base > div { min-height: 180px; padding: 18px; }
-  .tam-context { grid-template-columns: 1fr; gap: 8px; }
-  .market-equation { grid-template-columns: repeat(2, 1fr); }
-  .market-equation > div { min-height: 165px; }
+  .market-funnel-stages > li { width: 100%; grid-template-columns: 1fr; gap: 16px; min-height: 0; padding: 22px; }
+  .market-funnel-footer { align-items: flex-start; flex-direction: column; }
+  .market-funnel-footer p { text-align: left; }
 }
 
 /* The source logo is square with internal padding; cover crops that padding. */
@@ -1339,18 +1341,14 @@ main { overflow: clip; }
   .market-proof-panel { width: calc(100% - 36px); padding-top: 88px; gap: 30px; }
   .market-proof-panel::before { inset: 24px -10px; }
   .market-proof-panel .panel-copy h2 { font-size: clamp(3rem, 13vw, 3.7rem); }
-  .market-base { grid-template-columns: 1fr; gap: 8px; }
-  .market-base > div { min-height: 0; padding: 22px; }
-  .market-base strong { font-size: clamp(3.5rem, 17vw, 4.3rem); }
-  .market-base h3, .tam-context h3, .market-equation h3 { margin-top: 16px; font-size: 1rem; }
-  .market-base p, .tam-context p, .market-equation p { font-size: .76rem; line-height: 1.45; }
-  .tam-context { padding: 22px; grid-template-columns: 1fr; gap: 8px; }
-  .tam-context > strong { font-size: clamp(3.2rem, 15vw, 4rem); }
-  .tam-context h3 { margin-top: 4px; }
-  .market-equation { grid-template-columns: 1fr; gap: 10px; }
-  .market-equation > div { min-height: 0; padding: 22px; }
-  .market-equation > div > span { top: 24px; }
-  .market-equation strong { font-size: clamp(3rem, 14vw, 3.8rem); }
+  .market-proof-panel .panel-lead { font-size: .95rem; }
+  .market-funnel-stages > li { margin-bottom: 12px; border-radius: 20px; }
+  .market-funnel-value > strong { font-size: clamp(2.8rem, 14vw, 4rem); }
+  .market-funnel-stages h3 { font-size: 1.05rem; }
+  .market-funnel-stages p { font-size: .78rem; }
+  .market-funnel-footer > div { width: 100%; justify-content: space-between; }
+  .market-funnel-footer strong { font-size: clamp(2.8rem, 14vw, 4rem); }
+  .market-funnel-footer p { font-size: .72rem; }
 
   .economics-panel { padding-top: 88px; }
   .economics-compare > div { min-height: 240px; padding: 24px; }
@@ -1385,9 +1383,7 @@ main { overflow: clip; }
 
   .issue-scroll-card,
   .solution-sticky .pillars-grid > div,
-  .market-base > div,
-  .tam-context,
-  .market-equation > div { backdrop-filter: none; }
+  .market-funnel-stages > li { backdrop-filter: none; }
 }
 
 @media (max-width: 340px) {
@@ -1424,9 +1420,7 @@ main { overflow: clip; }
   transform: translate3d(0, 0, 0) scale(1);
 }
 
-.market-base > div,
-.tam-context,
-.market-equation > div,
+.market-funnel-stages > li,
 .economics-compare > div,
 .savings-result,
 .stack-compare > div:not(.capability-row),
@@ -1435,9 +1429,7 @@ main { overflow: clip; }
 .uses-compact > div { cursor: default; }
 
 @media (hover: hover) and (pointer: fine) {
-  .market-base > div.is-scroll-visible:hover,
-  .tam-context.is-scroll-visible:hover,
-  .market-equation > div.is-scroll-visible:hover,
+  .market-funnel-stages > li.is-scroll-visible:hover,
   .economics-compare > div.is-scroll-visible:hover,
   .stack-compare > div:not(.capability-row).is-scroll-visible:hover,
   .compact-team > div.is-scroll-visible:hover,
@@ -1447,7 +1439,7 @@ main { overflow: clip; }
     border-color: rgba(242,11,143,.58);
     box-shadow: 0 24px 64px rgba(9,5,14,.18);
   }
-  .market-equation > .revenue-result.is-scroll-visible:hover {
+  .market-funnel-stages > .market-funnel-result.is-scroll-visible:hover {
     border-color: #fff;
     box-shadow: 0 22px 70px rgba(201,255,77,.18);
   }

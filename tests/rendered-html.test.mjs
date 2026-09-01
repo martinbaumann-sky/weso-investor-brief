@@ -41,6 +41,10 @@ test("keeps KPI content bilingual and the lower chapters interactive", async () 
   assert.match(content, /Desempeño operativo, en números\./);
   assert.match(content, /title: "Autonomous coordination", value: "95%"/);
   assert.match(content, /title: "Coordinación autónoma", value: "95%"/);
+  assert.match(content, /From operating volume to Weso revenue\./);
+  assert.match(content, /Del volumen operativo a los ingresos de Weso\./);
+  assert.match(content, /\["USD 217\.1M", "Weso revenue"/);
+  assert.match(content, /\["USD 217,1M", "Ingresos de Weso"/);
   assert.match(page, /id="performance"/);
   assert.match(page, /className="performance-grid"/);
   assert.match(page, /setPerformanceProgress/);
@@ -48,6 +52,7 @@ test("keeps KPI content bilingual and the lower chapters interactive", async () 
   assert.match(css, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
   assert.match(page, /data-scroll-reveal/);
   assert.match(page, /is-scroll-visible/);
+  assert.match(page, /className="market-funnel-stages"/);
   assert.match(css, /\[data-scroll-reveal\]\.is-scroll-visible/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
   assert.match(layout, /Weso — The AI Operations Layer/);
