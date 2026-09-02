@@ -1172,8 +1172,10 @@ main { overflow: clip; }
   margin: 0 auto 14px;
   padding: 22px 28px;
   display: grid;
-  grid-template-columns: minmax(230px, .9fr) minmax(190px, 1fr);
-  gap: clamp(22px, 4vw, 52px);
+  /* Keep the headline value in its own lane. The narrower funnel cards
+     otherwise let long currency values overflow into the description. */
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: clamp(18px, 2.5vw, 32px);
   align-items: center;
   border: 1px solid rgba(255,255,255,.16);
   border-radius: 24px;
@@ -1202,6 +1204,8 @@ main { overflow: clip; }
   transform: translateX(-50%);
 }
 .market-funnel-value { display: flex; align-items: baseline; gap: 14px; }
+.market-funnel-value,
+.market-funnel-stages > li > div:last-child { min-width: 0; }
 .market-funnel-value > span {
   font-size: .62rem;
   font-weight: 700;
@@ -1217,7 +1221,7 @@ main { overflow: clip; }
   white-space: nowrap;
 }
 .market-funnel-stages h3 { margin: 0; font-size: clamp(1rem, 1.35vw, 1.25rem); line-height: 1.1; }
-.market-funnel-stages p { margin: 8px 0 0; font-size: .7rem; line-height: 1.45; color: rgba(255,255,255,.6); }
+.market-funnel-stages p { margin: 8px 0 0; font-size: .7rem; line-height: 1.45; color: rgba(255,255,255,.6); overflow-wrap: anywhere; }
 .market-funnel-stages .market-funnel-result { border-color: #c9ff4d; background: #c9ff4d; color: #171518; }
 .market-funnel-result .market-funnel-value > span { color: #6427ff; }
 .market-funnel-result p { color: rgba(23,21,24,.68); }
