@@ -4,7 +4,11 @@ import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
 
-export default function Home() {
+type InvestorBriefProps = {
+  compact?: boolean;
+};
+
+export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
   const [solutionStep, setSolutionStep] = useState(0);
@@ -225,7 +229,7 @@ export default function Home() {
       <header className="site-header">
         <a className="brand-lockup" href="#top" aria-label="Weso home"><Image src="/assets/p1-2.png" alt="Weso" width={400} height={400} priority unoptimized /></a>
         <nav aria-label="Primary navigation">
-          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#performance">{t.nav.kpis}</a><a href="#market">{t.nav.market}</a><a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
+          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#performance">{t.nav.kpis}</a>{!compact && <a href="#market">{t.nav.market}</a>}<a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
           <button className="language-switch" type="button" onClick={switchLanguage} aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}><span className={lang === "en" ? "active" : ""}>EN</span><span className={lang === "es" ? "active" : ""}>ES</span></button>
           <a className="contact-button" href={`mailto:${t.round.emailAddress}`}>{t.nav.contact}<span>↗</span></a>
         </nav>
@@ -309,7 +313,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="scroll-chapter market-chapter" id="market">
+      {!compact && <section className="scroll-chapter market-chapter" id="market">
         <div className="chapter-background market-abstract-background" aria-hidden="true" />
         <div className="chapter-panels">
           <article className="chapter-panel market-panel market-proof-panel" data-reveal>
@@ -335,13 +339,13 @@ export default function Home() {
             </div>
           </article>
         </div>
-      </section>
+      </section>}
 
       <section className="scroll-chapter economics-chapter" id="economics">
         <div className="chapter-background economics-background" aria-hidden="true"><span>{t.market.bridge}</span><strong>→</strong><span>{t.market.bridgeTo}</span></div>
         <div className="chapter-panels">
           <article className="chapter-panel economics-panel" data-reveal>
-            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{compact ? t.economics.label.replace("05", "04") : t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
             <div className="economics-compare"><div data-scroll-reveal="left"><span>FROM</span><h3>{t.economics.from}</h3></div><b data-scroll-reveal="pop" style={{ "--reveal-order": 1 } as CSSProperties}>→</b><div className="economics-to" data-scroll-reveal="right" style={{ "--reveal-order": 2 } as CSSProperties}><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
@@ -354,10 +358,10 @@ export default function Home() {
       </section>
 
       <section className="scroll-chapter scale-chapter" id="scale">
-        <div className="chapter-background scale-background" aria-hidden="true"><span>06</span><strong>scale</strong></div>
+        <div className="chapter-background scale-background" aria-hidden="true"><span>{compact ? "05" : "06"}</span><strong>scale</strong></div>
         <div className="chapter-panels">
           <article className="chapter-panel scale-panel" data-reveal>
-            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{compact ? t.scale.label.replace("06", "05") : t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
             <div className="stack-compare"><div data-scroll-reveal="left"><span>{t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p></div><div className="weso-stack" data-scroll-reveal="right" style={{ "--reveal-order": 1 } as CSSProperties}><span>{t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></div><div className="capability-row">{t.scale.capabilities.map((item, index) => <i data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={item}>{item}</i>)}</div></div>
           </article>
           <article className="chapter-panel team-panel" id="team" data-reveal>
@@ -367,14 +371,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="compact-round" id="round">
+      {!compact && <section className="compact-round" id="round">
         <div className="round-inner" data-reveal>
           <div className="round-heading" data-scroll-reveal="heading"><p className="eyebrow">{t.round.label}</p><h2>{t.round.title}</h2></div>
           <div className="round-data"><p className="pipeline-label" data-scroll-reveal="heading">{t.round.months}</p><div className="pipeline-compact">{t.round.pipeline.map(([value, label], index) => <div data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={label}><strong>{value}</strong><span>{label}</span></div>)}</div></div>
           <div className="uses-compact">{t.round.uses.map(([title, body], index) => <div data-scroll-reveal="card" style={{ "--reveal-order": index } as CSSProperties} key={title}><h3>{title}</h3><p>{body}</p></div>)}</div>
           <footer className="round-footer" data-scroll-reveal="heading"><h3>{t.round.closing}</h3><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div></footer>
         </div>
-      </section>
+      </section>}
     </main>
   );
+}
+
+export default function Home() {
+  return <InvestorBrief compact />;
 }

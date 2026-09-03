@@ -2,13 +2,13 @@ import assert from "node:assert/strict";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
     { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
     { waitUntil() {}, passThroughOnException() {} },
   );
@@ -27,6 +27,23 @@ test("server-renders the Weso investor brief and KPI proof", async () => {
   assert.match(html, /Human handoff/);
   assert.match(html, /★★★★★/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape/);
+});
+
+test("serves the compact homepage and the complete pitch at /pitch", async () => {
+  const [homeResponse, pitchResponse] = await Promise.all([render(), render("/pitch")]);
+  assert.equal(homeResponse.status, 200);
+  assert.equal(pitchResponse.status, 200);
+
+  const [home, pitch] = await Promise.all([homeResponse.text(), pitchResponse.text()]);
+  assert.doesNotMatch(home, /Projected opportunity/);
+  assert.doesNotMatch(home, /07 · The opportunity/);
+  assert.match(home, /04 · Changing the economics/);
+  assert.match(home, /05 · Compounding advantage/);
+
+  assert.match(pitch, /04 · Projected opportunity/);
+  assert.match(pitch, /07 · The opportunity/);
+  assert.match(pitch, /05 · Changing the economics/);
+  assert.match(pitch, /06 · Compounding advantage/);
 });
 
 test("keeps KPI content bilingual and the lower chapters interactive", async () => {
