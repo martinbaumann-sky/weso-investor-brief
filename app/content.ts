@@ -25,6 +25,9 @@ export const content = {
         ["Loss of customer control", "Insurance companies outsource their customer experience to external third parties."],
         ["Outdated infrastructure", "The current model still relies on manual processes and structures designed before the AI era."],
       ],
+      calloutLabel: "The risk of customer attention",
+      calloutTitle: "The insurer designs the product. The experience is defined in execution.",
+      calloutBody: "Traditional assistance protects margin instead of optimizing the insured experience. It wins when it spends less, not when it serves better.",
     },
     solution: {
       label: "02 · The solution",
@@ -35,6 +38,20 @@ export const content = {
         ["AI-native, real-time operations", "We automate service orchestration end-to-end with AI, reducing operational friction, response times, and fixed costs."],
         ["Usage-based economics", "Unlike legacy per-capita models, Weso operates with a flexible pay-per-use structure enabled by automation and intelligent coordination."],
       ],
+    },
+    core: {
+      label: "03 · AI-first by design",
+      title: "Technology + AI is our core.",
+      lead: "Efficiency comes from technology and automation, not from restricting services.",
+      channels: [
+        ["Data AI", "Turns every service into operational intelligence."],
+        ["Voice AI", "Answers and coordinates in real time."],
+        ["Chat AI", "Guides each request from intake to resolution."],
+        ["WhatsApp AI", "Meets policyholders in the channel they already use."],
+        ["App", "Keeps the service visible, simple, and in control."],
+      ],
+      human: "+ Human power",
+      humanBody: "AI brings speed, consistency, and scale without sacrificing experience or control.",
     },
     performance: {
       label: "03 · NPS & KPIs",
@@ -148,6 +165,9 @@ export const content = {
         ["Pérdida del control del cliente", "Las aseguradoras tercerizan su experiencia de cliente a actores externos."],
         ["Infraestructura obsoleta", "El modelo actual aún depende de procesos manuales y estructuras anteriores a la era de la IA."],
       ],
+      calloutLabel: "El riesgo de la atención al cliente",
+      calloutTitle: "La aseguradora diseña el producto. La experiencia se define en la ejecución.",
+      calloutBody: "La asistencia tradicional protege el margen en vez de optimizar la experiencia del asegurado. Gana cuando gasta menos, no cuando atiende mejor.",
     },
     solution: {
       label: "02 · La solución",
@@ -158,6 +178,20 @@ export const content = {
         ["Operaciones nativas en IA y tiempo real", "Automatizamos la orquestación del servicio de punta a punta, reduciendo fricción operativa, tiempos de respuesta y costos fijos."],
         ["Economía basada en uso", "A diferencia de los modelos legacy por cápita, Weso opera con una estructura flexible de pago por uso habilitada por automatización y coordinación inteligente."],
       ],
+    },
+    core: {
+      label: "03 · AI-first by design",
+      title: "La tecnología + IA es nuestro core.",
+      lead: "La eficiencia proviene de la tecnología y la automatización, no de restringir servicios.",
+      channels: [
+        ["Data AI", "Convierte cada servicio en inteligencia operativa."],
+        ["Voice AI", "Responde y coordina en tiempo real."],
+        ["Chat AI", "Guía cada solicitud desde el ingreso hasta la resolución."],
+        ["WhatsApp AI", "Acompaña al asegurado en el canal que ya utiliza."],
+        ["App", "Mantiene el servicio visible, simple y bajo control."],
+      ],
+      human: "+ Poder humano",
+      humanBody: "La IA aporta velocidad, consistencia y escala sin sacrificar experiencia ni control.",
     },
     performance: {
       label: "03 · NPS & KPIs",

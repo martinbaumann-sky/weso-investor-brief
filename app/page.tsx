@@ -229,7 +229,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
       <header className="site-header">
         <a className="brand-lockup" href="#top" aria-label="Weso home"><Image src="/assets/p1-2.png" alt="Weso" width={400} height={400} priority unoptimized /></a>
         <nav aria-label="Primary navigation">
-          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#performance">{t.nav.kpis}</a>{!compact && <a href="#market">{t.nav.market}</a>}<a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
+          <div className="desktop-nav"><a href="#problem">{t.nav.thesis}</a><a href="#performance">{t.nav.kpis}</a>{compact && <a href="#core">{t.core.label.split(" · ")[1]}</a>}{!compact && <a href="#market">{t.nav.market}</a>}<a href="#economics">{t.nav.model}</a><a href="#team">{t.nav.team}</a></div>
           <button className="language-switch" type="button" onClick={switchLanguage} aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}><span className={lang === "en" ? "active" : ""}>EN</span><span className={lang === "es" ? "active" : ""}>ES</span></button>
           <a className="contact-button" href={`mailto:${t.round.emailAddress}`}>{t.nav.contact}<span>↗</span></a>
         </nav>
@@ -245,7 +245,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         <div className="chapter-panels">
           <article className="chapter-panel problem-sequence-panel">
             <div className="panel-copy problem-copy" data-reveal><p className="eyebrow">{t.problem.label}</p><h2>{t.problem.title}</h2><p className="panel-lead">{t.problem.lead}</p></div>
-            <div className="issue-scroll-list">{t.problem.cards.map(([title, body], index) => <article className="issue-scroll-card" data-reveal key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}</div>
+            <div className="issue-scroll-list">{t.problem.cards.map(([title, body], index) => <article className="issue-scroll-card" data-reveal key={title}><span>{String(index + 1).padStart(2, "0")}</span><h3>{title}</h3><p>{body}</p></article>)}{compact && <aside className="execution-callout" data-reveal><p className="eyebrow">{t.problem.calloutLabel}</p><h3>{t.problem.calloutTitle}</h3><p>{t.problem.calloutBody}</p></aside>}</div>
           </article>
           <article className="chapter-panel solution-panel solution-graphic-panel" id="solution">
             <div className="solution-sticky">
@@ -279,11 +279,22 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>
 
+      {compact && <section className="core-chapter" id="core">
+        <div className="core-inner">
+          <div className="core-copy" data-reveal><p className="eyebrow">{t.core.label}</p><h2>{t.core.title}</h2><p>{t.core.lead}</p></div>
+          <div className="core-board" data-reveal>
+            <div className="core-board-header"><span>{t.core.label.split(" · ")[1]}</span><strong>WESO / OPERATING SYSTEM</strong></div>
+            <div className="core-channels" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article key={label} role="listitem"><span>{String(index + 1).padStart(2, "0")}</span><h3>{label}</h3><p>{body}</p></article>)}</div>
+            <div className="core-human"><strong>{t.core.human}</strong><p>{t.core.humanBody}</p></div>
+          </div>
+        </div>
+      </section>}
+
       <section className="performance-chapter" id="performance">
         <div className="performance-sticky">
           <div className="performance-heading">
             <div>
-              <p className="eyebrow">{t.performance.label}</p>
+              <p className="eyebrow">{compact ? t.performance.label.replace("03", "04") : t.performance.label}</p>
               <h2>{t.performance.title}</h2>
             </div>
             <p>{t.performance.lead}</p>
