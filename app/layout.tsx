@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ variable: "--font-weso-body", subsets: ["latin"] });
 const outfit = Outfit({ variable: "--font-weso-display", subsets: ["latin"] });
 
-const image = "https://weso.click/og.png?v=20260903";
+const image = "https://weso.click/og.png?v=20260903b";
 const title = "Weso — The AI Operations Layer for Insurance Services";
 const description = "AI-native, real-time insurance service infrastructure with usage-based economics.";
 
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title,
   description,
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
-  openGraph: { title, description, type: "website", images: [{ url: image, width: 1731, height: 909, alt: title }] },
+  openGraph: { title, description, type: "website", images: [{ url: image, width: 1734, height: 907, alt: title }] },
   twitter: { card: "summary_large_image", title, description, images: [image] },
 };
 
