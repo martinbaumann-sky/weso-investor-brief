@@ -50,8 +50,13 @@ export const content = {
         ["WhatsApp AI", "Meets policyholders in the channel they already use."],
         ["App", "Keeps the service visible, simple, and in control."],
       ],
-      human: "+ Human power",
-      humanBody: "AI brings speed, consistency, and scale without sacrificing experience or control.",
+      human: "AI + human power",
+      humanLead: "AI handles the repeatable. People handle the meaningful.",
+      humanBody: "Automation brings speed and consistency; human teams step in for empathy, exceptions, and decisions.",
+      humanSplit: [
+        ["AI handles", "Speed · consistency · scale"],
+        ["People handle", "Judgment · empathy · control"],
+      ],
     },
     performance: {
       label: "03 · NPS & KPIs",
@@ -190,8 +195,13 @@ export const content = {
         ["WhatsApp AI", "Acompaña al asegurado en el canal que ya utiliza."],
         ["App", "Mantiene el servicio visible, simple y bajo control."],
       ],
-      human: "+ Poder humano",
-      humanBody: "La IA aporta velocidad, consistencia y escala sin sacrificar experiencia ni control.",
+      human: "IA + poder humano",
+      humanLead: "La IA resuelve lo repetible. Las personas resuelven lo importante.",
+      humanBody: "La automatización aporta velocidad y consistencia; los equipos humanos intervienen en empatía, excepciones y decisiones.",
+      humanSplit: [
+        ["La IA resuelve", "Velocidad · consistencia · escala"],
+        ["Las personas resuelven", "Criterio · empatía · control"],
+      ],
     },
     performance: {
       label: "03 · NPS & KPIs",

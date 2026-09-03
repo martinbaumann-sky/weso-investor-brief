@@ -8,6 +8,28 @@ type InvestorBriefProps = {
   compact?: boolean;
 };
 
+function CoreChannelGraphic({ index }: { index: number }) {
+  const svgProps = { viewBox: "0 0 72 72", role: "presentation", focusable: false } as const;
+
+  if (index === 0) {
+    return <svg {...svgProps}><path d="M12 36h48M36 12v48" /><circle cx="36" cy="36" r="18" /><circle cx="36" cy="36" r="5" fill="currentColor" stroke="none" /><circle cx="19" cy="19" r="3" fill="currentColor" stroke="none" /><circle cx="53" cy="19" r="3" fill="currentColor" stroke="none" /><circle cx="19" cy="53" r="3" fill="currentColor" stroke="none" /><circle cx="53" cy="53" r="3" fill="currentColor" stroke="none" /></svg>;
+  }
+
+  if (index === 1) {
+    return <svg {...svgProps}><path d="M9 39c5 0 5-15 10-15s5 25 10 25 5-38 10-38 5 39 10 39 5-24 10-24 5 13 10 13" /><path d="M9 56h54" opacity=".3" /></svg>;
+  }
+
+  if (index === 2) {
+    return <svg {...svgProps}><path d="M10 18h38a9 9 0 0 1 9 9v14a9 9 0 0 1-9 9H29l-11 9 2-9h-10a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9Z" /><path d="M23 32h20M23 40h13" /></svg>;
+  }
+
+  if (index === 3) {
+    return <svg {...svgProps}><circle cx="36" cy="34" r="24" /><path d="M23 25c2-3 4-3 6-1l4 5c1 2 0 4-2 5l-2 1c3 5 6 8 11 10l1-2c1-2 3-3 5-2l5 3c2 1 2 4 0 6-3 4-8 5-13 3-9-3-18-12-21-21-2-4-1-8 1-10Z" fill="currentColor" stroke="none" /></svg>;
+  }
+
+  return <svg {...svgProps}><rect x="20" y="8" width="32" height="56" rx="7" /><path d="M28 18h16M28 27h16M28 36h10" /><circle cx="36" cy="54" r="3" fill="currentColor" stroke="none" /></svg>;
+}
+
 export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   const [lang, setLang] = useState<Lang>("en");
   const [progress, setProgress] = useState(0);
@@ -282,10 +304,19 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
       {compact && <section className="core-chapter" id="core">
         <div className="core-inner">
           <div className="core-copy" data-reveal><p className="eyebrow">{t.core.label}</p><h2>{t.core.title}</h2><p>{t.core.lead}</p></div>
-          <div className="core-board" data-reveal>
-            <div className="core-board-header"><span>{t.core.label.split(" · ")[1]}</span><strong>WESO / OPERATING SYSTEM</strong></div>
-            <div className="core-channels" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article key={label} role="listitem"><span>{String(index + 1).padStart(2, "0")}</span><h3>{label}</h3><p>{body}</p></article>)}</div>
-            <div className="core-human"><strong>{t.core.human}</strong><p>{t.core.humanBody}</p></div>
+          <div className="core-board">
+            <div className="core-board-header" data-scroll-reveal="heading" style={{ "--reveal-order": 0 } as CSSProperties}><span>{t.core.label.split(" · ")[1]}</span><strong>WESO / OPERATING SYSTEM</strong></div>
+            <div className="core-channel-list" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article className={`core-channel-card core-channel-card-${index + 1}`} data-scroll-reveal="core-card" style={{ "--reveal-order": index + 1 } as CSSProperties} key={label} role="listitem">
+              <div className="core-channel-index">{String(index + 1).padStart(2, "0")}</div>
+              <div className="core-channel-visual"><CoreChannelGraphic index={index} /></div>
+              <div className="core-channel-copy"><h3>{label}</h3><p>{body}</p></div>
+              <div className="core-channel-signal" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+            </article>)}</div>
+            <div className="core-human" data-scroll-reveal="human" style={{ "--reveal-order": 6 } as CSSProperties}>
+              <div className="core-human-heading"><span className="core-human-kicker">06 · HUMAN OVERSIGHT</span><strong>{t.core.human}</strong><p>{t.core.humanLead}</p></div>
+              <div className="core-human-bridge" role="list">{t.core.humanSplit.map(([label, body]) => <div key={label} role="listitem"><span>{label}</span><strong>{body}</strong></div>)}</div>
+              <p className="core-human-body">{t.core.humanBody}</p>
+            </div>
           </div>
         </div>
       </section>}
