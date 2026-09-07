@@ -540,7 +540,7 @@ main { overflow: clip; }
   color: var(--ink);
 }
 .core-chapter::before {
-  content: "";
+  content: none;
   position: absolute;
   width: min(72vw, 900px);
   aspect-ratio: 1;
@@ -566,8 +566,8 @@ main { overflow: clip; }
 }
 .core-copy {
   position: static;
-  align-self: start;
-  padding-top: clamp(30px, 7vh, 76px);
+  align-self: center;
+  padding-top: 0;
 }
 .core-copy h2 {
   max-width: 8ch;
@@ -1668,4 +1668,260 @@ main { overflow: clip; }
     transform: none;
     transition: none;
   }
+}
+
+/* Economics chapter: reveal the comparison cards in sequence as the chapter enters. */
+.economics-chapter .economics-panel:first-child {
+  min-height: 220svh;
+  align-items: start;
+  padding-top: 28vh;
+}
+.economics-chapter .economics-panel:first-child .panel-copy {
+  position: sticky;
+  top: 27vh;
+  align-self: start;
+}
+.economics-chapter .economics-panel:first-child .economics-compare {
+  position: sticky;
+  top: 31vh;
+  align-self: start;
+  margin-top: 48vh;
+}
+.economics-compare > div,
+.economics-compare > b {
+  --economics-card-progress: clamp(0, calc((var(--economics-progress) - var(--economics-reveal-delay)) * 4), 1);
+  opacity: var(--economics-card-progress);
+  transform: translate3d(0, calc((1 - var(--economics-card-progress)) * 42px), 0) scale(calc(.96 + (var(--economics-card-progress) * .04)));
+  transition: opacity .65s ease, transform .8s cubic-bezier(.2,.72,.2,1), border-color .3s ease, background-color .3s ease;
+}
+
+/* Keep the economics story centered as the viewport changes. */
+.economics-chapter { overflow: clip; }
+.economics-chapter .chapter-panels { display: flex; flex-direction: column; align-items: center; }
+.economics-chapter .economics-panel { width: min(calc(100% - 48px), 1240px); }
+.economics-chapter .economics-panel:first-child {
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 5vw, 76px);
+  align-items: center;
+}
+.economics-chapter .economics-panel:first-child .panel-copy,
+.economics-chapter .economics-panel:first-child .economics-compare {
+  width: min(100%, 820px);
+  justify-self: center;
+}
+.economics-chapter .economics-panel:first-child .panel-copy { max-width: 460px; }
+
+@media (max-width: 820px) {
+  .economics-chapter .economics-panel { width: min(calc(100% - 36px), 620px); }
+  .economics-chapter .economics-panel:first-child {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 28px;
+    padding-top: 104px;
+  }
+  .economics-chapter .economics-panel:first-child .panel-copy,
+  .economics-chapter .economics-panel:first-child .economics-compare { width: 100%; max-width: none; }
+  .economics-chapter .economics-panel:first-child .panel-copy { text-align: center; }
+  .economics-chapter .economics-panel:first-child .panel-copy h2,
+  .economics-chapter .economics-panel:first-child .panel-copy > p { margin-left: auto; margin-right: auto; }
+  .economics-chapter .economics-panel:first-child .economics-compare { justify-self: stretch; }
+}
+
+@media (max-width: 820px) {
+  .economics-chapter .economics-panel:first-child {
+    min-height: 100svh;
+    align-items: center;
+    padding-top: 104px;
+  }
+  .economics-chapter .economics-panel:first-child .panel-copy {
+    position: static;
+  }
+  .economics-chapter .economics-panel:first-child .economics-compare {
+    position: static;
+    margin-top: 0;
+  }
+}
+
+/* Keep the economics composition centered on wide screens and comfortable on tablets. */
+@media (min-width: 821px) {
+  .economics-chapter .economics-panel:first-child {
+    width: min(calc(100% - 64px), 1420px);
+    grid-template-columns: minmax(340px, .8fr) minmax(0, 1.2fr);
+    gap: clamp(42px, 5vw, 78px);
+    justify-items: center;
+  }
+
+  .economics-chapter .economics-panel:first-child .panel-copy,
+  .economics-chapter .economics-panel:first-child .economics-compare {
+    justify-self: center;
+  }
+
+  .economics-chapter .economics-panel:first-child .economics-compare {
+    width: min(100%, 900px);
+  }
+}
+
+@media (min-width: 821px) and (max-width: 1080px) {
+  .economics-chapter .economics-panel:first-child {
+    width: min(calc(100% - 48px), 760px);
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .economics-chapter .economics-panel:first-child .panel-copy {
+    position: static;
+    max-width: 620px;
+    text-align: center;
+  }
+
+  .economics-chapter .economics-panel:first-child .panel-copy h2,
+  .economics-chapter .economics-panel:first-child .panel-copy > p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .economics-chapter .economics-panel:first-child .economics-compare {
+    position: static;
+    width: min(100%, 720px);
+    margin-top: 0;
+  }
+}
+
+/* Team carousel: keep the chapter editorial and let the people move one card at a time. */
+/* A single quiet surface for each capability, preserving the scroll transition. */
+.core-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+.core-copy h2 { max-width: 11ch; font-size: clamp(3rem, 5vw, 5.5rem); line-height: .98; }
+.core-board { align-self: center; min-height: 0; height: min(58svh, 540px); padding: 0; border: 0; background: transparent; border-radius: 0; }
+.core-channel-list { margin: 0; min-height: 0; }
+.core-channel-card { grid-template-columns: 1fr; gap: 28px; padding: clamp(28px, 4vw, 58px); border: 0; border-radius: 28px; background: #f5f5f7; }
+.core-channel-visual { width: 48px; height: 48px; border: 0; border-radius: 0; background: transparent; color: var(--ink); }
+.core-channel-visual svg { width: 48px; height: 48px; }
+.core-channel-copy h3 { font-size: clamp(2.6rem, 4vw, 4.4rem); letter-spacing: -.05em; }
+.core-channel-copy p { max-width: 26ch; font-size: clamp(1rem, 1.4vw, 1.25rem); line-height: 1.5; color: #6e6e73; }
+.core-channel-progress { justify-content: center; margin-top: 18px; }
+.core-channel-progress > div { flex: 0 0 auto; display: flex; gap: 7px; }
+.core-channel-progress i { width: 6px; height: 6px; background: #d2d2d7; }
+.core-channel-progress i.is-active { background: #171518; }
+@media (max-width: 820px) {
+  .core-inner { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); gap: 24px; }
+  .core-copy h2 { max-width: 15ch; font-size: clamp(2.2rem, 6vw, 3.4rem); }
+  .core-copy > p:last-child { font-size: 1rem; margin-top: 14px; }
+  .core-board { height: 100%; max-height: 440px; padding: 0; }
+  .core-channel-card { gap: 18px; padding: 28px; }
+  .core-channel-copy h3 { font-size: 2.5rem; }
+  .core-channel-copy p { margin-top: 12px; }
+}
+.human-care { background: #fff; color: var(--ink); padding: clamp(80px, 10vw, 140px) 24px; }
+.human-care-inner { max-width: 1180px; margin: auto; display: grid; grid-template-columns: 1.05fr 1fr; align-items: center; gap: clamp(32px, 5vw, 80px); }
+.human-care-copy h2 { font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(2.8rem, 4.5vw, 5rem); letter-spacing: -.055em; line-height: 1.04; margin: 20px 0 24px; }
+.human-care-copy h2 span { color: #77757a; }
+.human-care-lead { max-width: 34ch; color: #6e6e73; font-size: clamp(1.05rem, 1.5vw, 1.25rem); line-height: 1.55; }
+.human-care-roles { margin: 36px 0 0; }
+.human-care-roles > div { padding: 18px 0; border-top: 1px solid #e7e7ea; }
+.human-care-roles dt { font-size: 1rem; font-weight: 600; }
+.human-care-roles dd { margin: 6px 0 0; color: #6e6e73; font-size: 1rem; line-height: 1.5; }
+.human-care-portrait img { display: block; width: 100%; height: auto; }
+@media (max-width: 820px) { .human-care-inner { grid-template-columns: 1fr; gap: 32px; } .human-care-portrait { max-width: 460px; margin: auto; } .human-care-copy h2 { font-size: clamp(2.6rem, 7vw, 4rem); } }
+.contact-closing { background: #080808; color: #f5f5f7; padding: clamp(72px, 10vw, 150px) 24px 40px; }
+.contact-closing-inner { max-width: 1180px; margin: auto; }
+.closing-logo { width: 180px; height: 70px; overflow: hidden; margin-bottom: 48px; }
+.closing-logo img { max-width: none; margin: -85px 0 0 -30px; filter: invert(1) hue-rotate(180deg); }
+.contact-closing h2 { max-width: 16ch; margin: 0; font-family: var(--font-weso-display), sans-serif; font-size: clamp(3rem, 7vw, 7.5rem); font-weight: 500; line-height: 1.02; letter-spacing: -.055em; }
+.contact-closing h2 > span { color: #ee35a0; }
+.closing-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 42px; }
+.closing-actions a { display: inline-flex; align-items: center; justify-content: space-between; gap: 42px; min-height: 56px; padding: 16px 26px; border-radius: 999px; font-size: 1rem; text-decoration: none; transition: background .2s ease; }
+.closing-primary { background: #f5f5f7; color: #111; }
+.closing-primary:hover { background: #e6d6e0; }
+.closing-secondary { border: 1px solid #555; color: #f5f5f7; }
+.closing-secondary:hover { background: #252525; }
+.contact-closing a:focus-visible { outline: 2px solid #ee35a0; outline-offset: 5px; }
+.closing-details { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: 28px; margin-top: clamp(64px, 9vw, 120px); padding-top: 28px; border-top: 1px solid #303030; color: #a9a9ad; font-size: .9rem; line-height: 1.7; }
+.closing-details > div { display: flex; flex-direction: column; }
+.closing-details a { color: inherit; text-decoration: none; }
+.closing-details a:hover { color: white; }
+.closing-details address { font-style: normal; }
+@media (max-width: 560px) { .closing-actions a { width: 100%; } .closing-details { flex-direction: column; } }
+.app-demo { position: relative; height: 340svh; background: #fff; }
+.app-demo-sticky { position: sticky; top: 0; height: 100svh; box-sizing: border-box; padding: 86px 20px 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.app-demo-phone { position: relative; height: min(72svh, 760px); max-width: 86vw; aspect-ratio: 470 / 990; box-sizing: border-box; padding: 11px; border: 3px solid #81766c; border-radius: 15% / 7%; background: #080808; box-shadow: 0 0 0 2px #282321, 0 28px 65px #17151820; flex-shrink: 1; min-height: 0; }
+.app-demo-screen { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 13% / 6%; background: white; }
+.app-demo-screen-layer { position: absolute; inset: 0; overflow: hidden; }
+.app-demo-screen-layer img { position: absolute; max-width: none; user-select: none; }
+.app-demo-steps { display: flex; gap: 8px; }
+.app-demo-steps span { width: 20px; height: 3px; border-radius: 9px; background: #dedbe1; }
+.app-demo-steps .is-active { background: #f20b8f; }
+@media (max-height: 650px) { .app-demo-sticky { padding-top: 76px; gap: 8px; } .app-demo-phone { height: 67svh; } }
+
+.team-carousel {
+  width: 100%;
+  min-width: 0;
+}
+.team-carousel-viewport {
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 3px 3px 14px;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+.team-carousel-viewport::-webkit-scrollbar { display: none; }
+.team-carousel-viewport:focus-visible {
+  outline: 3px solid rgba(242,11,143,.55);
+  outline-offset: 4px;
+}
+.team-carousel-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+.team-carousel-pagination button {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(23,21,24,.22);
+  cursor: pointer;
+  transition: width .35s ease, background-color .35s ease, transform .35s ease;
+}
+.team-carousel-pagination button:hover,
+.team-carousel-pagination button:focus-visible {
+  background: #f20b8f;
+  transform: scale(1.35);
+}
+.team-carousel-pagination button:focus-visible {
+  outline: 2px solid #f20b8f;
+  outline-offset: 3px;
+}
+.team-carousel-pagination button.is-active {
+  width: 22px;
+  background: #f20b8f;
+}
+.team-carousel .compact-team {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  --team-card-width: calc((100% - 20px) / 3);
+}
+.team-carousel .compact-team > div {
+  flex: 0 0 var(--team-card-width);
+  scroll-snap-align: start;
+}
+.team-carousel .compact-team > div[data-team-card],
+.team-carousel .compact-team > div[data-team-card]:hover {
+  opacity: 1;
+  filter: none;
+  transform: none;
+}
+
+@media (max-width: 820px) {
+  .team-carousel .compact-team { --team-card-width: calc((100% - 10px) / 2); }
+}
+
+@media (max-width: 560px) {
+  .team-carousel .compact-team { --team-card-width: min(82vw, 300px); }
 }

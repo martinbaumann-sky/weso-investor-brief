@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
 
@@ -36,9 +36,93 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   const [solutionStep, setSolutionStep] = useState(0);
   const [solutionProgress, setSolutionProgress] = useState(0);
   const [coreStep, setCoreStep] = useState(0);
+  const [economicsRevealProgress, setEconomicsRevealProgress] = useState(0);
   const [performanceProgress, setPerformanceProgress] = useState(0);
   const [savingsPercent, setSavingsPercent] = useState(0);
+  const teamCarouselRef = useRef<HTMLDivElement>(null);
+  const [teamActiveIndex, setTeamActiveIndex] = useState(0);
+  const appDemoRef = useRef<HTMLElement>(null);
+  const [appDemoProgress, setAppDemoProgress] = useState(0);
   const t = content[lang];
+
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const section = appDemoRef.current;
+      if (!section) return;
+      const travel = section.offsetHeight - window.innerHeight;
+      setAppDemoProgress(Math.max(0, Math.min(1, -section.getBoundingClientRect().top / Math.max(1, travel))));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, []);
+
+  const getTeamCarouselStep = () => {
+    const carousel = teamCarouselRef.current;
+    if (!carousel) return 0;
+    const card = carousel.querySelector<HTMLElement>("[data-team-card]");
+    const track = carousel.querySelector<HTMLElement>(".compact-team");
+    const gap = Number.parseFloat(track ? getComputedStyle(track).gap : "10") || 10;
+    return card ? card.offsetWidth + gap : carousel.clientWidth;
+  };
+
+  const moveTeamCarousel = (direction: number) => {
+    const carousel = teamCarouselRef.current;
+    const distance = getTeamCarouselStep();
+    if (!carousel || !distance) return;
+    carousel.scrollBy({ left: distance * direction, behavior: "smooth" });
+  };
+
+  const goToTeamMember = (index: number) => {
+    const carousel = teamCarouselRef.current;
+    const distance = getTeamCarouselStep();
+    if (!carousel || !distance) return;
+    const maxScroll = Math.max(carousel.scrollWidth - carousel.clientWidth, 0);
+    carousel.scrollTo({ left: Math.min(distance * index, maxScroll), behavior: "smooth" });
+    setTeamActiveIndex(index);
+  };
+
+  useEffect(() => {
+    const carousel = teamCarouselRef.current;
+    if (!carousel) return;
+
+    const advance = () => {
+      const distance = getTeamCarouselStep();
+      if (!distance) return;
+      const maxScroll = Math.max(carousel.scrollWidth - carousel.clientWidth, 0);
+      if (carousel.scrollLeft >= maxScroll - 2) {
+        carousel.scrollTo({ left: 0, behavior: "instant" });
+      } else {
+        carousel.scrollBy({ left: distance, behavior: "smooth" });
+      }
+    };
+
+    const timer = window.setInterval(advance, 3200);
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [lang, t.team.members.length]);
+
+  useEffect(() => {
+    const carousel = teamCarouselRef.current;
+    if (!carousel) return;
+    const updateActiveIndex = () => {
+      const distance = getTeamCarouselStep();
+      if (!distance) return;
+      setTeamActiveIndex(Math.min(Math.round(carousel.scrollLeft / distance), t.team.members.length - 1));
+    };
+    updateActiveIndex();
+    carousel.addEventListener("scroll", updateActiveIndex, { passive: true });
+    return () => carousel.removeEventListener("scroll", updateActiveIndex);
+  }, [lang, t.team.members.length]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -197,6 +281,37 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   }, [compact, t.core.channels.length]);
 
   useEffect(() => {
+    const section = document.querySelector<HTMLElement>("#economics");
+    if (!section) return;
+
+    let animationFrame = 0;
+    const updateEconomicsCards = () => {
+      animationFrame = 0;
+      const panel = section.querySelector<HTMLElement>(".economics-panel:first-child");
+      if (!panel) return;
+
+      const travel = Math.max(panel.offsetHeight - window.innerHeight, 1);
+      const passed = Math.min(Math.max(-panel.getBoundingClientRect().top, 0), travel);
+      const sequenceStart = travel * 0.08;
+      const sequenceEnd = travel * 0.42;
+      const revealProgress = Math.min(Math.max((passed - sequenceStart) / Math.max(sequenceEnd - sequenceStart, 1), 0), 1);
+      setEconomicsRevealProgress(revealProgress);
+    };
+    const requestUpdate = () => {
+      if (!animationFrame) animationFrame = requestAnimationFrame(updateEconomicsCards);
+    };
+
+    updateEconomicsCards();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, [lang]);
+
+  useEffect(() => {
     const section = document.querySelector<HTMLElement>("#performance");
     if (!section) return;
 
@@ -334,24 +449,27 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         <div className="core-inner">
           <div className="core-copy" data-reveal><p className="eyebrow">{t.core.label}</p><h2>{t.core.title}</h2><p>{t.core.lead}</p></div>
           <div className="core-board">
-            <div className="core-board-header"><span>{t.core.label.split(" · ")[1]}</span><strong>WESO / OPERATING SYSTEM</strong></div>
             <div className="core-channel-list" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article className={`core-channel-card core-channel-card-${index + 1} ${index === coreStep ? "is-active" : ""}`} aria-hidden={index !== coreStep} key={label} role="listitem">
-              <div className="core-channel-index">{String(index + 1).padStart(2, "0")}</div>
               <div className="core-channel-visual"><CoreChannelGraphic index={index} /></div>
               <div className="core-channel-copy"><h3>{label}</h3><p>{body}</p></div>
-              <div className="core-channel-signal" aria-hidden="true"><i /><i /><i /><i /><i /></div>
             </article>)}</div>
-            <div className="core-channel-progress" aria-hidden="true"><span>{String(coreStep + 1).padStart(2, "0")} / {String(t.core.channels.length).padStart(2, "0")}</span><div>{t.core.channels.map((channel, index) => <i className={index === coreStep ? "is-active" : ""} key={channel[0]} />)}</div></div>
+            <div className="core-channel-progress" aria-hidden="true"><div>{t.core.channels.map((channel, index) => <i className={index === coreStep ? "is-active" : ""} key={channel[0]} />)}</div></div>
           </div>
         </div>
       </section>}
 
-      {compact && <section className="core-human-chapter" id="human-oversight">
-        <div className="core-human-full" data-reveal>
-          <span className="core-human-kicker">06 · HUMAN OVERSIGHT</span>
-          <div className="core-human-heading"><strong>{t.core.human}</strong><p>{t.core.humanLead}</p></div>
-          <div className="core-human-bridge" role="list">{t.core.humanSplit.map(([label, body]) => <div key={label} role="listitem"><span>{label}</span><strong>{body}</strong></div>)}</div>
-          <p className="core-human-body">{t.core.humanBody}</p>
+      {compact && <section className="human-care" id="human-oversight" aria-labelledby="human-care-title">
+        <div className="human-care-inner">
+          <div className="human-care-copy">
+            <p className="eyebrow">{lang === "es" ? "Tecnología con criterio humano" : "Technology with human judgment"}</p>
+            <h2 id="human-care-title">{lang === "es" ? "Inteligencia artificial." : "Artificial intelligence."}<br /><span>{lang === "es" ? "Cuidado humano." : "Human care."}</span></h2>
+            <p className="human-care-lead">{lang === "es" ? "La IA coordina el servicio. Nuestro equipo interviene cuando necesitas atención personal." : "AI coordinates the service. Our team steps in when you need personal attention."}</p>
+            <dl className="human-care-roles">
+              <div><dt>{lang === "es" ? "La IA coordina" : "AI coordinates"}</dt><dd>{lang === "es" ? "Solicitudes, asignaciones y seguimiento." : "Requests, assignments, and tracking."}</dd></div>
+              <div><dt>{lang === "es" ? "Las personas acompañan" : "People support you"}</dt><dd>{lang === "es" ? "Atención personal y resolución de casos especiales." : "Personal attention and support for exceptional cases."}</dd></div>
+            </dl>
+          </div>
+          <div className="human-care-portrait"><Image src="/assets/human-care.png" alt={lang === "es" ? "Personaje conversando por teléfono" : "Character talking on the phone"} width={1026} height={1011} sizes="(max-width: 820px) 90vw, 46vw" unoptimized /></div>
         </div>
       </section>}
 
@@ -422,7 +540,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         <div className="chapter-panels">
           <article className="chapter-panel economics-panel" data-reveal>
             <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{compact ? t.economics.label.replace("05", "04") : t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
-            <div className="economics-compare"><div data-scroll-reveal="left"><span>FROM</span><h3>{t.economics.from}</h3></div><b data-scroll-reveal="pop" style={{ "--reveal-order": 1 } as CSSProperties}>→</b><div className="economics-to" data-scroll-reveal="right" style={{ "--reveal-order": 2 } as CSSProperties}><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
+            <div className="economics-compare" style={{ "--economics-progress": economicsRevealProgress } as CSSProperties}><div style={{ "--economics-reveal-delay": 0 } as CSSProperties}><span>FROM</span><h3>{t.economics.from}</h3></div><b style={{ "--economics-reveal-delay": .34 } as CSSProperties}>→</b><div className="economics-to" style={{ "--economics-reveal-delay": .68 } as CSSProperties}><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
             <div className="savings-focus">
@@ -433,12 +551,43 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>
 
+      <section className="app-demo" id="app-demo" ref={appDemoRef} aria-label={lang === "es" ? "La aplicación Weso" : "The Weso app"}>
+        <div className="app-demo-sticky">
+          <div className="app-demo-phone">
+            <div className="app-demo-screen">
+              {[
+                [140, 44, 438, 950],
+                [705, 53, 438, 957],
+                [1287, 41, 438, 957],
+              ].map(([x, y, width, height], index) => {
+                const opacity = index === 0 ? 1 : Math.max(0, Math.min(1, (appDemoProgress - (index === 1 ? .24 : .61)) / .13));
+                const labels = lang === "es" ? ["Inicio y solicitud de servicios", "Perfil del profesional", "Seguimiento del servicio"] : ["Home and service requests", "Professional profile", "Service tracking"];
+                return <div className="app-demo-screen-layer" key={index} style={{ opacity }} aria-hidden={index !== (appDemoProgress < .305 ? 0 : appDemoProgress < .675 ? 1 : 2)}>
+                  <img src="/assets/app-three-screens.png" alt={labels[index]} draggable={false} style={{ width: `${1847 / width * 100}%`, height: `${1037 / height * 100}%`, left: `${-x / width * 100}%`, top: `${-y / height * 100}%` }} />
+                </div>;
+              })}
+            </div>
+          </div>
+          <div className="app-demo-steps" aria-hidden="true">{[0, 1, 2].map(index => <span key={index} className={index === (appDemoProgress < .305 ? 0 : appDemoProgress < .675 ? 1 : 2) ? "is-active" : ""} />)}</div>
+        </div>
+      </section>
+
       <section className="scroll-chapter team-chapter" id="team">
         <div className="chapter-background team-background" aria-hidden="true"><span>{compact ? "05" : "06"}</span><strong>team</strong></div>
         <div className="chapter-panels">
           <article className="chapter-panel team-panel" data-reveal>
             <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
-            <div className="compact-team">{t.team.members.map(([name, role, country, image], index) => <div data-scroll-reveal="card" style={{ "--reveal-order": index % 3 } as CSSProperties} key={name}><Image src={image} alt="" fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
+            <div className="team-carousel" role="region" aria-roledescription="carousel" aria-label={lang === "es" ? "Carrusel del equipo" : "Team carousel"}>
+              <div className="team-carousel-viewport" ref={teamCarouselRef} tabIndex={0} onKeyDown={(event) => {
+                if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                  event.preventDefault();
+                  moveTeamCarousel(event.key === "ArrowRight" ? 1 : -1);
+                }
+              }}>
+                <div className="compact-team">{t.team.members.map(([name, role, country, image], index) => <div data-team-card data-scroll-reveal="card" style={{ "--reveal-order": index % 3 } as CSSProperties} key={name}><Image src={image} alt={`${name} — ${role}`} fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
+              </div>
+              <div className="team-carousel-pagination" aria-label={lang === "es" ? "Elegir integrante del equipo" : "Choose a team member"}>{t.team.members.map(([name], index) => <button type="button" key={name} className={index === teamActiveIndex ? "is-active" : ""} aria-label={`${index + 1}. ${name}`} aria-current={index === teamActiveIndex ? "true" : undefined} onClick={() => goToTeamMember(index)} />)}</div>
+            </div>
           </article>
         </div>
       </section>
@@ -451,6 +600,21 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
           <footer className="round-footer" data-scroll-reveal="heading"><h3>{t.round.closing}</h3><div><a href={`mailto:${t.round.emailAddress}`}>{t.round.email}<span>↗</span></a><a href={t.round.websiteUrl} target="_blank" rel="noreferrer">{t.round.website}<span>↗</span></a></div></footer>
         </div>
       </section>}
+      <footer className="contact-closing" id="contact" aria-labelledby="closing-title">
+        <div className="contact-closing-inner">
+          <div className="closing-logo"><Image src="/assets/p1-2.png" alt="Weso" width={240} height={240} unoptimized /></div>
+          <h2 id="closing-title">{lang === "es" ? "Transformemos tu operación." : "Transform your operations."}<br /><span>{lang === "es" ? "Juntos." : "Together."}</span></h2>
+          <div className="closing-actions">
+            <a className="closing-primary" href="mailto:sebastian@weso.ai">{lang === "es" ? "Conversemos" : "Let's talk"}<span aria-hidden="true">↗</span></a>
+            <a className="closing-secondary" href="tel:+13053396633">{lang === "es" ? "Llámanos" : "Call us"}<span aria-hidden="true">↗</span></a>
+          </div>
+          <div className="closing-details">
+            <div><a href="mailto:sebastian@weso.ai">sebastian@weso.ai</a><a href="tel:+13053396633">+1 (305) 339-6633</a></div>
+            <address>1200 Brickell Av, Suite 1950 #1119<br />Miami, FL 33131, USA</address>
+            <a href="https://weso.ai" target="_blank" rel="noreferrer">weso.ai <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
