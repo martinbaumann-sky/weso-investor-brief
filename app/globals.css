@@ -199,15 +199,18 @@ img { display: block; max-width: 100%; }
 }
 
 .hero h1 {
-  max-width: 15ch;
+  width: 100%;
+  max-width: none;
   margin: 0;
   font-family: var(--font-weso-display), sans-serif;
-  font-size: clamp(3.7rem, 8.4vw, 9.6rem);
+  font-size: clamp(2.2rem, 6.8vw, 9.6rem);
   font-weight: 500;
   line-height: .88;
   letter-spacing: -.075em;
   text-align: center;
 }
+
+.hero-title-line { display: inline-block; white-space: nowrap; }
 
 .hero h1 em {
   color: inherit;
@@ -1439,7 +1442,7 @@ main { overflow: clip; }
   .language-switch span { min-width: 34px; min-height: 34px; padding: 0 8px; display: grid; place-items: center; }
 
   .hero { min-height: 100svh; padding: 92px 18px 72px; }
-  .hero h1 { max-width: 10ch; font-size: clamp(3.55rem, 15.5vw, 4.5rem); }
+  .hero h1 { width: 100%; max-width: none; font-size: clamp(2.2rem, 7.2vw, 4.5rem); }
   .hero-scroll { width: 44px; height: 44px; bottom: 14px; display: grid; place-items: center; }
 
   .chapter-background {

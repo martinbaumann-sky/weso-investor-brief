@@ -258,7 +258,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
       </header>
 
       <section className="hero" id="top">
-        <h1 data-reveal>{t.hero.titleA}<br /><em>{t.hero.titleB.replace(/\.$/, "")}<span className="hero-dot">.</span></em></h1>
+        <h1 data-reveal><span className="hero-title-line">{t.hero.titleA}</span><br /><em className="hero-title-line">{t.hero.titleB.replace(/\.$/, "")}<span className="hero-dot">.</span></em></h1>
         <a className="hero-scroll" href="#problem" aria-label={t.hero.explore}>↓</a>
       </section>
 
