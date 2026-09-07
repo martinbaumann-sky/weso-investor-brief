@@ -12,7 +12,7 @@ const description = "AI-native, real-time insurance service infrastructure with 
 export const metadata: Metadata = {
   title,
   description,
-  icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
+  icons: { icon: "/favicon.jpg", shortcut: "/favicon.jpg", apple: "/favicon.jpg" },
   openGraph: { title, description, type: "website", images: [{ url: image, width: 1734, height: 907, alt: title }] },
   twitter: { card: "summary_large_image", title, description, images: [image] },
 };
