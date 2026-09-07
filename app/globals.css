@@ -984,9 +984,9 @@ main { overflow: clip; }
 .economics-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 28px; }
 .economics-badges span { padding: 10px 15px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; font-size: .7rem; }
 
-.scale-chapter { background: #f2eff8; }
-.scale-background { background: linear-gradient(135deg, #f7f4fa, #e9e3f7); }
-.scale-panel, .team-panel { grid-template-columns: minmax(0,.75fr) minmax(520px,1.25fr); }
+.team-chapter { background: #f2eff8; }
+.team-background { background: linear-gradient(135deg, #f7f4fa, #e9e3f7); }
+.team-panel { grid-template-columns: minmax(0,.75fr) minmax(520px,1.25fr); }
 .stack-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .stack-compare > div:not(.capability-row) { min-height: 270px; padding: 24px; border: 1px solid rgba(23,21,24,.1); border-radius: 24px; background: rgba(255,255,255,.68); }
 .stack-compare span { font-size: .65rem; letter-spacing: .14em; text-transform: uppercase; opacity: .48; }
@@ -1032,7 +1032,7 @@ main { overflow: clip; }
   .economics-compare { grid-template-columns: 1fr; }
   .economics-compare > b { transform: rotate(90deg); justify-self: center; }
   .result-metrics { grid-template-columns: 1fr 1fr; }
-  .scale-panel, .team-panel { grid-template-columns: 1fr; }
+  .team-panel { grid-template-columns: 1fr; }
   .compact-team > div { min-height: 220px; }
   .round-heading { grid-template-columns: 1fr; }
 }

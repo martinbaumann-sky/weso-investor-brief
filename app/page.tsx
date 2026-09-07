@@ -433,14 +433,10 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>
 
-      <section className="scroll-chapter scale-chapter" id="scale">
-        <div className="chapter-background scale-background" aria-hidden="true"><span>{compact ? "05" : "06"}</span><strong>scale</strong></div>
+      <section className="scroll-chapter team-chapter" id="team">
+        <div className="chapter-background team-background" aria-hidden="true"><span>{compact ? "05" : "06"}</span><strong>team</strong></div>
         <div className="chapter-panels">
-          <article className="chapter-panel scale-panel" data-reveal>
-            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{compact ? t.scale.label.replace("06", "05") : t.scale.label}</p><h2>{t.scale.title}</h2><p className="panel-lead">{t.scale.lead}</p></div>
-            <div className="stack-compare"><div data-scroll-reveal="left"><span>{t.scale.today}</span><h3>{t.scale.todaySub}</h3><strong>{t.scale.paysLegacy}</strong><p>{t.scale.legacyTerms}</p></div><div className="weso-stack" data-scroll-reveal="right" style={{ "--reveal-order": 1 } as CSSProperties}><span>{t.scale.weso}</span><h3>{t.scale.wesoSub}</h3><strong>{t.scale.paysWeso}</strong><p>{t.scale.wesoTerms}</p></div><div className="capability-row">{t.scale.capabilities.map((item, index) => <i data-scroll-reveal="pop" style={{ "--reveal-order": index } as CSSProperties} key={item}>{item}</i>)}</div></div>
-          </article>
-          <article className="chapter-panel team-panel" id="team" data-reveal>
+          <article className="chapter-panel team-panel" data-reveal>
             <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>
             <div className="compact-team">{t.team.members.map(([name, role, country, image], index) => <div data-scroll-reveal="card" style={{ "--reveal-order": index % 3 } as CSSProperties} key={name}><Image src={image} alt="" fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
           </article>
