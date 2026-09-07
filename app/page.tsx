@@ -35,6 +35,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   const [progress, setProgress] = useState(0);
   const [solutionStep, setSolutionStep] = useState(0);
   const [solutionProgress, setSolutionProgress] = useState(0);
+  const [coreStep, setCoreStep] = useState(0);
   const [performanceProgress, setPerformanceProgress] = useState(0);
   const [savingsPercent, setSavingsPercent] = useState(0);
   const t = content[lang];
@@ -166,6 +167,34 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
       window.removeEventListener("resize", updateSolutionStep);
     };
   }, [lang, t.solution.flow.length]);
+
+  useEffect(() => {
+    if (!compact) return;
+
+    const section = document.querySelector<HTMLElement>("#core");
+    if (!section) return;
+
+    let animationFrame = 0;
+    const updateCoreStep = () => {
+      animationFrame = 0;
+      const travel = Math.max(section.offsetHeight - window.innerHeight, 1);
+      const passed = Math.min(Math.max(-section.getBoundingClientRect().top, 0), travel);
+      const next = Math.min(t.core.channels.length - 1, Math.floor((passed / travel) * t.core.channels.length));
+      setCoreStep(next);
+    };
+    const requestUpdate = () => {
+      if (!animationFrame) animationFrame = requestAnimationFrame(updateCoreStep);
+    };
+
+    updateCoreStep();
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    window.addEventListener("resize", requestUpdate);
+    return () => {
+      window.removeEventListener("scroll", requestUpdate);
+      window.removeEventListener("resize", requestUpdate);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
+  }, [compact, t.core.channels.length]);
 
   useEffect(() => {
     const section = document.querySelector<HTMLElement>("#performance");
@@ -305,19 +334,24 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         <div className="core-inner">
           <div className="core-copy" data-reveal><p className="eyebrow">{t.core.label}</p><h2>{t.core.title}</h2><p>{t.core.lead}</p></div>
           <div className="core-board">
-            <div className="core-board-header" data-scroll-reveal="heading" style={{ "--reveal-order": 0 } as CSSProperties}><span>{t.core.label.split(" · ")[1]}</span><strong>WESO / OPERATING SYSTEM</strong></div>
-            <div className="core-channel-list" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article className={`core-channel-card core-channel-card-${index + 1}`} data-scroll-reveal="core-card" style={{ "--reveal-order": index + 1 } as CSSProperties} key={label} role="listitem">
+            <div className="core-board-header"><span>{t.core.label.split(" · ")[1]}</span><strong>WESO / OPERATING SYSTEM</strong></div>
+            <div className="core-channel-list" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article className={`core-channel-card core-channel-card-${index + 1} ${index === coreStep ? "is-active" : ""}`} aria-hidden={index !== coreStep} key={label} role="listitem">
               <div className="core-channel-index">{String(index + 1).padStart(2, "0")}</div>
               <div className="core-channel-visual"><CoreChannelGraphic index={index} /></div>
               <div className="core-channel-copy"><h3>{label}</h3><p>{body}</p></div>
               <div className="core-channel-signal" aria-hidden="true"><i /><i /><i /><i /><i /></div>
             </article>)}</div>
-            <div className="core-human" data-scroll-reveal="human" style={{ "--reveal-order": 6 } as CSSProperties}>
-              <div className="core-human-heading"><span className="core-human-kicker">06 · HUMAN OVERSIGHT</span><strong>{t.core.human}</strong><p>{t.core.humanLead}</p></div>
-              <div className="core-human-bridge" role="list">{t.core.humanSplit.map(([label, body]) => <div key={label} role="listitem"><span>{label}</span><strong>{body}</strong></div>)}</div>
-              <p className="core-human-body">{t.core.humanBody}</p>
-            </div>
+            <div className="core-channel-progress" aria-hidden="true"><span>{String(coreStep + 1).padStart(2, "0")} / {String(t.core.channels.length).padStart(2, "0")}</span><div>{t.core.channels.map((channel, index) => <i className={index === coreStep ? "is-active" : ""} key={channel[0]} />)}</div></div>
           </div>
+        </div>
+      </section>}
+
+      {compact && <section className="core-human-chapter" id="human-oversight">
+        <div className="core-human-full" data-reveal>
+          <span className="core-human-kicker">06 · HUMAN OVERSIGHT</span>
+          <div className="core-human-heading"><strong>{t.core.human}</strong><p>{t.core.humanLead}</p></div>
+          <div className="core-human-bridge" role="list">{t.core.humanSplit.map(([label, body]) => <div key={label} role="listitem"><span>{label}</span><strong>{body}</strong></div>)}</div>
+          <p className="core-human-body">{t.core.humanBody}</p>
         </div>
       </section>}
 
