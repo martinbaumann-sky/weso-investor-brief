@@ -79,8 +79,8 @@ export const content = {
       lead: "A focused view of the 72-month projection: scale first, then the value Weso captures.",
       funnel: [
         ["6.58M", "Service cases", "Projected across the operating network"],
-        ["USD 754.8M", "Processed service value", "USD 114.76 average ticket"],
-        ["USD 217.1M", "Weso revenue", "USD 215.5M in fees + USD 1.54M in licenses"],
+        ["USD 754M", "Processed service value", "USD 114.76 average ticket"],
+        ["USD 217M", "Weso revenue", "USD 215.5M in fees + USD 1.54M in licenses"],
       ],
       fee: ["28.6%", "Weighted average fee"],
       basis: "Consolidated scenario · 32 actors · 72 months · Rounded values",
@@ -207,8 +207,8 @@ export const content = {
       lead: "Una lectura simple de la proyección a 72 meses: primero la escala y luego el valor que captura Weso.",
       funnel: [
         ["6,58M", "Casos de servicio", "Proyectados en toda la red operativa"],
-        ["USD 754,8M", "Valor de servicios procesado", "Ticket promedio de USD 114,76"],
-        ["USD 217,1M", "Ingresos de Weso", "USD 215,5M en fees + USD 1,54M en licencias"],
+        ["USD 754M", "Valor de servicios procesado", "Ticket promedio de USD 114,76"],
+        ["USD 217M", "Ingresos de Weso", "USD 215,5M en fees + USD 1,54M en licencias"],
       ],
       fee: ["28,6%", "Fee promedio ponderado"],
       basis: "Escenario consolidado · 32 actores · 72 meses · Valores redondeados",

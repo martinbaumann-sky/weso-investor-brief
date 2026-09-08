@@ -63,8 +63,8 @@ test("keeps KPI content bilingual and the lower chapters interactive", async () 
   assert.match(content, /title: "Coordinación autónoma", value: "95%"/);
   assert.match(content, /From operating volume to Weso revenue\./);
   assert.match(content, /Del volumen operativo a los ingresos de Weso\./);
-  assert.match(content, /\["USD 217\.1M", "Weso revenue"/);
-  assert.match(content, /\["USD 217,1M", "Ingresos de Weso"/);
+  assert.match(content, /\["USD 217M", "Weso revenue"/);
+  assert.match(content, /\["USD 217M", "Ingresos de Weso"/);
   assert.match(page, /id="performance"/);
   assert.match(page, /className="performance-grid"/);
   assert.match(page, /setPerformanceProgress/);
