@@ -539,7 +539,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         <div className="chapter-background economics-background" aria-hidden="true"><span>{t.market.bridge}</span><strong>→</strong><span>{t.market.bridgeTo}</span></div>
         <div className="chapter-panels">
           <article className="chapter-panel economics-panel" data-reveal>
-            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{compact ? t.economics.label.replace("05", "04") : t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
+            <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.economics.label}</p><h2>{t.economics.title}</h2><p className="panel-lead">{t.economics.intro}</p></div>
             <div className="economics-compare" style={{ "--economics-progress": economicsRevealProgress } as CSSProperties}><div style={{ "--economics-reveal-delay": 0 } as CSSProperties}><span>FROM</span><h3>{t.economics.from}</h3></div><b style={{ "--economics-reveal-delay": .34 } as CSSProperties}>→</b><div className="economics-to" style={{ "--economics-reveal-delay": .68 } as CSSProperties}><span>TO</span><h3>{t.economics.to}</h3><p>{t.economics.changed}</p></div></div>
           </article>
           <article className="chapter-panel economics-panel results-panel" data-reveal>
@@ -573,7 +573,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
       </section>
 
       <section className="scroll-chapter team-chapter" id="team">
-        <div className="chapter-background team-background" aria-hidden="true"><span>{compact ? "05" : "06"}</span><strong>team</strong></div>
+        <div className="chapter-background team-background" aria-hidden="true"><span>06</span><strong>team</strong></div>
         <div className="chapter-panels">
           <article className="chapter-panel team-panel" data-reveal>
             <div className="panel-copy" data-scroll-reveal="heading"><p className="eyebrow">{t.team.label}</p><h2>{t.team.title}</h2></div>

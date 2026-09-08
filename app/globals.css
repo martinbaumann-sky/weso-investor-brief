@@ -750,7 +750,7 @@ main { overflow: clip; }
   background-size: auto, auto, 84px 84px, 84px 84px, auto;
 }
 .performance-sticky::after {
-  content: "03";
+  content: none;
   position: absolute;
   right: -1.5vw;
   top: 5vh;

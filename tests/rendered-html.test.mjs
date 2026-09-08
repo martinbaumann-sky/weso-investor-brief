@@ -37,7 +37,7 @@ test("serves the compact homepage and the complete pitch at /pitch", async () =>
   const [home, pitch] = await Promise.all([homeResponse.text(), pitchResponse.text()]);
   assert.doesNotMatch(home, /Projected opportunity/);
   assert.doesNotMatch(home, /07 · The opportunity/);
-  assert.match(home, /04 · Changing the economics/);
+  assert.match(home, /05 · Changing the economics/);
   assert.doesNotMatch(home, /05 · Compounding advantage/);
   assert.match(home, /Technology \+ AI is our core/);
   assert.match(home, /The insurer designs the product/);
