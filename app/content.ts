@@ -98,7 +98,7 @@ export const content = {
       savings: "savings for insurance companies",
       feeValue: "35%",
       fee: "fee for service — Weso, per service",
-      modelNote: "This saving is enabled by Weso’s fee-for-service model. Weso earns a 35% fee on each service delivered.",
+      modelNote: "This saving is calculated by comparing Weso’s pay-per-use cost with the average per-capita payment insurers make to assistance companies. Weso earns a 35% fee on each service delivered.",
       badges: ["One platform", "AI-driven operations", "Usage-based economics"],
     },
     team: {
@@ -109,11 +109,11 @@ export const content = {
         ["Ricardo Aizenman", "Chairman ICP · Co-founder", "United States", "/assets/p3-4.png"],
         ["Eduardo Diaz", "COO · Co-founder", "Chile", "/assets/p3-7.png"],
         ["Martin Baumann", "Head of Growth · Co-founder", "Chile", "/assets/p3-12.png"],
-        ["Martin Pinto", "CCO · Co-founder", "Uruguay", "/assets/p3-9.png"],
         ["Laura Ospina", "AI Manager · Tech Co-founder", "Ecuador", "/assets/p3-5.png"],
         ["Jose Vera", "CTO · Co-founder", "Canada", "/assets/team-jose-vera.png"],
         ["Ximena Hincapie", "Design · Co-founder Tech", "Colombia", "/assets/team-ximena-hincapie.png"],
         ["Felipe Botero", "Development · Co-founder Tech", "Colombia", "/assets/team-felipe-botero.png"],
+        ["Martin Pinto", "CCO · Co-founder", "Uruguay", "/assets/p3-9.png"],
       ],
     },
     round: {
@@ -226,7 +226,7 @@ export const content = {
       savings: "de ahorro para las aseguradoras",
       feeValue: "35%",
       fee: "fee por servicio — Weso, por servicio",
-      modelNote: "Este ahorro es posible gracias al modelo fee-for-service de Weso. Weso genera un fee de 35% por cada servicio realizado.",
+      modelNote: "Este ahorro se obtiene comparando el costo por uso de Weso con el pago per cápita promedio que las aseguradoras hacen a las compañías de asistencia. Weso genera un fee del 35% por cada servicio realizado.",
       badges: ["Una plataforma", "Operaciones impulsadas por IA", "Economía basada en uso"],
     },
     team: {
@@ -237,11 +237,11 @@ export const content = {
         ["Ricardo Aizenman", "Chairman ICP · Cofundador", "Estados Unidos", "/assets/p3-4.png"],
         ["Eduardo Diaz", "COO · Cofundador", "Chile", "/assets/p3-7.png"],
         ["Martin Baumann", "Head of Growth · Cofundador", "Chile", "/assets/p3-12.png"],
-        ["Martin Pinto", "CCO · Cofundador", "Uruguay", "/assets/p3-9.png"],
         ["Laura Ospina", "AI Manager · Cofundadora Tech", "Ecuador", "/assets/p3-5.png"],
         ["Jose Vera", "CTO · Cofundador", "Canadá", "/assets/team-jose-vera.png"],
         ["Ximena Hincapie", "Diseño · Cofundadora Tech", "Colombia", "/assets/team-ximena-hincapie.png"],
         ["Felipe Botero", "Desarrollo · Cofundador Tech", "Colombia", "/assets/team-felipe-botero.png"],
+        ["Martin Pinto", "CCO · Cofundador", "Uruguay", "/assets/p3-9.png"],
       ],
     },
     round: {

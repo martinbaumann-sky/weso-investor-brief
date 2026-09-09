@@ -46,6 +46,32 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   const t = content[lang];
 
   useEffect(() => {
+    const section = document.getElementById("human-oversight");
+    if (!section) return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const pinned = window.matchMedia("(min-width: 821px) and (min-height: 801px)").matches;
+      const travel = Math.max(1, section.offsetHeight - window.innerHeight);
+      const progress = Math.max(0, Math.min(1, -section.getBoundingClientRect().top / (travel * .8)));
+      const eased = progress * progress * (3 - 2 * progress);
+      section.style.setProperty("--portrait-shift", `${reducedMotion.matches || !pinned ? 0 : (1 - eased) * 100}%`);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    reducedMotion.addEventListener("change", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      reducedMotion.removeEventListener("change", schedule);
+    };
+  }, [compact]);
+
+  useEffect(() => {
     let frame = 0;
     const update = () => {
       frame = 0;
@@ -553,6 +579,21 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
 
       <section className="app-demo" id="app-demo" ref={appDemoRef} aria-label={lang === "es" ? "La aplicación Weso" : "The Weso app"}>
         <div className="app-demo-sticky">
+          <div className="app-demo-copy">
+            <p className="eyebrow">{lang === "es" ? "LA EXPERIENCIA WESO" : "THE WESO EXPERIENCE"}</p>
+            <h2>{lang === "es" ? "Todo el servicio." : "Every step."}<br /><span>{lang === "es" ? "En tus manos." : "In your hands."}</span></h2>
+            <p className="app-demo-intro">{lang === "es" ? "Desde la solicitud hasta la solución. Una experiencia conectada para quien necesita asistencia." : "From request to resolution. A connected experience for the person who needs assistance."}</p>
+            <ol className="app-demo-journey">{(lang === "es" ? [
+              ["Solicita", "Encuentra el servicio que necesitas."],
+              ["Conoce a tu profesional", "Consulta quién estará a cargo de ayudarte."],
+              ["Sigue cada avance", "Revisa el estado de tu servicio en un solo lugar."],
+            ] : [
+              ["Request", "Find the service you need."],
+              ["Meet your professional", "See who will be there to help."],
+              ["Follow every step", "Check your service status in one place."],
+            ]).map(([title, description], index) => <li key={index} className={index === (appDemoProgress < .305 ? 0 : appDemoProgress < .675 ? 1 : 2) ? "is-active" : ""}><span className="app-demo-number">0{index + 1}</span><div><h3>{title}</h3><p>{description}</p></div></li>)}</ol>
+          </div>
+          <div className="app-demo-device">
           <div className="app-demo-phone">
             <div className="app-demo-screen">
               {[
@@ -569,6 +610,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
             </div>
           </div>
           <div className="app-demo-steps" aria-hidden="true">{[0, 1, 2].map(index => <span key={index} className={index === (appDemoProgress < .305 ? 0 : appDemoProgress < .675 ? 1 : 2) ? "is-active" : ""} />)}</div>
+          </div>
         </div>
       </section>
 
