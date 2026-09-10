@@ -1801,7 +1801,7 @@ main { overflow: clip; }
 .service-tile { min-height: 70px; padding: 9px 5px; border: 1px solid rgba(23,21,24,.08); border-radius: 18px; background: rgba(255,255,255,.72); text-align: center; }
 .service-tile:nth-child(6n+1) { background: rgba(100,39,255,.055); border-color: rgba(100,39,255,.1); }
 .service-tile:nth-child(6n+4) { background: rgba(242,11,143,.045); border-color: rgba(242,11,143,.08); }
-.service-tile > span { display: block; font-size: 1.6rem; line-height: 1.2; }
+.service-tile-icon { display: block; margin: 2px auto 7px; color: #6427ff; }
 .service-tile p { font-size: .75rem; line-height: 1.15; margin: 5px 0 0; font-weight: 550; }
 .service-universe-progress { margin-top: 30px; height: 3px; max-width: 100px; border-radius: 99px; background: rgba(23,21,24,.1); overflow: hidden; }
 .service-universe-progress span { display: block; width: 100%; height: 100%; background: #f20b8f; transform-origin: left; transform: scaleX(var(--universe-progress, 0)); }

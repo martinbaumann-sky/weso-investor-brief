@@ -2,19 +2,20 @@
 
 import { useEffect, useRef } from "react";
 import type { Lang } from "./content";
+import { Brush, Utensils, Snowflake, PaintRoller, Waves, House, Bath, CookingPot, Laptop, Smile, KeyRound, Scale, Wallet, Heart, Repeat, Hospital, Ambulance, Car, Package, Plane, Brain, GraduationCap, Truck, ConciergeBell, PawPrint, Stethoscope, BadgePercent, Wrench, Droplet, Sprout, PanelsTopLeft, Zap, type LucideIcon } from "lucide-react";
 
-const categories = [
-  ["🧼", "Limpieza", "Cleaning"], ["🍳", "Catering", "Catering"],
-  ["❄️", "Aire acondicionado", "Air conditioning"], ["🎨", "Pintura", "Painting"], ["🏊", "Piscina", "Pool care"],
-  ["🏡", "Hogar y propiedades", "Home & property"], ["🛁", "Baño", "Bathroom"], ["🍳", "Cocina", "Kitchen"],
-  ["💻", "Tecnología", "Technology"], ["🦷", "Odontología", "Dental care"], ["🚪", "Cerrajero", "Locksmith"],
-  ["⚖️", "Abogado", "Legal assistance"], ["💰", "Finanzas personales", "Personal finance"], ["🍎", "Bienestar", "Wellness"],
-  ["♻️", "Suscripciones", "Subscriptions"], ["🏥", "Red médica", "Medical network"], ["🚑", "Ambulancia", "Ambulance"],
-  ["🚗", "Asistencia en ruta", "Roadside assistance"], ["📦", "Mudanza", "Moving"], ["✈️", "Asistencia en viaje", "Travel assistance"],
-  ["🪴", "Psicología", "Psychology"], ["📚", "Educación", "Education"], ["🚚", "Asistencia a pesados", "Heavy vehicle assistance"],
-  ["🐶", "Estilo de vida", "Lifestyle"], ["🐕", "Veterinario", "Veterinary care"], ["🩺", "Servicios médicos", "Medical services"],
-  ["🔔", "Beneficios y descuentos", "Benefits & discounts"], ["👷", "Maestro general", "Handyman"], ["💧", "Plomero", "Plumbing"],
-  ["🌿", "Jardinería y paisajismo", "Gardening & landscaping"], ["🏠", "Techos y canales", "Roofs & gutters"], ["⚡", "Electricidad y luces", "Electrical & lighting"],
+const categories: [LucideIcon, string, string][] = [
+  [Brush, "Limpieza", "Cleaning"], [Utensils, "Catering", "Catering"],
+  [Snowflake, "Aire acondicionado", "Air conditioning"], [PaintRoller, "Pintura", "Painting"], [Waves, "Piscina", "Pool care"],
+  [House, "Hogar y propiedades", "Home & property"], [Bath, "Baño", "Bathroom"], [CookingPot, "Cocina", "Kitchen"],
+  [Laptop, "Tecnología", "Technology"], [Smile, "Odontología", "Dental care"], [KeyRound, "Cerrajero", "Locksmith"],
+  [Scale, "Abogado", "Legal assistance"], [Wallet, "Finanzas personales", "Personal finance"], [Heart, "Bienestar", "Wellness"],
+  [Repeat, "Suscripciones", "Subscriptions"], [Hospital, "Red médica", "Medical network"], [Ambulance, "Ambulancia", "Ambulance"],
+  [Car, "Asistencia en ruta", "Roadside assistance"], [Package, "Mudanza", "Moving"], [Plane, "Asistencia en viaje", "Travel assistance"],
+  [Brain, "Psicología", "Psychology"], [GraduationCap, "Educación", "Education"], [Truck, "Asistencia a pesados", "Heavy vehicle assistance"],
+  [ConciergeBell, "Estilo de vida", "Lifestyle"], [PawPrint, "Veterinario", "Veterinary care"], [Stethoscope, "Servicios médicos", "Medical services"],
+  [BadgePercent, "Beneficios y descuentos", "Benefits & discounts"], [Wrench, "Maestro general", "Handyman"], [Droplet, "Plomero", "Plumbing"],
+  [Sprout, "Jardinería y paisajismo", "Gardening & landscaping"], [PanelsTopLeft, "Techos y canales", "Roofs & gutters"], [Zap, "Electricidad y luces", "Electrical & lighting"],
 ];
 
 export default function ServiceUniverse({ lang }: { lang: Lang }) {
@@ -59,7 +60,7 @@ export default function ServiceUniverse({ lang }: { lang: Lang }) {
         <div className="service-universe-progress" aria-hidden="true"><span /></div>
       </div>
       <ul className="service-universe-grid" aria-label={lang === "es" ? "Servicios de la plataforma" : "Platform services"}>
-        {categories.map(([icon, es, en]) => <li className="service-tile" key={en}><span aria-hidden="true">{icon}</span><p>{lang === "es" ? es : en}</p></li>)}
+        {categories.map(([Icon, es, en]) => <li className="service-tile" key={en}><Icon className="service-tile-icon" size={24} strokeWidth={1.5} aria-hidden="true" /><p>{lang === "es" ? es : en}</p></li>)}
       </ul>
     </div>
   </section>;
