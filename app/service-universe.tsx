@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Lang } from "./content";
 import { Brush, Utensils, Snowflake, PaintRoller, Waves, House, Bath, CookingPot, Laptop, Smile, KeyRound, Scale, Wallet, Heart, Repeat, Hospital, Ambulance, Car, Package, Plane, Brain, GraduationCap, Truck, ConciergeBell, PawPrint, Stethoscope, BadgePercent, Wrench, Droplet, Sprout, PanelsTopLeft, Zap, type LucideIcon } from "lucide-react";
 
@@ -20,6 +20,7 @@ const categories: [LucideIcon, string, string][] = [
 
 export default function ServiceUniverse({ lang }: { lang: Lang }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const [expanded, setExpanded] = useState(false);
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -30,12 +31,10 @@ export default function ServiceUniverse({ lang }: { lang: Lang }) {
       const travel = Math.max(1, section.offsetHeight - window.innerHeight);
       const progress = Math.max(0, Math.min(1, -section.getBoundingClientRect().top / travel));
       const animate = !motion.matches && window.innerWidth > 820 && window.innerHeight > 700;
-      section.querySelectorAll<HTMLElement>(".service-tile").forEach((tile, index) => {
-        const reveal = animate ? Math.max(0, Math.min(1, (progress * 1.4 - index / categories.length * .65) / .35)) : 1;
-        tile.style.opacity = String(.14 + reveal * .86);
-        tile.style.transform = `translateY(${(1 - reveal) * 65}px) scale(${.92 + reveal * .08})`;
-      });
       section.style.setProperty("--universe-progress", String(animate ? progress : 1));
+      const orbitProgress = Math.max(0, Math.min(1,
+        (window.innerHeight - section.getBoundingClientRect().top) / (section.offsetHeight + window.innerHeight)));
+      section.style.setProperty("--orbit-rotation", `${motion.matches ? 0 : orbitProgress * 240}deg`);
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
     update();
@@ -59,9 +58,22 @@ export default function ServiceUniverse({ lang }: { lang: Lang }) {
         <div className="service-universe-metrics"><p><strong>32</strong> {lang === "es" ? "categorías" : "categories"}</p><p><strong>+600</strong> {lang === "es" ? "servicios" : "services"}</p></div>
         <div className="service-universe-progress" aria-hidden="true"><span /></div>
       </div>
-      <ul className="service-universe-grid" aria-label={lang === "es" ? "Servicios de la plataforma" : "Platform services"}>
-        {categories.map(([Icon, es, en]) => <li className="service-tile" key={en}><Icon className="service-tile-icon" size={24} strokeWidth={1.5} aria-hidden="true" /><p>{lang === "es" ? es : en}</p></li>)}
-      </ul>
+      <div className={`service-cloud${expanded ? " is-expanded" : ""}`}
+        onPointerEnter={event => { if (event.pointerType === "mouse") setExpanded(true); }}
+        onPointerLeave={event => { if (event.pointerType === "mouse") setExpanded(false); }}
+        onKeyDown={event => { if (event.key === "Escape") setExpanded(false); }}>
+        <div className="service-cloud-preview" aria-hidden="true">
+          {[Car, House, Plane, PawPrint, ConciergeBell, Heart].map((Icon, index) => <span key={index} style={{ "--orbit": index, transform: `rotate(calc(${index * 60}deg + var(--orbit-rotation, 0deg))) translateY(-155px) rotate(calc(${-index * 60}deg - var(--orbit-rotation, 0deg)))` } as CSSProperties}><Icon size={28} strokeWidth={1.3} /></span>)}
+          <strong>+600</strong>
+          <p>{lang === "es" ? "Posibilidades, conectadas." : "Possibilities, connected."}</p>
+        </div>
+        <ul id="service-cloud-categories" className="service-universe-grid" aria-hidden={!expanded} aria-label={lang === "es" ? "Servicios de la plataforma" : "Platform services"}>
+          {categories.map(([Icon, es, en], index) => <li className="service-tile" key={en} style={{ "--tile-order": index } as CSSProperties}><Icon className="service-tile-icon" size={20} strokeWidth={1.5} aria-hidden="true" /><p>{lang === "es" ? es : en}</p></li>)}
+        </ul>
+        <button className="service-cloud-toggle" type="button" aria-expanded={expanded} aria-controls="service-cloud-categories" onClick={() => setExpanded(value => !value)}>
+          {expanded ? (lang === "es" ? "Cerrar categorías" : "Close categories") : (lang === "es" ? "Explorar las 32 categorías" : "Explore all 32 categories")}<span aria-hidden="true">{expanded ? "−" : "+"}</span>
+        </button>
+      </div>
     </div>
   </section>;
 }
