@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import type { Lang } from "./content";
 
 const categories = [
-  ["🧼", "Limpieza", "Cleaning"], ["🍳", "Catering", "Catering"], ["📺", "Electro", "Appliances"],
+  ["🧼", "Limpieza", "Cleaning"], ["🍳", "Catering", "Catering"],
   ["❄️", "Aire acondicionado", "Air conditioning"], ["🎨", "Pintura", "Painting"], ["🏊", "Piscina", "Pool care"],
   ["🏡", "Hogar y propiedades", "Home & property"], ["🛁", "Baño", "Bathroom"], ["🍳", "Cocina", "Kitchen"],
   ["💻", "Tecnología", "Technology"], ["🦷", "Odontología", "Dental care"], ["🚪", "Cerrajero", "Locksmith"],
