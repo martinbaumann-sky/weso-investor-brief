@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
+import ServiceUniverse from "./service-universe";
 
 type InvestorBriefProps = {
   compact?: boolean;
@@ -41,6 +42,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   const [savingsPercent, setSavingsPercent] = useState(0);
   const teamCarouselRef = useRef<HTMLDivElement>(null);
   const [teamActiveIndex, setTeamActiveIndex] = useState(0);
+  const [teamPageCount, setTeamPageCount] = useState(content.en.team.members.length);
   const appDemoRef = useRef<HTMLElement>(null);
   const [appDemoProgress, setAppDemoProgress] = useState(0);
   const t = content[lang];
@@ -100,6 +102,14 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
     return card ? card.offsetWidth + gap : carousel.clientWidth;
   };
 
+  const getTeamCarouselPageCount = () => {
+    const carousel = teamCarouselRef.current;
+    const card = carousel?.querySelector<HTMLElement>("[data-team-card]");
+    if (!carousel || !card) return t.team.members.length;
+    const visibleCards = Math.max(1, Math.round(carousel.clientWidth / card.offsetWidth));
+    return Math.max(1, t.team.members.length - visibleCards + 1);
+  };
+
   const moveTeamCarousel = (direction: number) => {
     const carousel = teamCarouselRef.current;
     const distance = getTeamCarouselStep();
@@ -111,10 +121,24 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
     const carousel = teamCarouselRef.current;
     const distance = getTeamCarouselStep();
     if (!carousel || !distance) return;
+    const targetIndex = Math.max(0, Math.min(index, teamPageCount - 1));
     const maxScroll = Math.max(carousel.scrollWidth - carousel.clientWidth, 0);
-    carousel.scrollTo({ left: Math.min(distance * index, maxScroll), behavior: "smooth" });
-    setTeamActiveIndex(index);
+    carousel.scrollTo({ left: Math.min(distance * targetIndex, maxScroll), behavior: "smooth" });
+    setTeamActiveIndex(targetIndex);
   };
+
+  useEffect(() => {
+    const carousel = teamCarouselRef.current;
+    if (!carousel) return;
+    const updatePageCount = () => {
+      const count = getTeamCarouselPageCount();
+      setTeamPageCount(count);
+      setTeamActiveIndex(current => Math.min(current, count - 1));
+    };
+    updatePageCount();
+    window.addEventListener("resize", updatePageCount);
+    return () => window.removeEventListener("resize", updatePageCount);
+  }, [lang, t.team.members.length]);
 
   useEffect(() => {
     const carousel = teamCarouselRef.current;
@@ -126,6 +150,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
       const maxScroll = Math.max(carousel.scrollWidth - carousel.clientWidth, 0);
       if (carousel.scrollLeft >= maxScroll - 2) {
         carousel.scrollTo({ left: 0, behavior: "instant" });
+        setTeamActiveIndex(0);
       } else {
         carousel.scrollBy({ left: distance, behavior: "smooth" });
       }
@@ -143,12 +168,12 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
     const updateActiveIndex = () => {
       const distance = getTeamCarouselStep();
       if (!distance) return;
-      setTeamActiveIndex(Math.min(Math.round(carousel.scrollLeft / distance), t.team.members.length - 1));
+      setTeamActiveIndex(Math.min(Math.round(carousel.scrollLeft / distance), teamPageCount - 1));
     };
     updateActiveIndex();
     carousel.addEventListener("scroll", updateActiveIndex, { passive: true });
     return () => carousel.removeEventListener("scroll", updateActiveIndex);
-  }, [lang, t.team.members.length]);
+  }, [lang, t.team.members.length, teamPageCount]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -484,6 +509,8 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>}
 
+      {compact && <ServiceUniverse lang={lang} />}
+
       {compact && <section className="human-care" id="human-oversight" aria-labelledby="human-care-title">
         <div className="human-care-inner">
           <div className="human-care-copy">
@@ -628,7 +655,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
               }}>
                 <div className="compact-team">{t.team.members.map(([name, role, country, image], index) => <div data-team-card data-scroll-reveal="card" style={{ "--reveal-order": index % 3 } as CSSProperties} key={name}><Image src={image} alt={`${name} — ${role}`} fill sizes="180px" unoptimized /><div><span>{country}</span><h3>{name}</h3><p>{role}</p></div></div>)}</div>
               </div>
-              <div className="team-carousel-pagination" aria-label={lang === "es" ? "Elegir integrante del equipo" : "Choose a team member"}>{t.team.members.map(([name], index) => <button type="button" key={name} className={index === teamActiveIndex ? "is-active" : ""} aria-label={`${index + 1}. ${name}`} aria-current={index === teamActiveIndex ? "true" : undefined} onClick={() => goToTeamMember(index)} />)}</div>
+              <div className="team-carousel-pagination" aria-label={lang === "es" ? "Elegir posición del carrusel" : "Choose carousel position"}>{Array.from({ length: teamPageCount }, (_, index) => { const name = t.team.members[index]?.[0] ?? `Position ${index + 1}`; return <button type="button" key={name} className={index === teamActiveIndex ? "is-active" : ""} aria-label={`${index + 1}. ${name}`} aria-current={index === teamActiveIndex ? "true" : undefined} onClick={() => goToTeamMember(index)} />; })}</div>
             </div>
           </article>
         </div>
