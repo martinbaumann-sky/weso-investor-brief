@@ -2071,3 +2071,57 @@ main { overflow: clip; }
   .core-channel-card.is-active .core-channel-visual { width: 60px; height: 60px; }
 .core-channel-visual svg { width: 54px; height: 54px; }
 }
+
+/* Transparent AI capabilities: vector illustrations, shared light and color. */
+.core-copy h2 span { color: #f20b8f; }
+.core-board { height: min(72svh, 680px); }
+.core-channel-card { padding: 0; gap: 0; grid-template-rows: minmax(0, 1fr) auto; align-content: stretch; background: transparent; border-radius: 0; }
+.core-channel-copy { padding: 0 6% 8px; }
+.core-channel-copy h3 { font-size: clamp(2.5rem, 3.8vw, 4rem); }
+.core-channel-copy p { margin-top: 12px; max-width: 29ch; }
+.core-channel-progress i.is-active { background: #f20b8f; box-shadow: 0 0 12px #f20b8f38; }
+.core-channel-progress i { width: 8px; height: 8px; }
+.core-network { position: relative; width: 100%; min-height: 0; height: 100%; isolation: isolate; }
+.core-network::before { content: ''; position: absolute; inset: 4% -8% -12%; z-index: -1; background: radial-gradient(ellipse at 53% 53%, #f934a62b, #dca2ef14 40%, transparent 68%); pointer-events: none; }
+.core-network-map { display: block; width: 100%; height: 100%; overflow: visible; }
+.core-network-orb { position: absolute; left: 50%; top: 50%; width: 30%; max-height: 45%; aspect-ratio: 1; transform: translate(-50%, -50%); display: grid; place-items: center; border: 1px solid #fff9; border-radius: 50%; color: #fff0fc; background: radial-gradient(circle at 30% 16%, #fff9, transparent 31%), radial-gradient(circle at 62% 65%, #5c247e 0%, #9b368d 32%, #e46ccd 62%, #ffe2fa 79%, #b983eb 94%); box-shadow: inset 0 0 12px #fff, inset -8px -12px 24px #952fbe70, 0 0 0 5px #f697dd16, 0 0 36px #f449b155; }
+.core-network-orb::after { content: ''; position: absolute; inset: 8%; border-radius: 50%; border: 1px solid #fff3; }
+.core-network-orb > svg { width: 48%; height: 48%; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 2px 8px #ff7ccc); }
+.core-network-orb .icon-soft { fill: currentColor; stroke: none; opacity: .13; }
+.core-network-orb .icon-fill { fill: currentColor; stroke: none; }
+.core-network-node { animation: core-node-float 6s ease-in-out infinite; }
+.core-network-pulse { animation: core-node-pulse 3s ease-in-out infinite; }
+.core-channel-card:not(.is-active) .core-network * { animation-play-state: paused; }
+.core-network-wave { position: absolute; left: 36%; bottom: 5%; display: flex; align-items: center; gap: 5px; height: 52px; }
+.core-network-wave i { width: 4px; border-radius: 8px; background: linear-gradient(#c791e5, #f24ba8); animation: core-wave 1.5s ease-in-out infinite alternate; }
+.core-network-messages { position: absolute; left: 27%; bottom: 6%; width: 30%; display: grid; gap: 6px; }
+.core-network-messages span { width: 80%; height: 9px; border-radius: 8px; background: linear-gradient(90deg, #e9b6e766, #f782bd66); }
+.core-network-messages span:nth-child(2) { width: 65%; justify-self: end; }
+.core-network-messages span:nth-child(3) { width: 55%; }
+@keyframes core-node-float { 50% { transform: translateY(-5px); } }
+@keyframes core-node-pulse { 50% { opacity: .3; } }
+@keyframes core-wave { to { transform: scaleY(.4); } }
+@media (max-width: 820px) {
+  .core-inner { gap: 12px; }
+  .core-board { height: 100%; max-height: 560px; min-height: 0; }
+  .core-channel-card { padding: 0; gap: 0; }
+  .core-channel-copy { padding: 0 4%; }
+  .core-channel-copy h3 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+  .core-channel-copy p { font-size: .95rem; margin-top: 8px; max-width: 34ch; }
+  .core-network { width: min(100%, 500px); justify-self: center; }
+  .core-channel-progress { margin-top: 14px; }
+}
+@media (max-height: 700px) and (min-width: 821px) {
+  .core-board { height: 72svh; }
+  .core-channel-copy h3 { font-size: 2.2rem; }
+  .core-channel-copy p { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-network *, .core-channel-card { animation: none !important; transition: none; }
+}
+.core-capability-art { position: relative; display: grid; place-items: center; isolation: isolate; width: 100%; height: 100%; min-height: 0; overflow: visible; }
+.core-capability-glow { position: absolute; inset: 8% 4%; z-index: -1; border-radius: 50%; background: radial-gradient(ellipse, #ed62c326 0%, #b985e817 39%, transparent 70%); }
+.core-capability-art img { display: block; width: 100%; height: 100%; max-height: 100%; object-fit: contain; user-select: none; filter: drop-shadow(0 14px 22px #b9509c12); }
+@media (max-width: 820px) {
+  .core-capability-art { width: min(100%, 500px); justify-self: center; }
+}
