@@ -21,9 +21,7 @@ export const content = {
       marketLead: "Behind every insurance policy exists a fragmented operational infrastructure built decades before real-time automation.",
       cards: [
         ["Broken financial incentives", "The system makes more money when it spends less on customer service."],
-        ["Reliance on intermediaries", "There are too many operational layers between the insurer and the actual solution."],
         ["Loss of customer control", "Insurance companies outsource their customer experience to external third parties."],
-        ["Outdated infrastructure", "The current model still relies on manual processes and structures designed before the AI era."],
       ],
       calloutLabel: "The risk of customer attention",
       calloutTitle: "The insurer designs the product. The experience is defined in execution.",
@@ -147,9 +145,7 @@ export const content = {
       marketLead: "Detrás de cada póliza existe una infraestructura operativa fragmentada, construida décadas antes de la automatización en tiempo real.",
       cards: [
         ["Incentivos financieros rotos", "El sistema gana más dinero cuando gasta menos en servicio al cliente."],
-        ["Dependencia de intermediarios", "Hay demasiadas capas operativas entre la aseguradora y la solución real."],
         ["Pérdida del control del cliente", "Las aseguradoras tercerizan su experiencia de cliente a actores externos."],
-        ["Infraestructura obsoleta", "El modelo actual aún depende de procesos manuales y estructuras anteriores a la era de la IA."],
       ],
       calloutLabel: "El riesgo de la atención al cliente",
       calloutTitle: "La aseguradora diseña el producto. La experiencia se define en la ejecución.",
