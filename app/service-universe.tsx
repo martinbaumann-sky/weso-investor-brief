@@ -54,7 +54,10 @@ export default function ServiceUniverse({ lang }: { lang: Lang }) {
       <div className="service-universe-copy">
         <p className="eyebrow">{lang === "es" ? "Una plataforma. Todo un universo de servicios." : "One platform. A world of services."}</p>
         <h2 id="service-universe-title"><span>6</span> {lang === "es" ? "verticales" : "verticals"}</h2>
-        <ul className="service-verticals">{["Mobility", "Home & Property", "Travel Assist", "Pet Care", "Life Style & Concierge", "Health Care"].map(vertical => <li key={vertical}>{vertical}</li>)}</ul>
+        <ul className="service-verticals">{([
+          [Car, "Mobility"], [House, "Home & Property"], [Plane, "Travel Assist"],
+          [PawPrint, "Pet Care"], [ConciergeBell, "Life Style & Concierge"], [Heart, "Health Care"],
+        ] as [LucideIcon, string][]).map(([Icon, name]) => <li key={name}><span className="service-vertical-icon"><Icon size={22} strokeWidth={1.6} aria-hidden="true" /></span><span>{name}</span></li>)}</ul>
         <div className="service-universe-metrics"><p><strong>32</strong> {lang === "es" ? "categorías" : "categories"}</p><p><strong>+600</strong> {lang === "es" ? "servicios" : "services"}</p></div>
         <div className="service-universe-progress" aria-hidden="true"><span /></div>
       </div>

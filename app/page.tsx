@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
 import ServiceUniverse from "./service-universe";
@@ -9,26 +9,72 @@ type InvestorBriefProps = {
   compact?: boolean;
 };
 
+function CoreChannelSymbol({ index }: { index: number }) {
+  const props = { viewBox: "0 0 64 64", role: "presentation", "aria-hidden": true, focusable: false } as const;
+  const symbols = [
+    <g key="data"><rect x="12" y="12" width="40" height="40" rx="12" className="icon-soft" /><path d="M22 40V31M32 40V22M42 40V27" strokeWidth="5" /><path d="M22 47h20" strokeWidth="2.5" opacity=".35" /></g>,
+    <g key="voice"><path d="M10 29v6M19 22v20M28 14v36M37 19v26M46 25v14M55 29v6" strokeWidth="5" /></g>,
+    <g key="chat"><path className="icon-soft" d="M16 13h32a10 10 0 0 1 10 10v17a10 10 0 0 1-10 10H29L17 58v-8h-1A10 10 0 0 1 6 40V23a10 10 0 0 1 10-10Z" /><circle className="icon-fill" cx="21" cy="32" r="3" /><circle className="icon-fill" cx="32" cy="32" r="3" /><circle className="icon-fill" cx="43" cy="32" r="3" /></g>,
+    <g key="whatsapp"><path d="M13 49 9 57l12-3a25 25 0 1 0-8-5Z" strokeWidth="3" /><path className="icon-fill" d="M23 19c-2-1-5 2-5 5 0 9 12 22 22 23 4 0 7-3 6-5l-7-4c-1-1-2 0-4 3-5-2-9-6-11-11 3-2 4-3 3-5Z" /></g>,
+    <g key="app"><rect x="16" y="5" width="32" height="54" rx="9" strokeWidth="3.5" /><rect className="icon-soft" x="22" y="20" width="20" height="25" rx="4" /><path d="M28 12h8M28 52h8" strokeWidth="3" /></g>,
+  ];
+  return <svg {...props}>{symbols[index]}</svg>;
+}
+
 function CoreChannelGraphic({ index }: { index: number }) {
-  const svgProps = { viewBox: "0 0 72 72", role: "presentation", focusable: false } as const;
-
-  if (index === 0) {
-    return <svg {...svgProps}><path d="M12 36h48M36 12v48" /><circle cx="36" cy="36" r="18" /><circle cx="36" cy="36" r="5" fill="currentColor" stroke="none" /><circle cx="19" cy="19" r="3" fill="currentColor" stroke="none" /><circle cx="53" cy="19" r="3" fill="currentColor" stroke="none" /><circle cx="19" cy="53" r="3" fill="currentColor" stroke="none" /><circle cx="53" cy="53" r="3" fill="currentColor" stroke="none" /></svg>;
+  const id = useId().replace(/:/g, "");
+  const illustrations = [
+    "",
+    "/assets/core-voice-ai.webp",
+    "/assets/core-chat-ai.webp",
+    "/assets/core-whatsapp-ai.webp",
+    "/assets/core-app.webp",
+  ];
+  if (illustrations[index]) {
+    return <div className={`core-capability-art core-capability-art-${index}`} aria-hidden="true">
+      <div className="core-capability-glow" />
+      <Image src={illustrations[index]} alt="" width={800} height={800} sizes="(max-width: 820px) 84vw, 48vw" unoptimized draggable={false} />
+    </div>;
   }
 
-  if (index === 1) {
-    return <svg {...svgProps}><path d="M9 39c5 0 5-15 10-15s5 25 10 25 5-38 10-38 5 39 10 39 5-24 10-24 5 13 10 13" /><path d="M9 56h54" opacity=".3" /></svg>;
-  }
-
-  if (index === 2) {
-    return <svg {...svgProps}><path d="M10 18h38a9 9 0 0 1 9 9v14a9 9 0 0 1-9 9H29l-11 9 2-9h-10a9 9 0 0 1-9-9V27a9 9 0 0 1 9-9Z" /><path d="M23 32h20M23 40h13" /></svg>;
-  }
-
-  if (index === 3) {
-    return <svg {...svgProps}><circle cx="36" cy="34" r="24" /><path d="M23 25c2-3 4-3 6-1l4 5c1 2 0 4-2 5l-2 1c3 5 6 8 11 10l1-2c1-2 3-3 5-2l5 3c2 1 2 4 0 6-3 4-8 5-13 3-9-3-18-12-21-21-2-4-1-8 1-10Z" fill="currentColor" stroke="none" /></svg>;
-  }
-
-  return <svg {...svgProps}><rect x="20" y="8" width="32" height="56" rx="7" /><path d="M28 18h16M28 27h16M28 36h10" /><circle cx="36" cy="54" r="3" fill="currentColor" stroke="none" /></svg>;
+  const nodes = [
+    [96, 72], [442, 62], [488, 205], [428, 333], [77, 227],
+  ];
+  const icons = [
+    "M18 8h20l12 12v36H18ZM38 8v14h12M25 32h18M25 40h18M25 48h12",
+    "M32 8 51 16v15c0 12-9 21-19 26-10-5-19-14-19-26V16ZM23 32l6 6 13-14",
+    "m13 29 6-15h26l6 15M10 30h44v19H10ZM18 49v7M46 49v7M19 38h4M41 38h4",
+    "m8 29 24-21 24 21M15 25v30h13V39h9v16h12V25",
+    "M42 21a10 10 0 1 1-20 0 10 10 0 0 1 20 0ZM13 55v-6c0-10 8-16 19-16s19 6 19 16v6Z",
+  ];
+  return <div className={`core-network core-network-${index}`} aria-hidden="true">
+    <svg className="core-network-map" viewBox="0 0 560 410" fill="none">
+      <defs>
+        <linearGradient id={`${id}-line`}><stop stopColor="#c989ea"/><stop offset=".55" stopColor="#ff39aa"/><stop offset="1" stopColor="#dca4eb"/></linearGradient>
+        <linearGradient id={`${id}-tile`} x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".85"/><stop offset="1" stopColor="#fbe6f6" stopOpacity=".6"/></linearGradient>
+      </defs>
+      {nodes.map(([x, y], n) => <g key={n}>
+        {[0, 9, -9].map(offset => <path key={offset} d={`M280 ${205 + offset} C${x < 280 ? 160 : 390} ${205 + offset}, ${x < 280 ? 210 : 365} ${y + offset}, ${x} ${y}`} stroke={`url(#${id}-line)`} strokeWidth={offset ? .65 : 1.4} opacity={offset ? .35 : .75}/>) }
+        <circle className="core-network-pulse" cx={(x + 280) / 2} cy={(y + 205) / 2} r="3.5" fill="#f552ae" style={{ animationDelay: `${n * -.7}s` }}/>
+        <g className="core-network-node" style={{ animationDelay: `${n * -.8}s` }}>
+          <rect x={x - 37} y={y - 37} width="74" height="74" rx="17" fill={`url(#${id}-tile)`} stroke="#edbfeb"/>
+          <svg x={x - 23} y={y - 23} width="46" height="46" viewBox="0 0 64 64" stroke="#89549f" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d={icons[n]}/></svg>
+        </g>
+      </g>)}
+      <g transform="translate(326 14) rotate(-8)" opacity=".6" stroke="#df9cdd">
+        <rect width="87" height="61" rx="10" fill={`url(#${id}-tile)`}/>
+        <path d="M17 45V33M34 45V25M51 45V30M68 45V15" strokeWidth="6" strokeLinecap="round"/>
+      </g>
+      <g transform="translate(235 326) rotate(7)" opacity=".65">
+        <rect width="116" height="65" rx="12" fill={`url(#${id}-tile)`} stroke="#edbfeb"/>
+        <path d="M13 42c14 0 12-26 27-22s12 24 27 14 16-24 35-22" stroke={`url(#${id}-line)`} strokeWidth="2"/>
+        <path d="M14 53h22m7 0h12" stroke="#dcb0e6" strokeWidth="3" strokeLinecap="round"/>
+      </g>
+    </svg>
+    <div className="core-network-orb"><CoreChannelSymbol index={index}/></div>
+    {index === 1 && <div className="core-network-wave">{[12, 25, 40, 26, 52, 35, 20, 42, 25].map((height, n) => <i key={n} style={{ height, animationDelay: `${n * -.14}s` }}/>)}</div>}
+    {(index === 2 || index === 3) && <div className="core-network-messages"><span/><span/><span/></div>}
+  </div>;
 }
 
 export function InvestorBrief({ compact = false }: InvestorBriefProps) {
@@ -498,10 +544,10 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
 
       {compact && <section className="core-chapter" id="core">
         <div className="core-inner">
-          <div className="core-copy" data-reveal><p className="eyebrow">{t.core.label}</p><h2>{t.core.title}</h2><p>{t.core.lead}</p></div>
+          <div className="core-copy" data-reveal><p className="eyebrow">{t.core.label}</p><h2>{t.core.title.split(lang === "es" ? "IA" : "AI")[0]}<span>{lang === "es" ? "IA" : "AI"}</span>{t.core.title.split(lang === "es" ? "IA" : "AI")[1]}</h2><p>{t.core.lead}</p></div>
           <div className="core-board">
             <div className="core-channel-list" role="list" aria-label={t.core.title}>{t.core.channels.map(([label, body], index) => <article className={`core-channel-card core-channel-card-${index + 1} ${index === coreStep ? "is-active" : ""}`} aria-hidden={index !== coreStep} key={label} role="listitem">
-              <div className="core-channel-visual"><CoreChannelGraphic index={index} /></div>
+              <CoreChannelGraphic index={index} />
               <div className="core-channel-copy"><h3>{label}</h3><p>{body}</p></div>
             </article>)}</div>
             <div className="core-channel-progress" aria-hidden="true"><div>{t.core.channels.map((channel, index) => <i className={index === coreStep ? "is-active" : ""} key={channel[0]} />)}</div></div>
@@ -609,29 +655,30 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
           <div className="app-demo-copy">
             <p className="eyebrow">{lang === "es" ? "LA EXPERIENCIA WESO" : "THE WESO EXPERIENCE"}</p>
             <h2>{lang === "es" ? "Todo el servicio." : "Every step."}<br /><span>{lang === "es" ? "En tus manos." : "In your hands."}</span></h2>
-            <p className="app-demo-intro">{lang === "es" ? "Desde la solicitud hasta la solución. Una experiencia conectada para quien necesita asistencia." : "From request to resolution. A connected experience for the person who needs assistance."}</p>
+            <p className="app-demo-intro">{lang === "es" ? "Desde la solicitud hasta la solución. Una experiencia conectada para clientes y profesionales." : "From request to resolution. A connected experience for customers and service professionals."}</p>
             <ol className="app-demo-journey">{(lang === "es" ? [
               ["Solicita", "Encuentra el servicio que necesitas."],
-              ["Conoce a tu profesional", "Consulta quién estará a cargo de ayudarte."],
-              ["Sigue cada avance", "Revisa el estado de tu servicio en un solo lugar."],
+              ["Sigue cada avance", "Consulta el estado del servicio y contacta a tu profesional."],
+              ["Listo para atender", "El proveedor recibe pedidos y organiza su disponibilidad."],
             ] : [
               ["Request", "Find the service you need."],
-              ["Meet your professional", "See who will be there to help."],
-              ["Follow every step", "Check your service status in one place."],
+              ["Follow every step", "Track your service and contact your professional."],
+              ["Ready to help", "Providers receive requests and manage their availability."],
             ]).map(([title, description], index) => <li key={index} className={index === (appDemoProgress < .305 ? 0 : appDemoProgress < .675 ? 1 : 2) ? "is-active" : ""}><span className="app-demo-number">0{index + 1}</span><div><h3>{title}</h3><p>{description}</p></div></li>)}</ol>
           </div>
           <div className="app-demo-device">
+          <span className="app-demo-audience">{appDemoProgress < .675 ? (lang === "es" ? "APP DEL CLIENTE" : "CUSTOMER APP") : (lang === "es" ? "APP DEL PROVEEDOR" : "PROVIDER APP")}</span>
           <div className="app-demo-phone">
             <div className="app-demo-screen">
               {[
-                [140, 44, 438, 950],
-                [705, 53, 438, 957],
-                [1287, 41, 438, 957],
-              ].map(([x, y, width, height], index) => {
+                "/assets/app-client-home.png",
+                "/assets/app-client-tracking.png",
+                "/assets/app-provider-home.png",
+              ].map((src, index) => {
                 const opacity = index === 0 ? 1 : Math.max(0, Math.min(1, (appDemoProgress - (index === 1 ? .24 : .61)) / .13));
-                const labels = lang === "es" ? ["Inicio y solicitud de servicios", "Perfil del profesional", "Seguimiento del servicio"] : ["Home and service requests", "Professional profile", "Service tracking"];
+                const labels = lang === "es" ? ["App del cliente: inicio y solicitud de servicios", "App del cliente: seguimiento y contacto del profesional", "App del proveedor: pedidos y disponibilidad"] : ["Customer app: home and service requests", "Customer app: service tracking and professional contact", "Provider app: requests and availability"];
                 return <div className="app-demo-screen-layer" key={index} style={{ opacity }} aria-hidden={index !== (appDemoProgress < .305 ? 0 : appDemoProgress < .675 ? 1 : 2)}>
-                  <img src="/assets/app-three-screens.png" alt={labels[index]} draggable={false} style={{ width: `${1847 / width * 100}%`, height: `${1037 / height * 100}%`, left: `${-x / width * 100}%`, top: `${-y / height * 100}%` }} />
+                  <img src={src} alt={labels[index]} draggable={false} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                 </div>;
               })}
             </div>
