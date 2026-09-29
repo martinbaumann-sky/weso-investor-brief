@@ -1,0 +1,1 @@
+export { useCorporatePlans } from "@/fixtures";

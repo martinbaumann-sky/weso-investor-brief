@@ -1,0 +1,1 @@
+export { useCorporateClients } from "@/fixtures";

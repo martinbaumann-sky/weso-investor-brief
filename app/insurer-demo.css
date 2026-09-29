@@ -1,0 +1,10 @@
+.insurer-demo { padding: 110px max(24px, calc((100vw - 1400px) / 2)) 80px; background: #f5f3ef; scroll-margin-top: 80px; }
+.insurer-intro { display: flex; justify-content: space-between; align-items: flex-end; gap: 48px; margin: 0 auto 40px; max-width: 1240px; }
+.insurer-intro h2 { margin: 24px 0 0; font-family: var(--font-weso-display), Arial, sans-serif; font-size: clamp(40px, 4.8vw, 70px); line-height: .98; letter-spacing: -.055em; font-weight: 520; }
+.insurer-intro h2 span { color: var(--pink); }
+.insurer-intro-note { max-width: 350px; }
+.insurer-intro-note p { color: var(--muted); font-size: 17px; line-height: 1.55; }
+.insurer-intro-note > span { font-size: 11px; font-weight: 650; }
+.insurer-portal-frame { display: block; width: 100%; height: min(840px, 85svh); min-height: 600px; border: 1px solid #dddbe5; border-radius: 18px; background: #f8f9fd; box-shadow: 0 24px 65px #36235712; }
+.insurer-bottom-note { text-align: center; margin: 24px 0 0; font-size: 12px; line-height: 1.6; color: #8c8490; }
+@media(max-width: 650px) { .insurer-demo { padding: 75px 12px 50px; }.insurer-intro { display: block; padding: 0 8px; margin-bottom: 28px; }.insurer-intro-note { max-width: 100%; margin-top: 25px; }.insurer-intro-note p { font-size: 15px; }.insurer-portal-frame { border-radius: 12px; min-height: 680px; } }

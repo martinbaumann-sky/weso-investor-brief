@@ -1,0 +1,1 @@
+export { useInsuranceCommunications } from "@/fixtures";

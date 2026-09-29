@@ -1,0 +1,1 @@
+export { useInsuranceOrderDetail } from "@/fixtures";

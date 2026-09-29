@@ -1,0 +1,1 @@
+export { useMapboxToken } from "@/fixtures";

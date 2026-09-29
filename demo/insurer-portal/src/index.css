@@ -1,0 +1,540 @@
+@import 'react-grid-layout/css/styles.css';
+@import 'react-resizable/css/styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Weso Design System - Apple Liquid Glass Style */
+
+@layer base {
+  :root {
+    /* Primary - Weso Purple */
+    --primary: 258 90% 58%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary - Soft Surface */
+    --secondary: 240 10% 96%;
+    --secondary-foreground: 240 10% 30%;
+    
+    /* Background & Surface - Light, clean, spacious */
+    --background: 45 11% 93%;
+    --foreground: 240 10% 10%;
+    
+    /* Cards - Glass surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 10%;
+    
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+    
+    /* Muted - Subtle backgrounds */
+    --muted: 240 10% 96%;
+    --muted-foreground: 240 5% 45%;
+    
+    /* Accent - Rose/Pink subtle */
+    --accent: 340 60% 96%;
+    --accent-foreground: 340 70% 45%;
+    
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Success */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    /* Info */
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+    
+    /* Borders - Ultra subtle */
+    --border: 240 10% 90%;
+    --input: 240 10% 90%;
+    --ring: 258 90% 58%;
+    
+    --radius: 1.625rem;
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 5% 40%;
+    --sidebar-primary: 258 90% 58%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 258 80% 97%;
+    --sidebar-accent-foreground: 258 90% 58%;
+    --sidebar-border: 240 10% 94%;
+    --sidebar-ring: 258 90% 58%;
+    
+    /* === LIQUID GLASS TOKENS === */
+    
+    /* Glass Surfaces */
+    --glass-bg: 0 0% 100% / 0.7;
+    --glass-bg-elevated: 0 0% 100% / 0.85;
+    --glass-bg-solid: 0 0% 100% / 0.95;
+    --glass-border: 0 0% 100% / 0.5;
+    --glass-border-subtle: 240 10% 90% / 0.6;
+    
+    /* Blur Levels */
+    --blur-xs: 4px;
+    --blur-sm: 8px;
+    --blur-md: 16px;
+    --blur-lg: 24px;
+    --blur-xl: 40px;
+    
+    /* Liquid Shadows - Soft and diffused */
+    --shadow-glass: 0 1px 3px hsl(240 10% 10% / 0.02), 
+                    0 4px 12px hsl(240 10% 10% / 0.04),
+                    0 8px 32px hsl(240 10% 10% / 0.06);
+    --shadow-glass-sm: 0 1px 2px hsl(240 10% 10% / 0.02),
+                       0 2px 8px hsl(240 10% 10% / 0.03);
+    --shadow-glass-lg: 0 2px 4px hsl(240 10% 10% / 0.02),
+                       0 8px 24px hsl(240 10% 10% / 0.05),
+                       0 16px 56px hsl(240 10% 10% / 0.08);
+    --shadow-glass-glow: 0 0 0 1px hsl(var(--primary) / 0.1),
+                         0 4px 24px hsl(var(--primary) / 0.15);
+    
+    /* Liquid Gradients */
+    --gradient-glass: linear-gradient(180deg, hsl(0 0% 100% / 0.9) 0%, hsl(0 0% 100% / 0.7) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(258 90% 58%) 0%, hsl(280 80% 60%) 50%, hsl(320 75% 62%) 100%);
+    --gradient-primary-soft: linear-gradient(135deg, hsl(258 90% 97%) 0%, hsl(320 75% 97%) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(0 0% 100% / 0.9) 0%, hsl(240 20% 99%) 100%);
+    
+    /* Status Colors - Softer, more refined */
+    --status-scheduled: 199 89% 48%;
+    --status-assigned: 258 90% 58%;
+    --status-en-route: 38 92% 50%;
+    --status-in-progress: 320 75% 55%;
+    --status-completed: 142 71% 45%;
+    --status-cancelled: 0 72% 51%;
+  }
+
+  .dark {
+    --primary: 258 85% 70%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 240 10% 15%;
+    --secondary-foreground: 240 10% 90%;
+    
+    --background: 240 10% 6%;
+    --foreground: 0 0% 95%;
+    
+    --card: 240 10% 10%;
+    --card-foreground: 0 0% 95%;
+    
+    --popover: 240 10% 10%;
+    --popover-foreground: 0 0% 95%;
+    
+    --muted: 240 10% 15%;
+    --muted-foreground: 240 5% 60%;
+    
+    --accent: 320 50% 20%;
+    --accent-foreground: 320 70% 80%;
+    
+    --destructive: 0 62% 55%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 240 10% 18%;
+    --input: 240 10% 18%;
+    --ring: 258 85% 70%;
+    
+    --sidebar-background: 240 10% 8%;
+    --sidebar-foreground: 240 5% 60%;
+    --sidebar-primary: 258 85% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 258 30% 18%;
+    --sidebar-accent-foreground: 258 85% 80%;
+    --sidebar-border: 240 10% 15%;
+    --sidebar-ring: 258 85% 70%;
+    
+    /* Dark mode glass */
+    --glass-bg: 240 10% 10% / 0.7;
+    --glass-bg-elevated: 240 10% 12% / 0.85;
+    --glass-bg-solid: 240 10% 10% / 0.95;
+    --glass-border: 0 0% 100% / 0.08;
+    --glass-border-subtle: 0 0% 100% / 0.05;
+    
+    --shadow-glass: 0 1px 3px hsl(0 0% 0% / 0.1), 
+                    0 4px 12px hsl(0 0% 0% / 0.2),
+                    0 8px 32px hsl(0 0% 0% / 0.3);
+    --shadow-glass-sm: 0 1px 2px hsl(0 0% 0% / 0.1),
+                       0 2px 8px hsl(0 0% 0% / 0.15);
+    --shadow-glass-lg: 0 2px 4px hsl(0 0% 0% / 0.1),
+                       0 8px 24px hsl(0 0% 0% / 0.25),
+                       0 16px 56px hsl(0 0% 0% / 0.4);
+    
+    --gradient-glass: linear-gradient(180deg, hsl(240 10% 14% / 0.9) 0%, hsl(240 10% 10% / 0.7) 100%);
+    --gradient-surface: linear-gradient(180deg, hsl(240 10% 12% / 0.9) 0%, hsl(240 10% 8%) 100%);
+    --radius: 1.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* === LIQUID GLASS COMPONENTS === */
+  
+  /* Base Glass Surface */
+  .glass {
+    @apply relative;
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(var(--blur-lg));
+    -webkit-backdrop-filter: blur(var(--blur-lg));
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--shadow-glass);
+  }
+  
+  .glass-elevated {
+    @apply relative;
+    background: hsl(var(--glass-bg-elevated));
+    backdrop-filter: blur(var(--blur-xl));
+    -webkit-backdrop-filter: blur(var(--blur-xl));
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--shadow-glass-lg);
+  }
+  
+  .glass-solid {
+    @apply relative;
+    background: hsl(var(--glass-bg-solid));
+    backdrop-filter: blur(var(--blur-md));
+    -webkit-backdrop-filter: blur(var(--blur-md));
+    border: 1px solid hsl(var(--glass-border-subtle));
+    box-shadow: var(--shadow-glass-sm);
+  }
+  
+  .glass-subtle {
+    @apply relative;
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(var(--blur-sm));
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+  }
+  
+  /* Glass Card */
+  .glass-card {
+    @apply glass rounded-2xl;
+  }
+  
+  .glass-card-elevated {
+    @apply glass-elevated rounded-2xl;
+  }
+  
+  /* Glass Panel - for sidebars, sheets */
+  .glass-panel {
+    @apply glass-elevated;
+  }
+  
+  /* Glass Header - sticky headers */
+  .glass-header {
+    @apply glass-solid;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  
+  /* Glass Pill - for badges, status pills */
+  .glass-pill {
+    @apply glass-subtle rounded-full px-3 py-1;
+    border: 1px solid hsl(var(--glass-border-subtle));
+  }
+  
+  /* === GRADIENT KPI / PANEL SURFACES === */
+  .surface-gradient {
+    background-image: linear-gradient(160deg, hsl(var(--card)) 0%, hsl(var(--muted) / 0.55) 100%);
+  }
+
+  .kpi-gradient {
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(135deg, hsl(var(--kpi-tone) / 0.14) 0%, hsl(var(--card)) 62%);
+  }
+
+  .kpi-gradient::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background-image: linear-gradient(90deg, hsl(var(--kpi-tone) / 0.9) 0%, hsl(var(--kpi-tone) / 0) 100%);
+  }
+
+  .kpi-chip {
+    background-image: linear-gradient(135deg, hsl(var(--kpi-tone) / 0.22) 0%, hsl(var(--kpi-tone) / 0.08) 100%);
+    color: hsl(var(--kpi-tone));
+  }
+
+  .tone-primary { --kpi-tone: 258 90% 58%; }
+  .tone-violet  { --kpi-tone: 280 80% 60%; }
+  .tone-cyan    { --kpi-tone: 190 85% 45%; }
+  .tone-emerald { --kpi-tone: 152 68% 40%; }
+  .tone-amber   { --kpi-tone: 38 92% 50%; }
+  .tone-rose    { --kpi-tone: 340 80% 58%; }
+  .tone-indigo  { --kpi-tone: 232 78% 60%; }
+
+  .dark .tone-primary { --kpi-tone: 258 85% 72%; }
+  .dark .tone-violet  { --kpi-tone: 280 80% 74%; }
+  .dark .tone-cyan    { --kpi-tone: 190 85% 60%; }
+  .dark .tone-emerald { --kpi-tone: 152 60% 55%; }
+  .dark .tone-amber   { --kpi-tone: 38 92% 62%; }
+  .dark .tone-rose    { --kpi-tone: 340 80% 70%; }
+  .dark .tone-indigo  { --kpi-tone: 232 78% 72%; }
+
+  /* Branded scope: KPI tones follow the insurer's configured colors */
+  .brand-scope .tone-primary { --kpi-tone: var(--brand-tone-1, 258 90% 58%); }
+  .brand-scope .tone-violet  { --kpi-tone: var(--brand-tone-2, 280 80% 60%); }
+  .brand-scope .tone-cyan    { --kpi-tone: var(--brand-tone-3, 190 85% 45%); }
+  .brand-scope .tone-emerald { --kpi-tone: var(--brand-tone-4, 152 68% 40%); }
+  .brand-scope .tone-amber   { --kpi-tone: var(--brand-tone-5, 38 92% 50%); }
+  .brand-scope .tone-indigo  { --kpi-tone: var(--brand-tone-6, 232 78% 60%); }
+  .brand-scope .tone-rose    { --kpi-tone: var(--brand-tone-7, 340 80% 58%); }
+
+
+  /* Gradient utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-primary-soft {
+    background: var(--gradient-primary-soft);
+  }
+  
+  .gradient-glass {
+    background: var(--gradient-glass);
+  }
+  
+  .gradient-surface {
+    background: var(--gradient-surface);
+  }
+  
+  /* Glass shadows */
+  .shadow-glass {
+    box-shadow: var(--shadow-glass);
+  }
+  
+  .shadow-glass-sm {
+    box-shadow: var(--shadow-glass-sm);
+  }
+  
+  .shadow-glass-lg {
+    box-shadow: var(--shadow-glass-lg);
+  }
+  
+  .shadow-glass-glow {
+    box-shadow: var(--shadow-glass-glow);
+  }
+  
+  /* Status pill colors */
+  .status-scheduled {
+    @apply bg-info/10 text-info border-info/20;
+  }
+  
+  .status-assigned {
+    @apply bg-primary/10 text-primary border-primary/20;
+  }
+  
+  .status-en-route {
+    @apply bg-warning/10 text-warning border-warning/20;
+  }
+  
+  .status-in-progress {
+    @apply bg-accent text-accent-foreground border-accent-foreground/20;
+  }
+  
+  .status-completed {
+    @apply bg-success/10 text-success border-success/20;
+  }
+  
+  .status-cancelled {
+    @apply bg-destructive/10 text-destructive border-destructive/20;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Apple-style text gradient */
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Smooth transitions */
+  .transition-glass {
+    @apply transition-all duration-300 ease-out;
+  }
+  
+  /* Focus ring - Apple style */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+
+/* Rich Text Editor - TipTap content styles */
+.rich-text-editor-content {
+  color: hsl(var(--foreground));
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.rich-text-editor-content h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: hsl(var(--foreground));
+}
+
+.rich-text-editor-content h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+.rich-text-editor-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+.rich-text-editor-content p {
+  margin-bottom: 0.75rem;
+}
+
+.rich-text-editor-content ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rich-text-editor-content ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.rich-text-editor-content ul li,
+.rich-text-editor-content ol li {
+  margin-bottom: 0.25rem;
+}
+
+.rich-text-editor-content ul li p,
+.rich-text-editor-content ol li p {
+  margin-bottom: 0.1rem;
+}
+
+.rich-text-editor-content blockquote {
+  border-left: 4px solid hsl(var(--muted-foreground) / 0.3);
+  padding-left: 1rem;
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 0.75rem;
+}
+
+.rich-text-editor-content pre {
+  background: hsl(var(--muted));
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+
+.rich-text-editor-content code {
+  background: hsl(var(--muted));
+  border-radius: 0.25rem;
+  padding: 0.15rem 0.35rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.875em;
+}
+
+.rich-text-editor-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+.rich-text-editor-content a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rich-text-editor-content img {
+  border-radius: 0.5rem;
+  max-width: 100%;
+  margin: 1rem auto;
+  display: block;
+}
+
+.rich-text-editor-content hr {
+  border: none;
+  border-top: 1px solid hsl(var(--border));
+  margin: 1.5rem 0;
+}
+
+.rich-text-editor-content mark {
+  border-radius: 0.15rem;
+  padding: 0.05rem 0.15rem;
+}
+
+.rich-text-editor-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+  height: 0;
+}
+
+/* React Grid Layout */
+
+.react-grid-item.react-grid-placeholder {
+  background: hsl(var(--primary) / 0.15) !important;
+  border: 2px dashed hsl(var(--primary) / 0.4);
+  border-radius: 0.75rem;
+  opacity: 1 !important;
+}
+.react-grid-item > .react-resizable-handle {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.dashboard-editing .react-grid-item > .react-resizable-handle {
+  opacity: 0.6;
+}
+.dashboard-editing .react-grid-item {
+  cursor: grab;
+}
+.dashboard-editing .react-grid-item.react-draggable-dragging {
+  cursor: grabbing;
+  z-index: 100;
+}
+.dashboard-editing .dashboard-widget {
+  outline: 2px dashed hsl(var(--primary) / 0.35);
+  outline-offset: -4px;
+  border-radius: 0.75rem;
+}

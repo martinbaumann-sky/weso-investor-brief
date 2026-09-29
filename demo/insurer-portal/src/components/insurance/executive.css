@@ -1,0 +1,126 @@
+.insurance-dashboard { background: #f8f9fd; color: #111735; --primary: 258 90% 60%; }
+.executive-welcome h1 { font-size: clamp(24px, 2.2vw, 34px); font-weight: 750; letter-spacing: -.045em; margin: 8px 0 2px; }
+.executive-welcome p { color: #6b7393; font-size: 15px; }
+.executive-company-badge { display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px; border-radius: 30px; background: hsl(var(--company-brand-primary-soft, 152 55% 96%)); color: hsl(var(--company-brand-primary-ink, 152 68% 30%)); font-size: 12px; font-weight: 600; }
+.executive-company-badge::before { content: ""; width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--company-brand-primary, #079e6a); box-shadow: 0 0 0 3px hsl(var(--company-brand-primary-hsl, 152 68% 40%) / .1); }
+.executive-layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 24px; align-items: start; }
+.executive-grid .dashboard-widget { border-radius:16px; }
+.executive-grid .executive-metric,.executive-grid .executive-panel { height:100%; }
+.executive-grid .executive-metric { min-height:0; }
+.executive-grid .executive-panel { overflow:auto; }
+.executive-grid .dashboard-widget>div { scrollbar-width:thin; }
+.executive-grid .dashboard-editing .dashboard-widget { outline:2px dashed #9b7afd; outline-offset:2px; }
+.executive-main,.executive-rail { min-width: 0; display: grid; gap: 14px; }
+.executive-rail { border-left: 1px solid #e4e7f0; padding-left: 22px; }
+.executive-hero-row { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 12px; }
+.executive-secondary-row { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.executive-metric { position: relative; overflow: hidden; border-radius: 16px; padding: 20px; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; }
+.executive-metric strong { font-size: clamp(28px,3vw,46px); font-weight: 750; letter-spacing: -.05em; line-height: 1.12; margin-top: 12px; font-variant-numeric: tabular-nums; }
+.executive-metric small { font-size: 12px; color: #5e6987; }
+.executive-label { display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 1.35; min-height: 36px; }
+.executive-icon { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border-radius: 11px; background: #ffffff55; }
+.executive-hero { background: linear-gradient(120deg,#182039,#252e46); color: white; min-height: 200px; }
+.executive-hero strong { font-size: clamp(40px,4vw,58px); position: relative; z-index: 1; }
+.executive-hero small { color: #c6cce0; margin-top: auto; font-size: 11px; z-index: 1; }
+.executive-hero .executive-icon { background: #ffffff15; }
+.executive-spark { position: absolute; right: 20px; top: 75px; width: 30%; height: 50px; display: flex; align-items: flex-end; gap: 5px; opacity: .8; }
+.executive-spark i { flex: 1; border-radius: 4px 4px 0 0; background: hsl(var(--company-brand-primary-hsl, 258 90% 60%) / .28); }
+.executive-spark i:last-child { background: var(--company-brand-primary, #6d35ff); }
+.executive-lavender { background: linear-gradient(120deg,#f0edff,#eae5ff); }
+.executive-lavender .executive-icon,.executive-lavender>span { color: #6830fa; }
+.executive-mint { background: linear-gradient(120deg,#e6fbf1,#dcf5ed); }
+.executive-mint .executive-icon { color: #079e6a; }
+.executive-rose { background: linear-gradient(120deg,#ffedf0,#fce4e9); }
+.executive-peach { background: linear-gradient(120deg,#fff4e2,#fff0dc); }
+.executive-blue { background: linear-gradient(120deg,#e8f4ff,#dceeff); }
+.executive-secondary-row .executive-metric { min-height: 142px; padding: 16px 18px; }
+.executive-secondary-row strong { font-size: 32px; margin-top: 2px; }
+.executive-secondary-row .executive-label { font-size: 12px; }
+.executive-rose .executive-label svg { color: #fa5a70; }
+.executive-peach .executive-label svg { color: #ef9708; }
+.executive-blue .executive-label svg { color: #3386ff; }
+.executive-metric .executive-amount { font-size: clamp(20px,2.2vw,32px); overflow-wrap: anywhere; }
+.executive-metric .executive-rating { font-size: clamp(25px,2.6vw,40px); }
+.executive-track { height: 8px; background: #7c4bf522; width: 100%; margin-top: auto; border-radius: 8px; overflow: hidden; }
+.executive-track i { display: block; height: 100%; background: #7540ff; border-radius: inherit; }
+.executive-mint .executive-track { background: #19ab7c22; }
+.executive-mint .executive-track i { background: #27b783; }
+.executive-ring { position: absolute; right: 16px; bottom: 33px; width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; }
+.executive-ring b { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #ffedf0; font-size: 11px; }
+.executive-panel { padding: 18px; background: #fff; border: 1px solid #eceef6; border-radius: 16px; box-shadow: 0 4px 18px #24295402; min-width: 0; }
+.executive-panel-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.executive-panel h2 { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 650; letter-spacing: -.025em; }
+.executive-panel h2 svg { flex-shrink: 0; }
+.executive-panel-heading p,.executive-scope { font-size: 11px; color: #727b97; margin-top: 5px; }
+.executive-scope svg { display: inline; margin-right: 4px; }
+.executive-period { font-size: 10px; padding: 6px 9px; border: 1px solid #e9ebf4; border-radius: 10px; white-space: nowrap; color: #66708d; }
+.executive-trend { display: flex; align-items: center; gap: 18px; }
+.executive-chart { min-width: 0; flex: 1; height: 180px; }
+.executive-completion { border-left: 1px solid #eceef6; padding-left: 20px; display: flex; flex-direction: column; min-width: 120px; }
+.executive-completion strong { font-size: 34px; font-weight: 750; letter-spacing: -.05em; }
+.executive-completion span { color: #657090; font-size: 13px; }
+.executive-completion small { color: #0c9b67; margin-top: 12px; }
+.executive-legend { display: flex; gap: 18px; font-size: 11px; color: #6a7495; margin-top: 10px; }
+.executive-legend span { display: flex; align-items: center; gap: 6px; }
+.executive-legend i,.executive-status-row>i { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+.executive-table-scroll { overflow-x: auto; }
+.executive-table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.executive-table th { color: #77809c; font-size: 11px; font-weight: 400; text-align: left; padding: 6px 3px; }
+.executive-table td { padding: 10px 3px; border-top: 1px solid #eef0f6; }
+.executive-table td:not(:first-child),.executive-table th:not(:first-child) { text-align: right; }
+.executive-star { color: #ffb62e; fill: #ffb62e; display: inline; margin-right: 5px; }
+.executive-action { display: flex; align-items: center; gap: 12px; background: #f0ecff; border-radius: 12px; padding: 10px 12px; margin-top: 10px; transition: background .2s; }
+.executive-action:hover { background: #e6deff; }
+.executive-action:focus-visible { outline: 2px solid #703bfa; outline-offset: 3px; }
+.executive-action>svg { margin-left: auto; flex-shrink: 0; }
+.executive-action b { font-size: 12px; font-weight: 600; }
+.executive-action small { display: block; font-size: 10px; color: #697392; }
+.executive-action-icon { border-radius: 50%; background: #19213b; color: white; display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; }
+.executive-event { display: flex; gap: 10px; padding: 14px 0; border-bottom: 1px solid #eef0f6; }
+.executive-event:last-child { border-bottom: 0; padding-bottom: 0; }
+.executive-event b { font-size: 11px; font-weight: 600; }
+.executive-event small,.executive-event time { display: block; color: #747d98; font-size: 10px; margin-top: 3px; }
+.executive-event-icon { width: 32px; height: 32px; flex-shrink: 0; display: grid; place-items: center; border-radius: 50%; color: #3181e9; background: #e8f2ff; }
+.executive-event-icon.completed { color: #189b6e; background: #e5f8ef; }
+.executive-event-icon.rating { color: #723bf3; background: #f0eaff; }
+.executive-attention { display: flex; align-items: center; gap: 12px; padding: 8px 0; font-size: 11px; border-bottom: 1px solid #eef0f6; }
+.executive-attention b { min-width: 40px; padding: 6px; text-align: center; background: #fff0d7; color: #bb6c06; font-size: 17px; border-radius: 30px; }
+.executive-attention:nth-child(2) b { background: #ffe4e9; color: #e34360; }
+.executive-status-bar { display: flex; height: 14px; overflow: hidden; border-radius: 12px; background: #eff0f6; margin: 18px 0 8px; }
+.executive-status-row { display: flex; gap: 8px; align-items: center; border-bottom: 1px solid #f0f1f7; padding: 10px 0; font-size: 10px; }
+.executive-status-row>span { flex: 1; }
+.executive-status-row small { min-width: 39px; text-align: right; color: #6b7596; }
+.executive-empty { min-height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #6b7490; font-size: 13px; }
+.executive-additional>h2 { font-size: 20px; font-weight: 650; margin-bottom: 16px; letter-spacing: -.03em; }
+.executive-additional .surface-gradient { background: white; border: 1px solid #eceef6; box-shadow: none; border-radius:16px; }
+.executive-additional .kpi-gradient { background: linear-gradient(120deg,#f6f3ff,#ede9ff); border:1px solid #eae5f6; border-radius:16px; box-shadow:none; }
+.insurance-shell { background: #f8f9fd; }
+.insurance-sidebar { width: 224px; background: #fafbff !important; box-shadow: none; backdrop-filter: none; border-color: #e6e8f1; }
+.insurance-sidebar[data-collapsed="true"] { width: 64px; }
+.insurance-sidebar[data-collapsed="true"] nav { padding:8px; }
+.insurance-sidebar[data-collapsed="true"] nav a { padding:10px 0; justify-content:center; }
+.insurance-sidebar~.insurance-main { margin-left:224px; }
+.insurance-sidebar[data-collapsed="true"]~.insurance-main { margin-left:64px; }
+.insurance-shell header.glass-header { background:#fafbff; box-shadow:none; border-color:#eceef6; }
+@media(max-width:640px) { .insurance-shell header.glass-header { padding:12px; } .insurance-shell header.glass-header>div { flex-wrap:wrap; gap:10px; } .insurance-shell header.glass-header>div>div:first-child { width:100%; } .insurance-shell header.glass-header>div>div:last-child { flex-wrap:wrap; gap:4px; } }
+.insurance-sidebar nav a { min-height: 46px; color: #58627f; }
+.insurance-sidebar nav a:not([aria-current="page"]):hover,.insurance-sidebar nav a:not([aria-current="page"]):focus-visible { background: hsl(var(--company-brand-primary-soft, 258 90% 96%)) !important; color: hsl(var(--company-brand-primary-ink, 258 85% 38%)) !important; }
+.insurance-sidebar nav a:not([aria-current="page"]):hover svg,.insurance-sidebar nav a:not([aria-current="page"]):focus-visible svg { color: var(--company-brand-primary, #6331fa); }
+.insurance-sidebar nav a[aria-current="page"] { background: hsl(var(--company-brand-primary-soft, 258 90% 96%)) !important; background-image: none !important; color: hsl(var(--company-brand-primary-ink, 258 85% 38%)) !important; box-shadow: none; }
+.insurance-sidebar .insurance-company { background: hsl(var(--company-brand-primary-soft, 0 0% 100%)) !important; border-color: hsl(var(--company-brand-primary-hsl, 220 15% 90%) / .2) !important; }
+.insurance-sidebar .insurance-company-mark { border: 1px solid hsl(var(--company-brand-primary-hsl, 220 15% 90%) / .18); box-shadow: 0 0 0 3px hsl(var(--company-brand-primary-hsl, 220 15% 90%) / .07); }
+.insurance-sidebar .insurance-company-placeholder { background: hsl(var(--company-brand-primary-tint, 258 90% 92%)); color: hsl(var(--company-brand-primary-ink, 258 85% 38%)); }
+.insurance-sidebar .insurance-company p:first-child { color: hsl(var(--company-brand-primary-ink, 258 85% 38%)); }
+.insurance-brand-hero { background: hsl(var(--company-brand-primary-soft, 258 90% 97%)); border-color: hsl(var(--company-brand-primary-hsl, 258 90% 60%) / .14); }
+.insurance-brand-hero-mark { border-color: hsl(var(--company-brand-primary-hsl, 258 90% 60%) / .18); box-shadow: 0 2px 8px hsl(var(--company-brand-primary-hsl, 258 90% 60%) / .08); }
+.insurance-brand-name { color: hsl(var(--company-brand-primary-ink, 258 85% 38%)); }
+.executive-hero .executive-icon { color: var(--company-brand-primary, #6d35ff); background: hsl(var(--company-brand-primary-soft, 258 90% 96%)); }
+.executive-hero { background: linear-gradient(125deg, hsl(var(--company-brand-primary-soft, 258 90% 97%)), #fff 74%); border: 1px solid hsl(var(--company-brand-primary-hsl, 258 90% 60%) / .12); color: #111735; }
+.executive-hero small { color: #68718c; }
+.insurance-sidebar .weso-wordmark { display:flex; align-items:center; gap:8px; font-size: 30px; font-weight: 850; letter-spacing: -.07em; color: #642cff; }
+.insurance-sidebar .weso-wordmark img { width:28px; height:28px; border-radius:8px; object-fit:cover; flex:0 0 28px; }
+@media(min-width:1600px) { .insurance-dashboard>.p-6 { padding: 30px 36px; } .executive-layout { grid-template-columns:minmax(0,1fr) 320px; } }
+@media(max-width:1250px) { .executive-layout { grid-template-columns: minmax(0,1fr); } .executive-rail { grid-template-columns: repeat(3,minmax(0,1fr)); border-left:0; padding-left:0; } }
+@media(max-width:850px) { .executive-hero-row { grid-template-columns: 1fr 1fr; } .executive-hero { grid-column:1/-1; min-height:180px; } .executive-rail { grid-template-columns:1fr; } .executive-secondary-row { grid-template-columns:1fr; } .executive-secondary-row .executive-metric { min-height:120px; } .executive-period { display:none; } }
+@media(max-width:640px) { .insurance-shell .insurance-sidebar~.insurance-main { margin-left:64px; } .insurance-sidebar[data-collapsed="true"] .insurance-company { display:none; } .insurance-sidebar[data-collapsed="true"] .weso-wordmark { font-size:22px; } .insurance-sidebar[data-collapsed="true"] .weso-wordmark img { width:30px; height:30px; flex-basis:30px; } .insurance-dashboard>.p-6 { padding:16px 12px; } .executive-metric { padding:14px; } .executive-hero-row { gap:8px; } .executive-label { font-size:11px; gap:6px; } .executive-icon { width:28px; height:28px; flex-basis:28px; } .executive-trend { flex-direction:column; align-items:stretch; } .executive-completion { border-left:0; padding-left:0; flex-direction:row; align-items:center; gap:12px; } .executive-completion strong { font-size:26px; } .executive-completion small { margin-top:0; } .executive-panel { padding:14px; } }
+@media(prefers-reduced-motion:reduce) { .insurance-dashboard *, .insurance-sidebar * { transition:none !important; animation:none !important; } }

@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
 import ServiceUniverse from "./service-universe";
+import InsurerDemo from "./insurer-demo";
 
 type InvestorBriefProps = {
   compact?: boolean;
@@ -555,6 +556,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>}
 
+      {compact && <InsurerDemo lang={lang} />}
       {compact && <ServiceUniverse lang={lang} />}
 
       {compact && <section className="human-care" id="human-oversight" aria-labelledby="human-care-title">

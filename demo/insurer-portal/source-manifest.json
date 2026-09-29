@@ -1,0 +1,123 @@
+{
+  "repository": "03-admin-hub",
+  "commit": "fca3068c19709ffc1f200c1ea10634ff1c81153e",
+  "files": [
+    {
+      "path": "src/components/layout/InsuranceSidebar.tsx",
+      "sha256": "65d786f14e594717432fa287aac68a3bc92ebfa132c4008ff780759c40f3a677"
+    },
+    {
+      "path": "src/config/insurance-navigation.ts",
+      "sha256": "86511167fc938c74e58427a54ff361a5465a150e3bd16d4bf4cd34f194847bc5"
+    },
+    {
+      "path": "src/components/ui/searchable-select.tsx",
+      "sha256": "f3e0280f7642244d1e14ed70921425bb9839d2ef2c8cc78d867d6578dce6686d"
+    },
+    {
+      "path": "src/components/ui/popover.tsx",
+      "sha256": "b0e5b542b148f7e295992bc25725f95c8bb5d4b9bf541ad9c373966a756ab6d9"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "sha256": "c0adf27efbfa148d5abcf99e860f8e3e6c8fc77a1f99e023c08ef4f12e6ece29"
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "sha256": "3b09ee25c1c65e8890236eb3df0bb7b664f21ca694481815b955cbe6fdf25b22"
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "sha256": "d113108afb8db3500893ee679851ec7d3480c6f53a952dd64b8aad0f0087bb7b"
+    },
+    {
+      "path": "src/components/ui/separator.tsx",
+      "sha256": "8ec59e1c43ca286a97e5ced3a3473352dbdaf4f0b1cade910c95dfdf251ae209"
+    },
+    {
+      "path": "src/pages/admin/CorporateDashboard.tsx",
+      "sha256": "593e39655fd4cd2946543d77e25d7f433ad2a2cf30ec8831338d1775efd9c0e0"
+    },
+    {
+      "path": "src/components/insurance/executive.css",
+      "sha256": "0bdb1d42112265acc8e62b976114917ea6a7e31e7710b1af5afa2c6ba875ac4a"
+    },
+    {
+      "path": "src/components/insurance/InsuranceAnalytics.tsx",
+      "sha256": "2c055232e05bd68900fdf9cb0c1781fa9333db480df8730344aff4f3a7112b7e"
+    },
+    {
+      "path": "src/components/insurance/sections.css",
+      "sha256": "dddc8ab592fbbcad14091c4b9f38f7f59738131819f4d1d5814d424c136dbc0b"
+    },
+    {
+      "path": "src/components/insurance/analytics.css",
+      "sha256": "4b7e8368c07cdd85168a7cf746f9ed8da1fb691a64c302e52c7dd5ea9c05a17f"
+    },
+    {
+      "path": "src/components/insurance/insuranceAnalyticsData.ts",
+      "sha256": "bbb017f7101aa975a1bc515cc0c8568a39961c3ada7015295ec3bc4532549292"
+    },
+    {
+      "path": "src/components/insurance/InsuranceOrderDetailDialog.tsx",
+      "sha256": "371d576fb5ae6fc8631f908eb9ee1c68cc0f7d06c466ba5b37c9ceb485335b2d"
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "sha256": "137f3e8fa158010e1b113034d89ef3f808f4eaae4d9555f6c281ae003680befb"
+    },
+    {
+      "path": "src/components/map/MapboxMap.tsx",
+      "sha256": "d1acc79afa73347a09b72d302f6a0a9e49f30ca5e791afeaa45d7f09a21bb67b"
+    },
+    {
+      "path": "src/config/categoryIcons.ts",
+      "sha256": "393c6dbe26f3e5c6204061b826cffce865c062261bed97a53b6cc6b6200f6868"
+    },
+    {
+      "path": "src/components/ui/emoji-icon-picker.tsx",
+      "sha256": "cb68386853437dd936aed669bfe78133420a07054c1b562e698f6c7eea0f70f9"
+    },
+    {
+      "path": "src/components/dashboard/DashboardGrid.tsx",
+      "sha256": "151a50f41eef2e7c2a98ccd688f85dd8737c5f11ea752af771ae456cdeaa99f9"
+    },
+    {
+      "path": "src/components/insurance/ExecutiveSummary.tsx",
+      "sha256": "d6b53813d2b911a648611c71fdd3360ffe4a8b131e407cc7cdd49c89df9d4e14"
+    },
+    {
+      "path": "src/components/dashboard/MapboxHeatmapLayer.tsx",
+      "sha256": "8e9e8d2dbbdcc4cb2bae37ae22a4af0d4c5750d6bc6601f2d4f473beb0fa70d7"
+    },
+    {
+      "path": "src/components/dashboard/DemandHeatmap.tsx",
+      "sha256": "ef2c168bbf6df2ccb7061b92b2f34cc4330e7ec10cfaf99d3579a081e62db686"
+    },
+    {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "sha256": "ba480d283941c8f028c4d6196dcb2c50473bed5c241e4c65eb70dea3860d7d2d"
+    },
+    {
+      "path": "src/components/ui/select.tsx",
+      "sha256": "40d43f2e7cb4dab25c17a110586362c658673952648b24df168808631cce8fa5"
+    },
+    {
+      "path": "src/components/ui/skeleton.tsx",
+      "sha256": "1911c26c08ed186e51ef65279bff95eae5f3bf6d237bca0018b10f1e70ba6d7b"
+    },
+    {
+      "path": "src/components/ui/progress.tsx",
+      "sha256": "aa219168fea49b768544e7da6d6b6776d97df6f499fefd69e9cca69e80e38d61"
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "sha256": "f50f4b80167889bacc45a8bd551e5dce171628320d42577a7df8c1fb54c6d005"
+    },
+    {
+      "path": "src/components/ui/card.tsx",
+      "sha256": "410537d985cef17f3a69cc0cabfd9e002625c4c77d89fbf0f13d4a22bd87a9c0"
+    }
+  ],
+  "adapters": "Only data hooks use fixtures. CorporateDashboard, ExecutiveSummary, InsuranceAnalytics, DashboardGrid, detail dialog and InsuranceSidebar are copied without changes. AppHeader is an unused admin import."
+}

@@ -1,0 +1,20 @@
+.insurance-analytics{margin-top:24px}
+.insurance-analytics-panel{min-width:0;display:flex;flex-direction:column;container-type:inline-size}
+.insurance-analytics-panel>.executive-panel-heading{flex-shrink:0}
+.insurance-analytics-content{display:flex;flex-direction:column;flex:1;min-height:0;overflow:auto;scrollbar-width:thin}
+.insurance-chart{flex:1;min-height:160px;margin-top:12px}.insurance-service-map{flex:1;min-height:180px;height:auto!important;border-radius:16px;overflow:hidden}
+.insurance-analytics .dashboard-widget{border-radius:16px}
+.insurance-analytics .dashboard-widget>.h-full{scrollbar-width:thin}
+.insurance-analytics-panel button,.insurance-analytics-panel input,.insurance-analytics-panel a,.insurance-service-map{touch-action:auto}
+.insurance-status-legend,.insurance-status-filters,.insurance-order-toolbar,.insurance-pagination{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
+.insurance-status-legend{font-size:12px;color:#69738b}.insurance-status-legend span{display:flex;gap:6px;align-items:center}
+.insurance-status-legend i,.insurance-status-filters i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.insurance-top-services>div{display:flex;align-items:center;gap:14px;margin:18px 0}.insurance-top-services>div>div{flex:1;min-width:0}.insurance-top-services b{font-size:13px;display:block;margin-bottom:7px}.insurance-top-services>div>span{color:#8a94a7;font-size:12px}
+.insurance-order-link{color:var(--company-brand-primary,#7046fa);text-align:left;text-decoration:underline;text-underline-offset:3px}
+.insurance-order-toolbar input{flex:1;min-width:200px}.insurance-pagination{justify-content:flex-end;font-size:12px}.insurance-pagination>span{margin-right:auto}
+.insurance-kanban{display:flex;gap:14px;overflow-x:auto;padding:4px 0 14px}.insurance-kanban>section{min-width:240px;flex:1;background:#f8f9fc;border-radius:14px;border:1px solid #e9ecf3;overflow:hidden}
+.insurance-kanban h3{border-top:4px solid;display:flex;justify-content:space-between;padding:14px;font-size:13px;font-weight:600}.insurance-kanban>section>div{max-height:440px;overflow:auto;padding:10px}.insurance-kanban button{display:flex;flex-direction:column;gap:7px;text-align:left;width:100%;padding:14px;margin-bottom:10px;border:1px solid #e6e8f1;border-radius:12px;background:white}.insurance-kanban button:hover{border-color:var(--company-brand-primary,#7046fa)}.insurance-kanban b{font-size:13px}.insurance-kanban small,.insurance-kanban span,.insurance-kanban p{font-size:12px;color:#68738b}
+.insurance-comm-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.insurance-comm-metrics>div{border:1px solid #e6e8f1;background:#f8f9fd;border-radius:14px;padding:18px}.insurance-comm-metrics small{display:block;color:#68738b;font-size:12px}.insurance-comm-metrics strong{display:block;font-size:24px;margin-top:8px;overflow-wrap:anywhere}
+.insurance-analytics button:focus-visible{outline:2px solid var(--company-brand-primary,#7046fa);outline-offset:3px}
+@container(max-width:620px){.insurance-comm-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.insurance-analytics-panel{padding:16px}.insurance-comm-metrics strong{font-size:20px}.insurance-order-toolbar input{width:100%;flex-basis:100%}}
