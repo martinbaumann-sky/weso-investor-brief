@@ -99,7 +99,17 @@ export function DashboardGrid({ widgets, editing, storageKey, activeTemplate, hi
           minW: w.defaultLayout.minW ?? 2,
           minH: w.defaultLayout.minH ?? 3,
         }));
-        return { ...defaultLayouts, ...parsed, lg: [...(parsed.lg || []), ...missing] };
+        const restored = { ...defaultLayouts, ...parsed, lg: [...(parsed.lg || []), ...missing] };
+        // A preset may hide widgets that are enabled later. Keep their default
+        // positions at every breakpoint, rather than letting the grid invent
+        // one-column placements when they become visible on a smaller screen.
+        for (const [breakpoint, defaults] of Object.entries(defaultLayouts)) {
+          if (breakpoint === 'lg') continue;
+          const items = restored[breakpoint] || [];
+          const ids = new Set(items.map(item => item.i));
+          restored[breakpoint] = [...items, ...defaults.filter(item => !ids.has(item.i))];
+        }
+        return restored;
       }
     } catch {}
     return defaultLayouts;
@@ -127,12 +137,12 @@ export function DashboardGrid({ widgets, editing, storageKey, activeTemplate, hi
   const handleChange = (_current: LayoutItem[], all: Layouts) => {
     // Merge with existing layouts so hidden widgets keep their stored positions.
     setLayouts((prev) => {
-      const prevLg = prev.lg || [];
-      const nextLg = all.lg || [];
-      const nextIds = new Set(nextLg.map((l) => l.i));
-      const preserved = prevLg.filter((l) => !nextIds.has(l.i));
-      const mergedLg = [...nextLg, ...preserved];
-      const merged: Layouts = { ...prev, ...all, lg: mergedLg };
+      const merged: Layouts = { ...prev };
+      for (const [breakpoint, next] of Object.entries(all)) {
+        const nextIds = new Set(next.map(item => item.i));
+        const preserved = (prev[breakpoint] || []).filter(item => !nextIds.has(item.i));
+        merged[breakpoint] = [...next, ...preserved];
+      }
       layoutChangePending.current = true;
       return merged;
     });

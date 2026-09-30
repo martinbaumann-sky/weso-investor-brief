@@ -1,7 +1,9 @@
 from pathlib import Path
-import re,json,hashlib,shutil,posixpath
-root=Path('C:/Users/ninch/OneDrive/Escritorio/C\u00f3digos Hackers/Weso/03-admin-hub')
-dest=Path('demo/insurer-portal'); src=dest/'src'
+import re,json,hashlib,shutil,posixpath,argparse
+parser=argparse.ArgumentParser(description='Refresh the pitch demo from the real insurer portal source.')
+parser.add_argument('--source', type=Path, required=True, help='Path to the weso-admin-hub repository')
+root=parser.parse_args().source.resolve()
+dest=Path(__file__).resolve().parents[1]/'demo/insurer-portal'; src=dest/'src'
 stubs={'hooks/useCorporateClient':['useCorporateClients'], 'hooks/useCorporateDashboard':['useCorporateOrders','useCorporateRatings','useCorporateClaims','useCorporateCoverage','useCorporateAI'], 'hooks/useInsuranceCommunications':['useInsuranceCommunications'], 'hooks/useInsurancePortal':['useInsuranceOrderDetail'], 'hooks/useCorporatePlans':['useCorporatePlans'], 'hooks/useOrderStatusHistory':['useOrderStatusHistory'], 'hooks/useCountryReference':['useCountryReference'], 'hooks/useMapboxToken':['useMapboxToken'], 'contexts/AuthContext':['useAuth']}
 queue=['pages/admin/CorporateDashboard.tsx','components/layout/InsuranceSidebar.tsx']; visited=set(); manifest=[]; externals=set()
 # This source is only imported by the admin branch, which is disabled in the insurer portal.
@@ -29,7 +31,7 @@ for rel in ['index.css','i18n/locales/es.json','i18n/locales/en.json']:
  target=src/rel;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(root/'src'/rel,target)
 for rel in ['tailwind.config.ts'] : shutil.copyfile(root/rel,dest/rel)
 (dest/'public').mkdir(exist_ok=True);shutil.copyfile(root/'public/weso-logo.png',dest/'public/weso-logo.png')
-(dest/'source-manifest.json').write_text(json.dumps({'repository': '03-admin-hub', 'commit': __import__('subprocess').check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'files':manifest,'adapters':'Only data hooks use fixtures. CorporateDashboard, ExecutiveSummary, InsuranceAnalytics, DashboardGrid, detail dialog and InsuranceSidebar are copied without changes. AppHeader is an unused admin import.'},indent=2))
+(dest/'source-manifest.json').write_text(json.dumps({'repository': 'https://github.com/We-Solve-it-Out-App/weso-admin-hub', 'commit': __import__('subprocess').check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'files':manifest,'adapters':'Only data hooks use fixtures. CorporateDashboard, ExecutiveSummary, InsuranceAnalytics, DashboardGrid, detail dialog and InsuranceSidebar are copied without changes. AppHeader is an unused admin import.'},indent=2))
 original=json.loads((root/'package.json').read_text())
 deps={k:v for k,v in original['dependencies'].items() if k in externals or k in ['react','react-dom','react-router-dom','i18next','react-i18next','tailwindcss-animate']}
 deps['maplibre-gl']=json.loads((dest/'package.json').read_text())['dependencies']['maplibre-gl']

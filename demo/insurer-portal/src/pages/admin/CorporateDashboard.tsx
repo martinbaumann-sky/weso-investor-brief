@@ -30,6 +30,8 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import ExecutiveSummary from '@/components/insurance/ExecutiveSummary';
+import InsuranceDashboardToolbar from '@/components/insurance/InsuranceDashboardToolbar';
+import { useInsuranceDashboardPreferences } from '@/hooks/useInsuranceDashboardPreferences';
 import InsuranceAnalytics, { INSURANCE_ANALYTICS_LAYOUT_KEY } from '@/components/insurance/InsuranceAnalytics';
 import '@/components/insurance/executive.css';
 import { useCorporateClients } from '@/hooks/useCorporateClient';
@@ -130,10 +132,12 @@ interface CorporateDashboardProps {
   /** When set, the dashboard is locked to a single company and the selector is hidden. */
   lockedCompanyId?: number | null;
   hideHeader?: boolean;
+  preferenceScope?: string;
 }
 
-const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false }: CorporateDashboardProps) => {
+const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false, preferenceScope = 'admin' }: CorporateDashboardProps) => {
   const { t, i18n } = useTranslation();
+  const insurancePreferences = useInsuranceDashboardPreferences(preferenceScope, i18n.language.startsWith('es'));
   const { data: companies = [], isLoading: loadingCompanies } = useCorporateClients();
   const [selectedCompanyId, setCompanyId] = useState<number | null>(lockedCompanyId);
   // The insurance portal's selected company is authoritative from the first
@@ -1092,7 +1096,16 @@ const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false }: Corp
           <p>{i18n.language.startsWith('es') ? 'Resumen de la operación de servicios en Weso' : 'Your service operations overview in Weso'}</p>
         </header>
         {/* Filters */}
-        <Card className="p-4 rounded-xl border-border/60 shadow-sm">
+        {hideHeader ? <InsuranceDashboardToolbar
+          country={country} city={city} service={category}
+          countries={countries} cities={cities} services={serviceNames}
+          onCountryChange={(value) => { setCountry(value); setCity('all'); }}
+          onCityChange={setCity} onServiceChange={setCategory}
+          range={rangeKey} ranges={RANGE_KEYS.map(range => ({ key: range.key, label: t(`corpDash.ranges.${range.i18n}`) }))}
+          onRangeChange={(value) => setRangeKey(value as RangeKey)}
+          editing={editing} onToggleEditing={() => setEditing(value => !value)}
+          preferences={insurancePreferences}
+        /> : <Card className="p-4 rounded-xl border-border/60 shadow-sm">
           <div className="flex items-center gap-3 flex-wrap">
             <Button
               variant="ghost"
@@ -1115,7 +1128,7 @@ const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false }: Corp
               </div>
             )}
 
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex flex-wrap items-center gap-2">
               <Button
                 variant={editing ? 'default' : 'outline'}
                 size="sm"
@@ -1176,7 +1189,6 @@ const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false }: Corp
                 </DropdownMenuContent>
 
               </DropdownMenu>}
-              {hideHeader && <Button variant="outline" size="sm" className="gap-2" onClick={() => { localStorage.removeItem(INSURANCE_SUMMARY_LAYOUT_KEY); localStorage.removeItem(INSURANCE_ANALYTICS_LAYOUT_KEY); setGridKey((value) => value + 1); }}><RotateCcw className="w-4 h-4" />{t('corpDash.reset')}</Button>}
             </div>
           </div>
 
@@ -1267,7 +1279,7 @@ const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false }: Corp
               <Move className="w-3.5 h-3.5" />{t('corpDash.editHint')}
             </p>
           )}
-        </Card>
+        </Card>}
 
 
         {isLoading && (
@@ -1280,9 +1292,10 @@ const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false }: Corp
           <Card className="p-10 text-center text-muted-foreground rounded-xl border-border/60">{t('corpDash.selectCompanyPrompt')}</Card>
         )}
 
+        {hideHeader && companyId && insurancePreferences.settings.visible.length === 0 && <Card className="p-8 text-center"><p>{i18n.language.startsWith('es') ? 'No hay elementos visibles. Elige un preset o activa elementos para comenzar.' : 'No widgets are visible. Choose a preset or enable widgets to begin.'}</p><Button className="mt-3" onClick={() => insurancePreferences.setOpen(true)}>{i18n.language.startsWith('es') ? 'Elegir elementos' : 'Choose widgets'}</Button></Card>}
         {ordersError && <div role="alert" className="executive-panel"><p>{i18n.language.startsWith('es') ? 'No pudimos cargar la operación.' : 'Unable to load operations.'}</p><Button variant="outline" onClick={() => retryOrders()}>{i18n.language.startsWith('es') ? 'Reintentar' : 'Retry'}</Button></div>}
-        {!isLoading && !ordersError && companyId && <ExecutiveSummary key={hideHeader ? `summary-${gridKey}` : 'summary-admin'} orders={rows} ratings={ratings} from={range.from} to={range.to} ordersPath={hideHeader ? '/insurance/orders' : '/admin/orders'} ratingsLoading={ratingsLoading} ratingsError={ratingsError} movable={hideHeader} editing={editing} storageKey={INSURANCE_SUMMARY_LAYOUT_KEY} />}
-        {!isLoading && !ordersError && companyId && <InsuranceAnalytics key={`${companyId}-${gridKey}`} companyId={companyId} orders={rows} from={range.from} to={range.to} country={country} city={city} service={category} editing={editing} />}
+        {!isLoading && !ordersError && companyId && (!hideHeader || insurancePreferences.ready) && <ExecutiveSummary key={hideHeader ? `summary-${gridKey}-${insurancePreferences.revision}` : 'summary-admin'} orders={rows} ratings={ratings} from={range.from} to={range.to} ordersPath={hideHeader ? '/insurance/orders' : '/admin/orders'} ratingsLoading={ratingsLoading} ratingsError={ratingsError} movable={hideHeader} editing={editing} storageKey={hideHeader ? insurancePreferences.keys.summary : INSURANCE_SUMMARY_LAYOUT_KEY} hiddenIds={hideHeader ? insurancePreferences.hiddenIds : undefined} />}
+        {!isLoading && !ordersError && companyId && (!hideHeader || insurancePreferences.ready) && <InsuranceAnalytics key={`${companyId}-${gridKey}-${hideHeader ? insurancePreferences.revision : 0}`} companyId={companyId} orders={rows} from={range.from} to={range.to} country={country} city={city} service={category} editing={editing} storageKey={hideHeader ? insurancePreferences.keys.analytics : undefined} hiddenIds={hideHeader ? insurancePreferences.hiddenIds : undefined} />}
 
         {!hideHeader && !isLoading && !ordersError && companyId && (
           <section className="executive-additional">

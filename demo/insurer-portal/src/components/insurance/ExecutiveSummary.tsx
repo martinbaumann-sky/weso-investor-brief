@@ -5,6 +5,7 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import { Activity, ArrowRight, BarChart3, Check, Clock, Coins, FileText, FolderOpen, Layers, Star, Target, TriangleAlert, Zap } from 'lucide-react';
 import type { CorporateOrderRow } from '@/hooks/useCorporateDashboard';
 import { DashboardGrid, type WidgetDef } from '@/components/dashboard/DashboardGrid';
+import { INSURANCE_DEFAULT_LAYOUT } from './dashboardPresets';
 
 type Rating = { order_id: string | null; rating: number | null; created_at: string };
 interface Props {
@@ -18,9 +19,10 @@ interface Props {
   movable?: boolean;
   editing?: boolean;
   storageKey?: string;
+  hiddenIds?: Set<string>;
 }
 
-export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath, ratingsLoading, ratingsError, movable = false, editing = false, storageKey }: Props) {
+export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath, ratingsLoading, ratingsError, movable = false, editing = false, storageKey, hiddenIds }: Props) {
   const { i18n } = useTranslation();
   const es = i18n.language.startsWith('es');
   const copy = (spanish: string, english: string) => es ? spanish : english;
@@ -141,21 +143,21 @@ export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath
     ),
   ];
   const dashboardWidgets: WidgetDef[] = [
-    { id: 'summary-period', title: 'Operación del período', defaultLayout: { x: 0, y: 0, w: 6, h: 4, minW: 2, minH: 2 }, render: () => cards[0] },
-    { id: 'summary-completed', title: 'Servicios completados', defaultLayout: { x: 6, y: 0, w: 3, h: 4, minW: 2, minH: 2 }, render: () => cards[1] },
-    { id: 'summary-satisfaction', title: 'Satisfacción', defaultLayout: { x: 9, y: 0, w: 3, h: 4, minW: 2, minH: 2 }, render: () => cards[2] },
-    { id: 'summary-open', title: 'Casos abiertos', defaultLayout: { x: 0, y: 4, w: 4, h: 3, minW: 2, minH: 2 }, render: () => cards[3] },
-    { id: 'summary-overdue', title: 'Fuera de referencia', defaultLayout: { x: 4, y: 4, w: 4, h: 3, minW: 2, minH: 2 }, render: () => cards[4] },
-    { id: 'summary-amount', title: 'Monto registrado', defaultLayout: { x: 8, y: 4, w: 4, h: 3, minW: 2, minH: 2 }, render: () => cards[5] },
-    { id: 'summary-trend', title: 'Evolución de la operación', defaultLayout: { x: 0, y: 7, w: 8, h: 6, minW: 2, minH: 2 }, render: () => panels[0] },
-    { id: 'summary-activity', title: 'Actividad reciente', defaultLayout: { x: 8, y: 7, w: 4, h: 6, minW: 2, minH: 2 }, render: () => panels[2] },
-    { id: 'summary-performance', title: 'Desempeño por servicio', defaultLayout: { x: 0, y: 13, w: 8, h: 7, minW: 2, minH: 2 }, render: () => panels[1] },
-    { id: 'summary-attention', title: 'Dónde poner atención', defaultLayout: { x: 8, y: 13, w: 4, h: 4, minW: 2, minH: 2 }, render: () => panels[3] },
-    { id: 'summary-statuses', title: 'Estado de los servicios', defaultLayout: { x: 8, y: 17, w: 4, h: 4, minW: 2, minH: 2 }, render: () => panels[4] },
+    { id: 'summary-period', title: 'Operación del período', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-period'], minW: 2, minH: 2 }, render: () => cards[0] },
+    { id: 'summary-completed', title: 'Servicios completados', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-completed'], minW: 2, minH: 2 }, render: () => cards[1] },
+    { id: 'summary-satisfaction', title: 'Satisfacción', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-satisfaction'], minW: 2, minH: 2 }, render: () => cards[2] },
+    { id: 'summary-open', title: 'Casos abiertos', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-open'], minW: 2, minH: 2 }, render: () => cards[3] },
+    { id: 'summary-overdue', title: 'Fuera de referencia', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-overdue'], minW: 2, minH: 2 }, render: () => cards[4] },
+    { id: 'summary-amount', title: 'Monto registrado', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-amount'], minW: 2, minH: 2 }, render: () => cards[5] },
+    { id: 'summary-trend', title: 'Evolución de la operación', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-trend'], minW: 2, minH: 2 }, render: () => panels[0] },
+    { id: 'summary-activity', title: 'Actividad reciente', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-activity'], minW: 2, minH: 2 }, render: () => panels[2] },
+    { id: 'summary-performance', title: 'Desempeño por servicio', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-performance'], minW: 2, minH: 2 }, render: () => panels[1] },
+    { id: 'summary-attention', title: 'Dónde poner atención', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-attention'], minW: 2, minH: 2 }, render: () => panels[3] },
+    { id: 'summary-statuses', title: 'Estado de los servicios', defaultLayout: { ...INSURANCE_DEFAULT_LAYOUT.summary['summary-statuses'], minW: 2, minH: 2 }, render: () => panels[4] },
   ];
 
   if (movable) {
-    return <div className="executive-grid"><DashboardGrid widgets={dashboardWidgets} editing={editing} storageKey={storageKey || 'weso.insurance.summary.layout.v3'} wideColumns /></div>;
+    return <div className="executive-grid"><DashboardGrid widgets={dashboardWidgets} editing={editing} storageKey={storageKey || 'weso.insurance.summary.layout.v3'} hiddenIds={hiddenIds} wideColumns /></div>;
   }
 
   return (

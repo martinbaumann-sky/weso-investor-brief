@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { DashboardGrid, type WidgetDef } from '@/components/dashboard/DashboardGrid';
@@ -11,12 +11,14 @@ import { useInsuranceOrderDetail } from '@/hooks/useInsurancePortal';
 import { useCorporatePlans } from '@/hooks/useCorporatePlans';
 import InsuranceOrderDetailDialog from './InsuranceOrderDetailDialog';
 import { comparisonSeries, filterAnalyticsOrders, previousAnalyticsRange, SERVICE_STATUSES } from './insuranceAnalyticsData';
+import { compactTransactionLayouts, INSURANCE_DEFAULT_LAYOUT } from './dashboardPresets';
 import './analytics.css';
 import './sections.css';
 
 interface Props {
   companyId: number; orders: CorporateOrderRow[]; from: Date; to: Date;
   country: string; city: string; service: string; editing: boolean;
+  storageKey?: string; hiddenIds?: Set<string>;
 }
 export const INSURANCE_ANALYTICS_LAYOUT_KEY = 'weso.insurance.analytics.layout.v1';
 const PAGE_SIZE = 8;
@@ -29,7 +31,20 @@ function Panel({ title, hint, children, wide = false }: { title: string; hint?: 
   </section>;
 }
 
-export default function InsuranceAnalytics({ companyId, orders, from, to, country, city, service, editing }: Props) {
+export default function InsuranceAnalytics({ companyId, orders, from, to, country, city, service, editing, storageKey, hiddenIds }: Props) {
+  const layoutKey = storageKey || INSURANCE_ANALYTICS_LAYOUT_KEY;
+  const [layoutReady, setLayoutReady] = useState(false);
+  useEffect(() => {
+    const migrationKey = `${layoutKey}.compact-transactions.v1`;
+    try {
+      if (!localStorage.getItem(migrationKey)) {
+        const stored = localStorage.getItem(layoutKey);
+        if (stored) localStorage.setItem(layoutKey, JSON.stringify(compactTransactionLayouts(JSON.parse(stored))));
+        localStorage.setItem(migrationKey, '1');
+      }
+    } catch { /* The grid falls back to its defaults if browser storage is unavailable. */ }
+    setLayoutReady(true);
+  }, [layoutKey]);
   const { i18n } = useTranslation();
   const es = i18n.language.startsWith('es');
   const copy = (a: string, b: string) => es ? a : b;
@@ -133,22 +148,14 @@ export default function InsuranceAnalytics({ companyId, orders, from, to, countr
       {(comm.calls.isError || comm.clients.isError || comm.messages.isError) && <div role="alert">{copy('Parte de los datos de comunicación no está disponible.', 'Some communication data is unavailable.')} <Button variant="outline" onClick={() => { comm.calls.refetch(); comm.clients.refetch(); if (comm.clients.isSuccess) comm.messages.refetch(); }}>{copy('Reintentar', 'Retry')}</Button></div>}
     </Panel>,
   ];
-  const layouts = [
-    { id: 'analytics-demand', x: 0, y: 0, w: 6, h: 8 },
-    { id: 'analytics-comparison', x: 6, y: 0, w: 6, h: 8 },
-    { id: 'analytics-map', x: 0, y: 8, w: 6, h: 10 },
-    { id: 'analytics-top', x: 6, y: 8, w: 6, h: 10 },
-    { id: 'analytics-transactions', x: 0, y: 18, w: 12, h: 10 },
-    { id: 'analytics-orders', x: 0, y: 28, w: 12, h: 14 },
-    { id: 'analytics-communications', x: 0, y: 42, w: 12, h: 8 },
-  ];
+  const layouts = Object.entries(INSURANCE_DEFAULT_LAYOUT.analytics).map(([id, layout]) => ({ id, ...layout }));
   const widgets: WidgetDef[] = layouts.map(({ id, ...layout }, index) => ({
     id,
     title: panels[index].props.title,
-    defaultLayout: { ...layout, minW: 2, minH: 5 },
+    defaultLayout: { ...layout, minW: 2, minH: id === 'analytics-transactions' ? 3 : 5 },
     render: () => panels[index],
   }));
   return <div className="executive-grid insurance-analytics">
-    <DashboardGrid widgets={widgets} editing={editing} storageKey={INSURANCE_ANALYTICS_LAYOUT_KEY} wideColumns />
+    {layoutReady && <DashboardGrid widgets={widgets} editing={editing} storageKey={layoutKey} hiddenIds={hiddenIds} wideColumns />}
   </div>;
 }

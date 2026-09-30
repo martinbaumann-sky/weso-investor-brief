@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { content, type Lang } from "./content";
 import ServiceUniverse from "./service-universe";
@@ -23,7 +23,7 @@ function CoreChannelSymbol({ index }: { index: number }) {
 }
 
 function CoreChannelGraphic({ index }: { index: number }) {
-  const id = useId().replace(/:/g, "");
+  const id = `core-channel-${index}`;
   const illustrations = [
     "",
     "/assets/core-voice-ai.webp",

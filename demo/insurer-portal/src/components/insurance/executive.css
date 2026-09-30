@@ -124,3 +124,15 @@
 @media(max-width:850px) { .executive-hero-row { grid-template-columns: 1fr 1fr; } .executive-hero { grid-column:1/-1; min-height:180px; } .executive-rail { grid-template-columns:1fr; } .executive-secondary-row { grid-template-columns:1fr; } .executive-secondary-row .executive-metric { min-height:120px; } .executive-period { display:none; } }
 @media(max-width:640px) { .insurance-shell .insurance-sidebar~.insurance-main { margin-left:64px; } .insurance-sidebar[data-collapsed="true"] .insurance-company { display:none; } .insurance-sidebar[data-collapsed="true"] .weso-wordmark { font-size:22px; } .insurance-sidebar[data-collapsed="true"] .weso-wordmark img { width:30px; height:30px; flex-basis:30px; } .insurance-dashboard>.p-6 { padding:16px 12px; } .executive-metric { padding:14px; } .executive-hero-row { gap:8px; } .executive-label { font-size:11px; gap:6px; } .executive-icon { width:28px; height:28px; flex-basis:28px; } .executive-trend { flex-direction:column; align-items:stretch; } .executive-completion { border-left:0; padding-left:0; flex-direction:row; align-items:center; gap:12px; } .executive-completion strong { font-size:26px; } .executive-completion small { margin-top:0; } .executive-panel { padding:14px; } }
 @media(prefers-reduced-motion:reduce) { .insurance-dashboard *, .insurance-sidebar * { transition:none !important; animation:none !important; } }
+
+.insurance-summary-toolbar { padding: 4px 0 10px; border-bottom: 1px solid #e9ebf2; }
+.insurance-summary-toolbar-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.insurance-summary-toolbar .insurance-period-select { width: 132px; height: 32px; padding: 0 10px; border: 1px solid #e4e7ef; border-radius: 8px; background: #fff; box-shadow: none; font-size: 12px; }
+.insurance-summary-toolbar .insurance-toolbar-button { height: 32px; padding: 0 9px; border: 0; border-radius: 8px; background: transparent; box-shadow: none; font-size: 12px; color: #68718b; }
+.insurance-summary-toolbar .insurance-toolbar-button:hover { background: #efedf7; color: #5132be; }
+.insurance-summary-toolbar .insurance-toolbar-button[data-state=open] { background: #efedf7; color: #5132be; }
+.insurance-summary-toolbar .insurance-toolbar-actions { margin-left: auto; display: flex; align-items: center; gap: 2px; }
+.insurance-summary-toolbar .insurance-toolbar-actions button.bg-primary { background: var(--company-brand-primary, #7046fa); color: #fff; }
+.insurance-filter-count { display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 5px; background: #eee8ff; color: #6133db; font-size: 10px; }
+.insurance-filter-summary { max-width: 180px; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 11px; color: #7c849a; }
+@media (max-width: 560px) { .insurance-summary-toolbar .insurance-toolbar-actions { margin-left: 0; }.insurance-filter-summary { max-width: 100%; } }
