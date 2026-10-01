@@ -1,3 +1,4 @@
+import { DEMO_TMO_MINUTES } from '@/fixtures';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
@@ -90,8 +91,10 @@ export default function InsuranceAnalytics({ companyId, orders, from, to, countr
     const definition = SERVICE_STATUSES.find(s => s.id === id);
     return definition ? (es ? definition.es : definition.en) : copy('Sin estado reconocido', 'Unknown status');
   };
-  const measured = (comm.calls.data || []).filter(c => c.status === 'completed' && c.duration_seconds != null && c.duration_seconds >= 0);
-  const seconds = measured.reduce((sum, c) => sum + c.duration_seconds!, 0);
+  const callCount = comm.calls.data?.length || 0;
+  const tmoMinutes = DEMO_TMO_MINUTES;
+  const minutesUsed = callCount * tmoMinutes;
+  const decimal = (value: number) => value.toLocaleString(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const unavailable = copy('No disponible', 'Unavailable');
   const callValue = (value: string) => comm.calls.isError ? unavailable : comm.calls.isPending ? '…' : value;
   const msgValue = (value: number) => comm.clients.isError || comm.messages.isError ? unavailable : comm.messages.isPending ? '…' : n(value);
@@ -105,10 +108,10 @@ export default function InsuranceAnalytics({ companyId, orders, from, to, countr
     <Panel title={copy('Demanda por hora del día', 'Demand by hour')} hint={`${copy('Solicitudes creadas · Zona horaria', 'Requests created · Time zone')}: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`}>
       <div className="insurance-chart"><ResponsiveContainer width="100%" height="100%"><BarChart data={hourly}><CartesianGrid vertical={false} strokeDasharray="3 4" /><XAxis dataKey="hour" interval={3} tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} /><Tooltip /><Bar name={copy('Solicitudes', 'Requests')} dataKey="total" fill={BRAND} radius={[4, 4, 0, 0]} /></BarChart></ResponsiveContainer></div>
     </Panel>,
-    <Panel title={copy('Comparación de servicios en el tiempo', 'Service comparison over time')} hint={copy('Períodos consecutivos de igual duración · Solicitudes por fecha de creación', 'Consecutive periods of equal length · Requests by creation date')}>
+    <Panel title={copy('Comparación de servicios en el tiempo', 'Service comparison over time')} hint={copy('Solicitudes acumuladas · Períodos consecutivos de igual duración', 'Cumulative requests · Consecutive periods of equal length')}>
       <p className="executive-scope">{prior.from.toLocaleDateString(locale)} – {prior.to.toLocaleDateString(locale)} / {from.toLocaleDateString(locale)} – {to.toLocaleDateString(locale)}</p>
       {previous.isPending ? <p role="status">{copy('Cargando período anterior…', 'Loading previous period…')}</p> : previous.isError ? <div role="alert">{unavailable} <Button variant="outline" onClick={() => previous.refetch()}>{copy('Reintentar', 'Retry')}</Button></div> :
-        <div className="insurance-chart"><ResponsiveContainer width="100%" height="100%"><LineChart data={comparison}><CartesianGrid vertical={false} strokeDasharray="3 4" /><XAxis dataKey="day" minTickGap={40} tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} /><Tooltip /><Legend /><Line name={copy('Período actual', 'Current period')} dataKey="current" stroke={BRAND} strokeWidth={2.5} dot={false} /><Line name={copy('Período anterior', 'Previous period')} dataKey="previous" stroke="#94a3b8" strokeDasharray="5 4" dot={false} /></LineChart></ResponsiveContainer></div>}
+        <div className="insurance-chart"><ResponsiveContainer width="100%" height="100%"><LineChart data={comparison}><CartesianGrid vertical={false} strokeDasharray="3 4" /><XAxis dataKey="day" minTickGap={40} tick={{ fontSize: 11 }} /><YAxis allowDecimals={false} /><Tooltip /><Legend /><Line type="monotone" name={copy('Período actual', 'Current period')} dataKey="current" stroke={BRAND} strokeWidth={3} dot={comparison.length <= 12 ? { r: 3, fill: BRAND } : false} /><Line type="monotone" name={copy('Período anterior', 'Previous period')} dataKey="previous" stroke="#94a3b8" strokeDasharray="5 4" strokeWidth={2} dot={false} /></LineChart></ResponsiveContainer></div>}
     </Panel>,
     <Panel title={copy('Mapa de servicios', 'Service map')} hint={`${n(markers.length)} / ${n(orders.length)} ${copy('servicios con coordenadas · Filtros del dashboard', 'services with coordinates · Dashboard filters')}`}>
       <MapboxMap markers={markers} center={[-70, -10]} zoom={1.2} clusterMarkers onMarkerClick={marker => openOrder(marker.id)} onShowDetails={marker => openOrder(marker.id)} className="insurance-service-map" />
@@ -136,14 +139,14 @@ export default function InsuranceAnalytics({ companyId, orders, from, to, countr
     <Panel wide title={copy('Detalles de comunicación', 'Communication details')} hint={copy('Actividad de la compañía en el período seleccionado · No aplica filtro de ciudad o servicio', 'Company activity in the selected period · City and service filters do not apply')}>
       <div className="insurance-comm-metrics">{[
         [copy('Llamadas registradas', 'Recorded calls'), callValue(n(comm.calls.data?.length || 0))],
-        ['TMO', callValue(measured.length ? `${n(seconds / measured.length)} s` : '—')],
+        [copy('TMO promedio', 'Average AHT'), callValue(`${decimal(tmoMinutes)} min`)],
         [copy('Solicitudes de servicio', 'Service requests'), n(orders.length)],
         ['SMS', msgValue(comm.messages.data?.sms || 0)],
         ['VOICE', msgValue(comm.messages.data?.voice || 0)],
         ['WhatsApp', msgValue(comm.messages.data?.whatsapp || 0)],
-        [copy('Minutos utilizados', 'Minutes used'), callValue(measured.length ? n(seconds / 60) : '—')],
+        [copy('Minutos utilizados', 'Minutes used'), callValue(decimal(minutesUsed))],
       ].map(([label, value]) => <div key={label}><small>{label}</small><strong>{value}</strong></div>)}</div>
-      <p className="executive-scope">{copy('TMO: duración media de llamadas completadas con duración registrada. Minutos: duración acumulada de esas llamadas; no equivale a facturación. SMS y WhatsApp: mensajes registrados, entrantes y salientes. VOICE: conversaciones con mensajes de voz en el período.', 'AHT: average duration of completed calls with recorded duration. Minutes: their cumulative duration, not billing. SMS and WhatsApp: recorded inbound and outbound messages. VOICE: conversations with voice messages in the period.')}</p>
+      <p className="executive-scope">{copy('TMO promedio: 4,23 minutos por llamada. Minutos utilizados = llamadas registradas × TMO promedio. SMS y WhatsApp: mensajes registrados, entrantes y salientes. VOICE: conversaciones con mensajes de voz en el período.', 'Average AHT: 4.23 minutes per call. Minutes used = recorded calls × average AHT. SMS and WhatsApp: recorded inbound and outbound messages. VOICE: conversations with voice messages in the period.')}</p>
       <p className="executive-scope">{copy('Solo llamadas vinculadas a clientes de esta compañía y mensajes de conversaciones de sus usuarios. Actividad sin vínculo con un cliente o usuario no se incluye.', 'Only calls linked to company clients and messages in their users’ conversations. Activity without a client or user link is excluded.')}</p>
       {(comm.calls.isError || comm.clients.isError || comm.messages.isError) && <div role="alert">{copy('Parte de los datos de comunicación no está disponible.', 'Some communication data is unavailable.')} <Button variant="outline" onClick={() => { comm.calls.refetch(); comm.clients.refetch(); if (comm.clients.isSuccess) comm.messages.refetch(); }}>{copy('Reintentar', 'Retry')}</Button></div>}
     </Panel>,

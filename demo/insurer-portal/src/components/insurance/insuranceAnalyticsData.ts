@@ -39,10 +39,19 @@ export function comparisonSeries(current: CorporateOrderRow[], previous: Corpora
     return map;
   };
   const now = counts(current), before = counts(previous);
-  return Array.from({ length: prior.days }, (_, index) => {
+  // Compare the same number of elapsed days, grouped into readable intervals.
+  const interval = prior.days > 90 ? 30 : prior.days > 31 ? 7 : 1;
+  let currentTotal = 0, previousTotal = 0;
+  const series: { day: string; current: number; previous: number }[] = [];
+  for (let index = 0; index < prior.days; index++) {
     const date = new Date(from), old = new Date(prior.from);
     date.setDate(date.getDate() + index); old.setDate(old.getDate() + index);
     const key = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-    return { day: date.toLocaleDateString(locale, { day: 'numeric', month: 'short' }), current: now.get(key(date)) || 0, previous: before.get(key(old)) || 0 };
-  });
+    currentTotal += now.get(key(date)) || 0;
+    previousTotal += before.get(key(old)) || 0;
+    if ((index + 1) % interval === 0 || index === prior.days - 1) {
+      series.push({ day: date.toLocaleDateString(locale, { day: 'numeric', month: 'short' }), current: currentTotal, previous: previousTotal });
+    }
+  }
+  return series;
 }

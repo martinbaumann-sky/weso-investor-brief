@@ -146,7 +146,7 @@ const CorporateDashboard = ({ lockedCompanyId = null, hideHeader = false, prefer
   const [companySearch, setCompanySearch] = useState('');
   const locked = hideHeader || lockedCompanyId != null;
 
-  const [rangeKey, setRangeKey] = useState<RangeKey>('30d');
+  const [rangeKey, setRangeKey] = useState<RangeKey>('year');
   const [country, setCountry] = useState<string>('all');
   const [city, setCity] = useState<string>('all');
   const [category, setCategory] = useState<string>('all');

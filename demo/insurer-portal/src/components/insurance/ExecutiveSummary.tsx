@@ -40,10 +40,11 @@ export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath
     const mixedAmountCountries = new Set(pricedOrders.map(o => o.country_code || o.client?.country || 'sin país')).size > 1;
     const validRatings = ratings.filter(r => r.rating != null && r.rating >= 1 && r.rating <= 5);
     const average = validRatings.length ? validRatings.reduce((sum, r) => sum + r.rating!, 0) / validRatings.length : null;
-    const dayKey = (date: Date) => `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+    const monthly = to.getTime() - from.getTime() > 90 * 86400000;
+    const dayKey = (date: Date) => monthly ? `${date.getFullYear()}-${date.getMonth()}` : `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
     const days = new Map<string, { date: string; requests: number; completed: number }>();
     for (const date = new Date(from); date <= to; date.setDate(date.getDate() + 1)) {
-      days.set(dayKey(date), { date: date.toLocaleDateString(locale, { day: 'numeric', month: 'short' }), requests: 0, completed: 0 });
+      if (!days.has(dayKey(date))) days.set(dayKey(date), { date: date.toLocaleDateString(locale, monthly ? { month: 'short' } : { day: 'numeric', month: 'short' }), requests: 0, completed: 0 });
     }
     const services = new Map<string, { name: string; total: number; completed: number; ratings: number[] }>();
     const orderMap = new Map(orders.map(o => [o.id, o]));
@@ -67,7 +68,9 @@ export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath
     ]).concat(validRatings.map(r => ({ id: `rating-${r.order_id}-${r.created_at}`, date: r.created_at, kind: 'rating', service: `${r.rating}/5` })))
       .filter(event => Date.parse(event.date) >= from.getTime() && Date.parse(event.date) <= to.getTime())
       .sort((a, b) => Date.parse(b.date) - Date.parse(a.date)).slice(0, 4);
-    return { completed, cancelled, pending, active, overdue, unassigned, validRatings, average, days: [...days.values()],
+    let requestsTotal = 0, completedTotal = 0;
+    const trend = [...days.values()].map(day => ({ ...day, requests: requestsTotal += day.requests, completed: completedTotal += day.completed }));
+    return { trend, completed, cancelled, pending, active, overdue, unassigned, validRatings, average, days: [...days.values()],
       services: [...services.values()].sort((a, b) => b.total - a.total), activity,
       amount: pricedOrders.reduce((sum, o) => sum + Number(o.price_charged), 0),
       amountCount: pricedOrders.length, mixedAmountCountries };
@@ -90,7 +93,7 @@ export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath
                 <div className="executive-label"><span className="executive-icon"><BarChart3 size={20} /></span>{copy('Operación del período', 'Period activity')}</div>
                 <strong>{number(total)}</strong><span>{copy('servicios solicitados', 'requested services')}</span>
                 <small>{period}</small>
-                <div className="executive-spark" aria-hidden="true">{data.days.slice(-12).map((day, i, days) => <i key={i} style={{ height: `${Math.max(5, day.requests / Math.max(1, ...days.map(d => d.requests)) * 100)}%` }} />)}</div>
+                <div className="executive-spark" aria-hidden="true">{data.trend.slice(-12).map((day, i, days) => <i key={i} style={{ height: `${Math.max(5, day.requests / Math.max(1, ...days.map(d => d.requests)) * 100)}%` }} />)}</div>
               </article>
     ),
     (
@@ -120,9 +123,9 @@ export default function ExecutiveSummary({ orders, ratings, from, to, ordersPath
   const panels = [
     (
     <section className="executive-panel">
-              <div className="executive-panel-heading"><div><h2><Activity size={20} />{copy('Evolución de la operación', 'Activity trend')}</h2><p>{copy('Solicitudes y su estado actual, por fecha de creación', 'Requests and current status, by creation date')}</p></div><span className="executive-period">{period}</span></div>
-              {total ? <div className="executive-trend"><div className="executive-chart"><ResponsiveContainer width="100%" height="100%"><AreaChart data={data.days} margin={{ top: 10, right: 12, left: -20, bottom: 0 }}><defs><linearGradient id="executive-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--company-brand-primary, #7046fa)" stopOpacity={0.18} /><stop offset="100%" stopColor="var(--company-brand-primary, #7046fa)" stopOpacity={0} /></linearGradient></defs><CartesianGrid strokeDasharray="3 4" vertical={false} stroke="#e9eaf3" /><XAxis dataKey="date" tick={{ fontSize: 11 }} minTickGap={42} axisLine={false} tickLine={false} /><YAxis allowDecimals={false} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><Tooltip /><Area name={copy('Solicitudes', 'Requests')} type="monotone" dataKey="requests" stroke="var(--company-brand-primary, #683afa)" fill="url(#executive-fill)" strokeWidth={2.5} /><Area name={copy('Completados', 'Completed')} type="monotone" dataKey="completed" stroke="var(--company-brand-secondary, var(--company-brand-primary, #a391f8))" fill="none" strokeDasharray="5 4" strokeWidth={2} /></AreaChart></ResponsiveContainer></div><div className="executive-completion"><strong>{percent(completion)}</strong><span>{copy('completados', 'completed')}</span><small>{number(data.completed.length)} / {number(total)}</small></div></div> : <div className="executive-empty"><BarChart3 /><p>{copy('No hay servicios con estos filtros.', 'No services match these filters.')}</p><small>{copy('Prueba otro período o amplía la selección.', 'Try another period or broaden the selection.')}</small></div>}
-              <div className="executive-legend"><span><i style={{ background: 'var(--company-brand-primary, #683afa)' }} />{copy('Solicitudes', 'Requests')}</span><span><i style={{ background: 'var(--company-brand-secondary, var(--company-brand-primary, #a391f8))' }} />{copy('Completados', 'Completed')}</span></div>
+              <div className="executive-panel-heading"><div><h2><Activity size={20} />{copy('Evolución de la operación', 'Activity trend')}</h2><p>{copy('Solicitudes y servicios completados acumulados en el período', 'Cumulative requests and completed services within the period')}</p></div><span className="executive-period">{period}</span></div>
+              {total ? <div className="executive-trend"><div className="executive-chart"><ResponsiveContainer width="100%" height="100%"><AreaChart data={data.trend} margin={{ top: 10, right: 12, left: -20, bottom: 0 }}><defs><linearGradient id="executive-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="var(--company-brand-primary, #7046fa)" stopOpacity={0.18} /><stop offset="100%" stopColor="var(--company-brand-primary, #7046fa)" stopOpacity={0} /></linearGradient></defs><CartesianGrid strokeDasharray="3 4" vertical={false} stroke="#e9eaf3" /><XAxis dataKey="date" tick={{ fontSize: 11 }} minTickGap={42} axisLine={false} tickLine={false} /><YAxis allowDecimals={false} tick={{ fontSize: 11 }} axisLine={false} tickLine={false} /><Tooltip /><Area name={copy('Solicitudes', 'Requests')} type="monotone" dataKey="requests" stroke="var(--company-brand-primary, #683afa)" fill="url(#executive-fill)" strokeWidth={2.5} /><Area name={copy('Completados', 'Completed')} type="monotone" dataKey="completed" stroke="#10b981" fill="none" strokeDasharray="5 4" strokeWidth={2} /></AreaChart></ResponsiveContainer></div><div className="executive-completion"><strong>{percent(completion)}</strong><span>{copy('completados', 'completed')}</span><small>{number(data.completed.length)} / {number(total)}</small></div></div> : <div className="executive-empty"><BarChart3 /><p>{copy('No hay servicios con estos filtros.', 'No services match these filters.')}</p><small>{copy('Prueba otro período o amplía la selección.', 'Try another period or broaden the selection.')}</small></div>}
+              <div className="executive-legend"><span><i style={{ background: 'var(--company-brand-primary, #683afa)' }} />{copy('Solicitudes', 'Requests')}</span><span><i style={{ background: '#10b981' }} />{copy('Completados', 'Completed')}</span></div>
             </section>
     ),
     (

@@ -1,11 +1,26 @@
 // Local demo data. These adapters never contact Supabase or production systems.
 const now = new Date();
-now.setHours(12, 0, 0, 0);
+export const DEMO_TMO_MINUTES = 4.23;
 export const company = { id: 1, 'Company Name': 'Nova Seguros · Demo', brand_primary: '#7046fa' };
 const names = ['Asistencia vehicular', 'Gasfitería', 'Cerrajería', 'Cambio de batería', 'Electricidad'];
-export const orders = Array.from({ length: 1248 }, (_, i) => {
-  const daysAgo = i < 80 ? i % 2 : 2 + i % 59;
-  const created = new Date(now.getTime() - daysAgo * 86400000 - (i % 12) * 3600000);
+// Two calendar years of deterministic activity, with growth and daily variation.
+// Weighted hours model morning and evening peaks while retaining overnight demand.
+const hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 8, 9, 9, 10, 10, 11, 12, 13, 14, 15, 16, 17, 17, 18, 18, 19, 20, 21, 22, 23];
+const timestamps: Date[] = [];
+const firstDay = new Date(now.getFullYear() - 1, 0, 1);
+for (const day = new Date(firstDay); day <= now; day.setDate(day.getDate() + 1)) {
+  const dayIndex = Math.round((Date.UTC(day.getFullYear(), day.getMonth(), day.getDate()) - Date.UTC(firstDay.getFullYear(), 0, 1)) / 86400000);
+  const growth = 5 + dayIndex / 45;
+  const weekday = [0.8, 1.1, 1.05, 1.12, 1.18, 1.3, 0.95][day.getDay()];
+  const count = Math.max(3, Math.round(growth * weekday + Math.sin(dayIndex * 1.7) * 2));
+  for (let j = 0; j < count; j++) {
+    const created = new Date(day);
+    created.setHours(hours[(j * 7 + dayIndex * 5) % hours.length], (j * 19 + dayIndex * 11) % 60, 0, 0);
+    if (created <= now) timestamps.push(created);
+  }
+}
+export const orders = timestamps.map((created, i) => {
+  const daysAgo = Math.floor((now.getTime() - created.getTime()) / 86400000);
   const status = daysAgo > 1 ? (i % 31 === 0 ? 'cancelled' : 'completed') : ['pending', 'assigned', 'en_route', 'in_progress', 'completed'][i % 5];
   const started = new Date(created.getTime() + 22 * 60000).toISOString();
   const completed = new Date(created.getTime() + 65 * 60000).toISOString();
@@ -43,5 +58,5 @@ export const useMapboxToken = () => ({ token: 'public-demo-basemap', isLoading: 
 export const useAuth = () => ({ signOut: async () => {} });
 export const useInsuranceCommunications = (_id: number, from: string, to: string) => {
   const rows = orders.filter(o => Date.parse(o.created_at) >= Date.parse(from) && Date.parse(o.created_at) <= Date.parse(to));
-  return { calls: result(rows.map(o => ({ id: o.id, status: 'completed', duration_seconds: 65 }))), clients: result(rows.map(o => o.client)), messages: result({ sms: rows.length * 2, voice: rows.length, whatsapp: rows.length * 3 }) };
+  return { calls: result(rows.map(o => ({ id: o.id, status: 'completed', duration_seconds: DEMO_TMO_MINUTES * 60 }))), clients: result(rows.map(o => o.client)), messages: result({ sms: rows.length * 2, voice: rows.length, whatsapp: rows.length * 3 }) };
 };
