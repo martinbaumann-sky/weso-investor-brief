@@ -1,5 +1,78 @@
 @import "tailwindcss/index.css";
 
+/* Request → orchestration → execution, using the pitch's existing brand tokens. */
+.how-weso { background: var(--paper); color: var(--ink); padding: clamp(80px, 9vw, 140px) 0 80px; }
+.how-weso-inner { width: var(--page); margin: 0 auto; }
+.how-weso-heading h2 { margin: 24px 0 0; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(2.8rem, 5.5vw, 6rem); letter-spacing: -.06em; line-height: 1.02; }
+.how-weso-heading h2 > span { color: var(--pink); }
+.how-weso-flow { display: grid; grid-template-columns: 24% 52% 24%; align-items: center; min-height: 460px; margin: 24px 0 10px; }
+.how-weso-request { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.how-weso-phone { width: 126px; aspect-ratio: 470 / 990; padding: 5px; border: 1.5px solid var(--ink); border-radius: 22px; background: var(--ink); overflow: hidden; }
+.how-weso-phone img { width: 100%; height: 100%; object-fit: contain; border-radius: 17px; }
+.how-weso-replay { display: flex; align-items: center; gap: 8px; border: 0; border-bottom: 1px solid var(--line); padding: 6px 0; background: transparent; color: var(--muted); font-size: .75rem; cursor: pointer; }
+.how-weso-replay:hover { color: var(--pink); border-color: var(--pink); }
+.how-weso-replay:focus-visible { outline: 2px solid var(--pink); outline-offset: 5px; }
+.how-weso-network { position: relative; min-width: 0; }
+.how-weso-globe { display: block; width: 100%; max-width: 490px; aspect-ratio: 1; margin: 0 auto; }
+.how-weso-wordmark { position: absolute; top: 48%; left: -10%; width: 96px; height: 42px; transform: translateY(-50%); z-index: 2; background: var(--paper); padding: 5px 0; overflow: hidden; }
+.how-weso-wordmark img { width: 100%; height: 100%; object-fit: cover; }
+.how-weso-network-label { display: block; position: absolute; bottom: 3%; width: 100%; text-align: center; color: var(--muted); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
+.how-weso-connection { position: absolute; top: 48%; height: 1px; background: #f20b8f35; }
+.how-weso-connection-in { left: -19%; width: 31%; }
+.how-weso-connection-out { left: 80%; width: 30%; }
+.how-weso-connection-out > svg { position: absolute; top: -8px; right: -2px; color: var(--pink); }
+.how-weso-connection i { position: absolute; top: -2px; left: 0; width: 5px; height: 5px; background: var(--pink); border-radius: 50%; opacity: 0; }
+.how-weso-step-0 .how-weso-connection-in i, .how-weso-step-1 .how-weso-connection-out i { animation: how-weso-transfer 3.5s linear infinite; }
+@keyframes how-weso-transfer { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+.how-weso-execution { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+.how-weso-service-icons { display: flex; align-items: flex-end; gap: 8px; }
+.how-weso-service-icons > svg:first-child { width: clamp(80px, 10vw, 135px); height: auto; }
+.how-weso-service-icons > svg:last-child { width: 33px; height: 33px; margin-bottom: 12px; color: var(--muted); }
+.how-weso-complete { position: absolute; top: -20px; right: 18%; width: 29px; height: 29px; display: grid; place-items: center; background: var(--pink); color: white; border-radius: 50%; opacity: .12; transform: scale(.8); transition: opacity .5s, transform .5s; }
+.how-weso-step-2 .how-weso-complete { opacity: 1; transform: scale(1); }
+.how-weso-service-label { font-size: .7rem; color: var(--muted); opacity: .35; transition: opacity .5s; }
+.how-weso-step-2 .how-weso-service-label { opacity: 1; }
+.how-weso-steps { display: grid; grid-template-columns: repeat(3, 1fr); list-style: none; padding: 0 0 42px; margin: 0; border-bottom: 1px solid var(--line); }
+.how-weso-steps li { padding: 20px 26px; border-left: 1px solid var(--line); }
+.how-weso-steps li:first-child { padding-left: 0; border-left: 0; }
+.how-weso-number { color: var(--pink); font-size: .75rem; }
+.how-weso-steps h3 { margin: 12px 0 9px; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(1.35rem, 2.25vw, 2.3rem); line-height: 1.1; letter-spacing: -.035em; }
+.how-weso-steps p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.5; max-width: 29ch; }
+.how-weso-steps .is-active .how-weso-number { border-bottom: 1px solid var(--pink); padding-bottom: 5px; }
+@media (max-width: 820px) {
+  .how-weso { padding: 72px 0 48px; }
+  .how-weso-heading h2 { font-size: clamp(2.7rem, 6vw, 4rem); }
+  .how-weso-flow { min-height: 330px; }
+  .how-weso-phone { width: 94px; border-radius: 17px; }
+  .how-weso-phone img { border-radius: 12px; }
+  .how-weso-wordmark { width: 65px; }
+  .how-weso-service-icons > svg:last-child { width: 23px; height: 23px; }
+  .how-weso-network-label { font-size: .5rem; }
+  .how-weso-steps li { padding: 16px; }
+}
+@media (max-width: 560px) {
+  .how-weso-inner { width: calc(100% - 40px); }
+  .how-weso-flow { display: flex; flex-direction: column; margin: 35px 0; gap: 30px; }
+  .how-weso-network { width: 100%; max-width: 360px; margin: 0 auto; }
+  .how-weso-wordmark { left: 50%; top: 0; width: 72px; height: 32px; transform: translate(-50%, -50%); }
+  .how-weso-connection-in { left: 50%; top: -18px; width: 1px; height: 45px; }
+  .how-weso-connection-out { left: 50%; top: 100%; width: 1px; height: 30px; }
+  .how-weso-connection-out > svg { top: auto; bottom: 0; right: -9px; transform: rotate(90deg); }
+  .how-weso-connection i { display: none; }
+  .how-weso-phone { width: 103px; }
+  .how-weso-execution { margin: 16px 0 0; }
+  .how-weso-service-icons > svg:first-child { width: 95px; }
+  .how-weso-network-label { font-size: .6rem; }
+  .how-weso-steps { grid-template-columns: 1fr; padding-bottom: 20px; }
+  .how-weso-steps li, .how-weso-steps li:first-child { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0; }
+  .how-weso-steps h3 { font-size: 1.5rem; margin-top: 8px; }
+  .how-weso-steps p { max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .how-weso-connection i { animation: none !important; }
+  .how-weso-complete, .how-weso-service-label { opacity: 1; transform: none; transition: none; }
+}
+
 :root {
   --ink: #171518;
   --muted: #6e686c;
@@ -211,6 +284,27 @@ img { display: block; max-width: 100%; }
 }
 
 .hero-title-line { display: inline-block; white-space: nowrap; }
+
+.hero.hero-es h1 {
+  max-width: none;
+  font-size: clamp(1rem, 5.2vw, 7rem);
+  line-height: 1.02;
+  letter-spacing: -.06em;
+}
+
+.hero-es .hero-title-line {
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+  .hero.hero-es h1 {
+    max-width: none;
+    font-size: clamp(1rem, 5.2vw, 3.6rem);
+    line-height: 1.08;
+    letter-spacing: -.055em;
+  }
+}
 
 .hero h1 em {
   color: inherit;
@@ -534,6 +628,7 @@ main { overflow: clip; }
 /* AI-first commercial chapter: a scroll-led operating system map. */
 .core-chapter {
   position: relative;
+  height: 500vh;
   height: 500svh;
   overflow: clip;
   background: #fff;
@@ -556,6 +651,7 @@ main { overflow: clip; }
   top: 0;
   z-index: 1;
   width: min(calc(100% - 48px), 1180px);
+  height: 100vh;
   height: 100svh;
   margin: 0 auto;
   padding: clamp(88px, 10vh, 116px) 0 clamp(34px, 5vh, 58px);
@@ -586,6 +682,7 @@ main { overflow: clip; }
   color: var(--muted);
 }
 .core-board {
+  min-height: min(68vh, 620px);
   min-height: min(68svh, 620px);
   padding: clamp(22px, 3vw, 38px);
   display: flex;
@@ -691,12 +788,12 @@ main { overflow: clip; }
 .execution-callout > p:last-child { max-width: 34rem; margin: 22px 0 0; color: rgba(255,255,255,.65); font-size: .88rem; line-height: 1.5; }
 
 @media (max-width: 820px) {
-  .core-chapter { height: 500svh; }
-  .core-inner { grid-template-columns: 1fr; height: 100svh; padding-top: 84px; padding-bottom: 32px; gap: 24px; }
+  .core-chapter { height: 500vh; height: 500svh; }
+  .core-inner { grid-template-columns: 1fr; height: 100vh; height: 100svh; padding-top: 84px; padding-bottom: 32px; gap: 24px; }
   .core-copy { position: static; padding-top: 0; }
   .core-copy h2 { max-width: 12ch; font-size: clamp(2.7rem, 8vw, 4.3rem); }
   .core-copy > p:last-child { max-width: 34rem; }
-  .core-board { width: 100%; min-height: 0; height: min(56svh, 520px); }
+  .core-board { width: 100%; min-height: 0; height: min(56vh, 520px); height: min(56svh, 520px); }
   .core-human-heading { grid-template-columns: 1fr; align-items: start; }
   .core-human-heading p { margin: 0; }
 }
@@ -1854,7 +1951,7 @@ main { overflow: clip; }
 /* A single quiet surface for each capability, preserving the scroll transition. */
 .core-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
 .core-copy h2 { max-width: 11ch; font-size: clamp(3rem, 5vw, 5.5rem); line-height: .98; }
-.core-board { align-self: center; min-height: 0; height: min(58svh, 540px); padding: 0; border: 0; background: transparent; border-radius: 0; }
+.core-board { align-self: center; min-height: 0; height: min(58vh, 540px); height: min(58svh, 540px); padding: 0; border: 0; background: transparent; border-radius: 0; }
 .core-channel-list { margin: 0; min-height: 0; }
 .core-channel-card { grid-template-columns: 1fr; gap: 28px; padding: clamp(28px, 4vw, 58px); border: 0; border-radius: 28px; background: #f5f5f7; }
 .core-channel-visual { width: 48px; height: 48px; border: 0; border-radius: 0; background: transparent; color: var(--ink); }
@@ -2074,7 +2171,7 @@ main { overflow: clip; }
 
 /* Transparent AI capabilities: vector illustrations, shared light and color. */
 .core-copy h2 span { color: #f20b8f; }
-.core-board { height: min(64svh, 580px); }
+.core-board { height: min(64vh, 580px); height: min(64svh, 580px); }
 .core-channel-card { padding: 0; gap: 24px; grid-template-rows: minmax(0, 1fr) auto; align-content: stretch; background: transparent; border-radius: 0; }
 .core-channel-copy { padding: 0 6% 8px; min-width: 0; }
 .core-channel-copy h3 { font-size: clamp(2rem, 3vw, 3.25rem); line-height: 1.08; }
@@ -2112,16 +2209,16 @@ main { overflow: clip; }
   .core-channel-progress { margin-top: 14px; }
 }
 @media (max-height: 700px) and (min-width: 821px) {
-  .core-board { height: 68svh; }
+  .core-board { height: 68vh; height: 68svh; }
   .core-channel-copy h3 { font-size: 2.2rem; }
   .core-channel-copy p { font-size: 1rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .core-network *, .core-channel-card { animation: none !important; transition: none; }
 }
-.core-capability-art { position: relative; display: grid; place-items: center; isolation: isolate; width: 100%; height: 100%; min-height: 0; overflow: hidden; }
+.core-capability-art { position: relative; display: grid; place-items: center; isolation: isolate; width: 100%; height: 100%; min-width: 0; min-height: 0; overflow: visible; }
 .core-capability-glow { position: absolute; inset: 8% 4%; z-index: -1; border-radius: 50%; background: radial-gradient(ellipse, #ed62c326 0%, #b985e817 39%, transparent 70%); }
-.core-capability-art img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; filter: drop-shadow(0 14px 22px #b9509c12); }
+.core-capability-art img { display: block; width: min(100%, 460px); height: auto; max-width: 100%; max-height: 100%; aspect-ratio: 1 / 1; object-fit: contain; object-position: center; user-select: none; filter: drop-shadow(0 14px 22px #b9509c12); }
 @media (max-width: 820px) {
   .core-capability-art { width: min(100%, 500px); justify-self: center; }
 }

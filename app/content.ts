@@ -130,8 +130,8 @@ export const content = {
     hero: {
       kicker: "Resumen para inversionistas · Weso",
       eyebrow: "Plataforma de infraestructura B2B · Experiencia B2B2C · Insurtech",
-      titleA: "La capa operativa de IA",
-      titleB: "para servicios de seguros.",
+      titleA: "La capa operativa de servicios",
+      titleB: "para asegurados, impulsada por IA.",
       body: "Una infraestructura de coordinación en tiempo real que reemplaza call centers, intermediarios y operadores legacy.",
       explore: "Explorar la tesis",
       signal: "IA nativa · Tiempo real · Pago por uso",

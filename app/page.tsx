@@ -5,6 +5,7 @@ import Image from "next/image";
 import { content, type Lang } from "./content";
 import ServiceUniverse from "./service-universe";
 import InsurerDemo from "./insurer-demo";
+import HowWesoWorks from "./how-weso-works";
 
 type InvestorBriefProps = {
   compact?: boolean;
@@ -499,7 +500,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </nav>
       </header>
 
-      <section className="hero" id="top">
+      <section className={`hero${lang === "es" ? " hero-es" : ""}`} id="top">
         <h1 data-reveal><span className="hero-title-line">{t.hero.titleA}</span><br /><em className="hero-title-line">{t.hero.titleB.replace(/\.$/, "")}<span className="hero-dot">.</span></em></h1>
         <a className="hero-scroll" href="#problem" aria-label={t.hero.explore}>↓</a>
       </section>
@@ -689,6 +690,8 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
           </div>
         </div>
       </section>
+
+      <HowWesoWorks lang={lang} />
 
       <section className="scroll-chapter team-chapter" id="team">
         <div className="chapter-background team-background" aria-hidden="true"><span>06</span><strong>team</strong></div>

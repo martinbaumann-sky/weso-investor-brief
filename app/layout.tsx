@@ -5,15 +5,15 @@ import "./globals.css";
 const inter = Inter({ variable: "--font-weso-body", subsets: ["latin"] });
 const outfit = Outfit({ variable: "--font-weso-display", subsets: ["latin"] });
 
-const image = "https://weso.click/og.png?v=20260903b";
-const title = "Weso — The AI Operations Layer for Insurance Services";
-const description = "AI-native, real-time insurance service infrastructure with usage-based economics.";
+const image = "https://weso.click/og-es.png?v=20261008";
+const title = "Weso — La capa operativa de servicios para asegurados, impulsada por IA.";
+const description = "Una infraestructura de coordinación en tiempo real que conecta a asegurados y operadores de servicios, impulsada por IA.";
 
 export const metadata: Metadata = {
   title,
   description,
   icons: { icon: "/favicon.jpg", shortcut: "/favicon.jpg", apple: "/favicon.jpg" },
-  openGraph: { title, description, type: "website", images: [{ url: image, width: 1734, height: 907, alt: title }] },
+  openGraph: { title, description, type: "website", locale: "es_CL", images: [{ url: image, width: 1200, height: 630, alt: title }] },
   twitter: { card: "summary_large_image", title, description, images: [image] },
 };
 
