@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Weso — Presentación para aseguradoras</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #171518; --muted: #6e686c; --paper: #f5f3ef; --white: #fff;
+    --pink: #f20b8f; --violet: #6427ff; --lime: #c7ff4a; --line: rgba(23,21,24,.14);
+    --dark: #171518; --dark-2: #221f24; --dark-line: rgba(255,255,255,.12);
+  }
+  @page { size: 1280px 720px; margin: 0; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { margin: 0; padding: 0; background: #888; }
+  body { font-family: "Inter", Arial, sans-serif; color: var(--ink); }
+  .slide { position: relative; width: 1280px; height: 720px; overflow: hidden; background: var(--paper); padding: 64px 80px; page-break-after: always; break-after: page; display: flex; flex-direction: column; }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  @media screen { .slide { margin: 0 auto 24px; } }
+  .dark { background: var(--dark); color: #fff; }
+  h1, h2, h3 { font-family: "Outfit", sans-serif; font-weight: 500; margin: 0; letter-spacing: -.045em; }
+  h2 { font-size: 64px; line-height: 1.02; }
+  h2 span, .accent { color: var(--pink); }
+  .grad { color: transparent; background: linear-gradient(96deg, var(--pink), var(--violet)); -webkit-background-clip: text; background-clip: text; }
+  .eyebrow { margin: 0 0 18px; color: var(--pink); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .lead { font-size: 19px; line-height: 1.5; color: var(--muted); max-width: 46ch; margin: 22px 0 0; }
+  .dark .lead { color: rgba(255,255,255,.62); }
+  .foot { position: absolute; left: 80px; right: 80px; bottom: 28px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+  .foot img { height: 16px; opacity: .8; }
+  .dark .foot { color: rgba(255,255,255,.45); }
+  
+
+  /* 1 · Portada */
+  .cover { justify-content: center; align-items: center; text-align: center; }
+  .cover .logo { position: absolute; top: 56px; left: 80px; height: 30px; }
+  .cover .tag { position: absolute; top: 60px; right: 80px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
+  .cover h1 { font-size: 78px; line-height: 1.04; letter-spacing: -.055em; }
+  .cover h1 .dot, .cover h1 .g1 { color: var(--pink); }
+  .cover h1 .g2 { color: #a21fd6; }
+  .cover p { font-size: 21px; color: var(--muted); max-width: 52ch; line-height: 1.5; margin: 34px auto 0; }
+  .signal { display: inline-flex; align-items: center; gap: 10px; margin-top: 40px; padding: 10px 18px; border: 1px solid var(--line); border-radius: 99px; background: #fff; font-size: 13px; font-weight: 600; }
+  .signal i { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 0 6px rgba(242,11,143,.12); }
+  .cover .blob { position: absolute; width: 760px; height: 760px; border-radius: 50%; right: -330px; bottom: -420px; background: radial-gradient(circle, rgba(100,39,255,.16), rgba(242,11,143,.08) 45%, transparent 70%); }
+  .cover .blob.b2 { left: -360px; top: -420px; right: auto; bottom: auto; background: radial-gradient(circle, rgba(242,11,143,.12), transparent 65%); }
+
+  /* 2 · Problema */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; flex: 1; align-items: center; padding-bottom: 24px; }
+  .issue { padding: 20px 26px; border-radius: 20px; background: #fff; border: 1px solid var(--line); margin-bottom: 16px; }
+  .issue span { color: var(--pink); font-size: 12px; font-weight: 800; letter-spacing: .1em; }
+  .issue h3 { font-size: 24px; margin: 8px 0 6px; letter-spacing: -.03em; }
+  .issue p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+  .callout { padding: 22px 26px; border-radius: 20px; background: var(--ink); color: #fff; }
+  .callout .eyebrow { margin-bottom: 10px; }
+  .callout h3 { font-size: 23px; line-height: 1.2; letter-spacing: -.03em; }
+  .callout p { margin: 10px 0 0; color: rgba(255,255,255,.62); font-size: 14px; line-height: 1.5; }
+
+  /* 3 · Solución */
+  .flow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0; margin: 46px 0 40px; position: relative; }
+  .flow::before { content: ""; position: absolute; top: 27px; left: 7%; right: 7%; height: 2px; background: linear-gradient(90deg, var(--pink), var(--violet)); }
+  .flow div { position: relative; text-align: center; }
+  .flow b { display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 14px; border-radius: 50%; background: var(--dark-2); border: 1px solid var(--dark-line); font-size: 13px; font-weight: 600; }
+  .flow div:first-child b, .flow div:last-child b { background: var(--lime); color: var(--ink); border: 0; }
+  .flow span { font-size: 15px; font-weight: 500; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .pillars div { padding: 26px; border-radius: 20px; background: var(--dark-2); border: 1px solid var(--dark-line); }
+  .pillars span { color: var(--pink); font-size: 12px; font-weight: 800; }
+  .pillars h3 { font-size: 22px; margin: 12px 0 10px; letter-spacing: -.03em; }
+  .pillars p { margin: 0; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.62); }
+
+  /* 4 · Core IA */
+  .channels { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin-top: 36px; margin-bottom: 40px; flex: 1; }
+  .channel { border-radius: 20px; background: #fff; border: 1px solid var(--line); padding: 14px 18px 22px; display: flex; flex-direction: column; }
+  .channel .art { height: 200px; margin-top: 12px; display: grid; place-items: center; }
+  .channel .art img { width: 100%; max-width: 190px; height: 190px; object-fit: contain; }
+  .channel .art svg.data { width: 120px; height: 120px; }
+  .channel h3 { font-size: 22px; letter-spacing: -.03em; margin-top: 18px; }
+  .channel p { margin: 8px 0 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
+
+  /* 5 · Portal */
+  .portal { display: grid; grid-template-columns: 330px 1fr; gap: 48px; flex: 1; align-items: center; }
+  .portal .shot { border-radius: 18px; overflow: hidden; border: 1px solid rgba(23,21,24,.18); background: #fff; }
+  .portal .shot img { display: block; width: 100%; }
+  .bullets { list-style: none; padding: 0; margin: 28px 0 0; }
+  .bullets li { display: flex; gap: 12px; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--line); font-size: 15px; }
+  .bullets li::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--pink); transform: translateY(-2px); }
+  .note { margin-top: 18px; font-size: 12px; color: var(--muted); }
+
+  /* 6 · Universo de servicios */
+  .universe { display: grid; grid-template-columns: 380px 1fr; gap: 56px; flex: 1; align-items: center; }
+  .universe h2 { font-size: 76px; white-space: nowrap; }
+  .verticals { list-style: none; padding: 0; margin: 26px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .verticals li { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; }
+  .verticals .ic { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: #fff; border: 1px solid var(--line); color: var(--pink); }
+  .verticals svg { width: 18px; height: 18px; }
+  .u-metrics { display: flex; gap: 34px; margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .u-metrics p { margin: 0; font-size: 14px; color: var(--muted); }
+  .u-metrics strong { display: block; font-family: "Outfit"; font-weight: 500; font-size: 46px; color: var(--ink); letter-spacing: -.04em; }
+  .cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .cats div { display: flex; align-items: center; gap: 9px; height: 46px; padding: 0 12px; line-height: 1.2; border-radius: 12px; background: #fff; border: 1px solid var(--line); font-size: 12.5px; }
+  .cats svg { width: 16px; height: 16px; flex: none; color: var(--pink); stroke-width: 1.6; }
+
+  /* 7 · Humano */
+  .human { display: grid; grid-template-columns: 1fr 460px; gap: 48px; flex: 1; align-items: center; }
+  .human h2 { font-size: 66px; }
+  .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 34px; }
+  .roles div { padding: 22px; border-radius: 18px; background: #fff; border: 1px solid var(--line); }
+  .roles dt { font-family: "Outfit"; font-size: 21px; font-weight: 500; letter-spacing: -.03em; }
+  .roles dd { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .human img { width: 460px; height: 460px; object-fit: contain; border-radius: 28px; background: #fff; }
+
+  /* 8 · KPIs */
+  .kpi-head { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: end; }
+  .kpi-head .lead { margin: 0; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 34px; }
+  .kpi-head h2 { font-size: 54px; }
+  .kpi { padding: 20px 22px; border-radius: 18px; background: var(--dark-2); border: 1px solid var(--dark-line); height: 182px; display: flex; flex-direction: column; }
+  .kpi span { color: var(--pink); font-size: 11px; font-weight: 800; }
+  .kpi p { margin: 12px 0 4px; font-size: 13.5px; font-weight: 500; }
+  .kpi strong { font-family: "Outfit"; font-weight: 500; font-size: 50px; letter-spacing: -.05em; line-height: 1; }
+  .kpi .stars { color: var(--lime); font-size: 14px; letter-spacing: 2px; margin-left: 8px; }
+  .kpi small { margin-top: auto; font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.58); }
+  .kpi.hl { background: linear-gradient(140deg, var(--pink), var(--violet)); border: 0; }
+  .kpi.hl span, .kpi.hl small { color: rgba(255,255,255,.85); }
+
+  /* 9 · Economía */
+  .econ { display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; flex: 1; align-items: center; }
+  .compare { display: grid; grid-template-columns: 1fr 50px 1fr; align-items: stretch; margin-top: 40px; }
+  .compare > div { padding: 24px; border-radius: 18px; border: 1px solid var(--line); background: #fff; }
+  .compare span { font-size: 11px; font-weight: 800; letter-spacing: .14em; color: var(--muted); }
+  .compare h3 { font-size: 24px; margin-top: 10px; letter-spacing: -.03em; line-height: 1.15; }
+  .compare b { display: grid; place-items: center; font-size: 26px; color: var(--pink); }
+  .compare .to { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .compare .to span { color: var(--lime); }
+  .compare .to p { margin: 12px 0 0; font-size: 13px; color: rgba(255,255,255,.62); }
+  .saving { text-align: center; padding: 44px 30px; border-radius: 28px; background: #fff; border: 1px solid var(--line); }
+  .saving strong { display: inline-block; font-family: "Outfit"; font-weight: 500; font-size: 150px; letter-spacing: -.07em; line-height: .95; }
+  .saving > p { font-size: 20px; margin: 10px 0 0; font-weight: 500; }
+  .saving small { display: block; margin-top: 22px; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+  .badges { display: flex; gap: 8px; margin-top: 22px; flex-wrap: wrap; }
+  .badges span { padding: 8px 14px; border-radius: 99px; border: 1px solid var(--line); font-size: 12.5px; font-weight: 500; background: #fff; }
+
+  /* 10 · App */
+  .app { display: grid; grid-template-columns: 400px 1fr; gap: 40px; flex: 1; align-items: center; }
+  .journey { list-style: none; padding: 0; margin: 30px 0 0; }
+  .journey li { display: flex; gap: 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .journey .n { color: var(--pink); font-size: 12px; font-weight: 800; padding-top: 4px; }
+  .journey h3 { font-size: 21px; letter-spacing: -.03em; }
+  .journey p { margin: 5px 0 0; font-size: 14px; color: var(--muted); }
+  .app img { width: 100%; }
+  .app-labels { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; font-size: 10.5px; font-weight: 800; letter-spacing: .12em; color: var(--muted); margin-top: 6px; }
+
+  /* 11 · Cómo funciona */
+  .how { display: grid; grid-template-columns: 1fr 64px 1fr 64px 1fr; align-items: stretch; margin-top: 48px; flex: 1; max-height: 370px; }
+  .how .step { border-radius: 22px; background: #fff; border: 1px solid var(--line); padding: 26px; display: flex; flex-direction: column; }
+  .how .visual { height: 180px; display: grid; place-items: center; }
+  .how .phone { width: 82px; height: 172px; padding: 4px; border-radius: 16px; background: var(--ink); }
+  .how .phone img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+  .how .visual { position: relative; }
+  .how .globe { width: 158px; height: 158px; position: relative; margin-top: -14px; }
+  .how .globe .earth { width: 100%; height: 100%; display: block; }
+  .how .globe .mark { position: absolute; left: -38px; top: 50%; width: 70px; transform: translateY(-50%); background: #fff; padding: 4px 6px; }
+  .how .net { position: absolute; bottom: -2px; left: 0; right: 0; text-align: center; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .how .exec { position: relative; display: flex; align-items: flex-end; gap: 6px; }
+  .how .exec > svg:first-child { width: 120px; height: 120px; }
+  .how .exec .wrench { width: 34px; height: 34px; margin-bottom: 14px; }
+  .how .exec .ok { position: absolute; top: -6px; right: 22px; width: 32px; height: 32px; border-radius: 50%; background: var(--pink); color: #fff; display: grid; place-items: center; }
+  .how .exec .ok svg { width: 18px; height: 18px; }
+  .how .num { color: var(--pink); font-size: 12px; font-weight: 800; }
+  .how h3 { font-size: 26px; margin: 10px 0 6px; letter-spacing: -.03em; }
+  .how p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .how .arrow { display: grid; place-items: center; color: var(--pink); }
+  .how .arrow svg { width: 26px; height: 26px; }
+  .how .step .visual { margin-bottom: 18px; }
+
+  /* 12 · Equipo */
+  .team { display: grid; grid-template-columns: repeat(9, 1fr); gap: 10px; margin-top: 44px; }
+  .member .ph { height: 220px; border-radius: 16px; overflow: hidden; background: #e8e4df; }
+  .member .ph img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+  .member span { display: block; margin-top: 12px; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 800; }
+  .member h3 { font-size: 16.5px; margin-top: 4px; letter-spacing: -.02em; line-height: 1.15; }
+  .member p { margin: 4px 0 0; font-size: 11.5px; line-height: 1.35; color: var(--muted); }
+
+  /* 13 · Cierre */
+  .closing { justify-content: center; align-items: center; text-align: center; }
+  .logo-chip { display: inline-flex; align-items: center; padding: 7px 12px; border-radius: 10px; background: var(--paper); }
+  .logo-chip img { display: block; }
+  .dark .foot .logo-chip img { height: 16px; opacity: 1; }
+  .logo-chip-lg { padding: 14px 22px; border-radius: 16px; margin-bottom: 46px; }
+  .logo-chip-lg img { height: 40px; }
+  .closing .logo { height: 44px; margin-bottom: 46px; }
+  .closing h2 { font-size: 84px; }
+  .contacts { display: grid; grid-template-columns: repeat(3, auto); justify-content: center; gap: 0; margin-top: 56px; border-top: 1px solid var(--dark-line); padding-top: 30px; }
+  .contacts div { padding: 0 40px; border-left: 1px solid var(--dark-line); text-align: left; font-size: 15px; line-height: 1.6; }
+  .contacts div:first-child { border-left: 0; }
+  .contacts span { display: block; font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--pink); margin-bottom: 6px; }
+  .contacts a { color: #fff; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- 1 · Portada -->
+<section class="slide cover">
+  <div class="blob b2"></div><div class="blob"></div>
+  <img class="logo" src="logo.png" alt="Weso">
+  <span class="tag">Plataforma B2B · Insurtech</span>
+  <h1>La capa operativa de servicios<br><span class="g1">para asegurados,</span> <span class="g2">impulsada por IA</span><span class="dot">.</span></h1>
+  <p>Una infraestructura de coordinación en tiempo real que reemplaza call centers, intermediarios y operadores legacy.</p>
+  <span class="signal"><i></i>IA nativa · Tiempo real · Pago por uso</span>
+</section>
+
+<!-- 2 · Problema -->
+<section class="slide">
+  <div class="two-col">
+    <div>
+      <p class="eyebrow">01 · El problema</p>
+      <h2>La capa operativa de los seguros está <span>rota.</span></h2>
+      <p class="lead">El modelo tradicional de asistencia de seguros está fragmentado, es costoso y depende intensamente de la coordinación manual.</p>
+    </div>
+    <div>
+      <div class="issue"><span>01</span><h3>Incentivos financieros rotos</h3><p>El sistema gana más dinero cuando gasta menos en servicio al cliente.</p></div>
+      <div class="issue"><span>02</span><h3>Pérdida del control del cliente</h3><p>Las aseguradoras tercerizan su experiencia de cliente a actores externos.</p></div>
+      <div class="callout"><p class="eyebrow">El riesgo de la atención al cliente</p><h3>La aseguradora diseña el producto. La experiencia se define en la ejecución.</h3><p>La asistencia tradicional protege el margen en vez de optimizar la experiencia del asegurado. Gana cuando gasta menos, no cuando atiende mejor.</p></div>
+    </div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 3 · Solución -->
+<section class="slide dark">
+  <p class="eyebrow">02 · La solución</p>
+  <h2>Nuestra solución, <span>reinventada.</span></h2>
+  <div class="flow">
+    <div><b>01</b><span>Solicitud</span></div>
+    <div><b>02</b><span>Ingreso por IA</span></div>
+    <div><b>03</b><span>Match</span></div>
+    <div><b>04</b><span>Asignación</span></div>
+    <div><b>05</b><span>Seguimiento</span></div>
+    <div><b>06</b><span>Resolución</span></div>
+    <div><b>07</b><span>Datos de vuelta</span></div>
+  </div>
+  <div class="pillars">
+    <div><span>01</span><h3>Una capa operativa de IA</h3><p>Weso consolida TPAs, compañías de asistencia, operaciones de despacho y call centers en una sola plataforma de coordinación impulsada por IA.</p></div>
+    <div><span>02</span><h3>Operaciones nativas en IA y tiempo real</h3><p>Automatizamos la orquestación del servicio de punta a punta, reduciendo fricción operativa, tiempos de respuesta y costos fijos.</p></div>
+    <div><span>03</span><h3>Economía basada en uso</h3><p>A diferencia de los modelos legacy por cápita, Weso opera con una estructura flexible de pago por uso habilitada por automatización y coordinación inteligente.</p></div>
+  </div>
+  <div class="foot"><span class="logo-chip"><img src="logo.png" alt=""></span><span>weso.ai</span></div>
+</section>
+
+<!-- 4 · Core IA -->
+<section class="slide">
+  <p class="eyebrow">03 · AI-first by design</p>
+  <h2>La tecnología + <span>IA</span> es nuestro core.</h2>
+  <p class="lead" style="max-width:none">La eficiencia proviene de la tecnología y la automatización, no de restringir servicios.</p>
+  <div class="channels">
+    <div class="channel"><div class="art"><svg class="data" viewBox="0 0 64 64" fill="none" stroke="#f20b8f" stroke-linecap="round"><rect x="12" y="12" width="40" height="40" rx="12" fill="#fbe1f0" stroke="none"/><path d="M22 40V31M32 40V22M42 40V27" stroke-width="5"/><path d="M22 47h20" stroke-width="2.5" opacity=".35"/></svg></div><h3>Data AI</h3><p>Convierte cada servicio en inteligencia operativa.</p></div>
+    <div class="channel"><div class="art"><img src="img/core-voice-ai.jpg" alt=""></div><h3>Voice AI</h3><p>Responde y coordina en tiempo real.</p></div>
+    <div class="channel"><div class="art"><img src="img/core-chat-ai.jpg" alt=""></div><h3>Chat AI</h3><p>Guía cada solicitud desde el ingreso hasta la resolución.</p></div>
+    <div class="channel"><div class="art"><img src="img/core-whatsapp-ai.jpg" alt=""></div><h3>WhatsApp AI</h3><p>Acompaña al asegurado en el canal que ya utiliza.</p></div>
+    <div class="channel"><div class="art"><img src="img/core-app.jpg" alt=""></div><h3>App</h3><p>Mantiene el servicio visible, simple y bajo control.</p></div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 5 · Portal aseguradora -->
+<section class="slide">
+  <div class="portal">
+    <div>
+      <p class="eyebrow">El portal de la aseguradora</p>
+      <h2 style="font-size:56px">Tu operación.<br><span>En un solo lugar.</span></h2>
+      <ul class="bullets">
+        <li>Resumen ejecutivo de la operación</li>
+        <li>Analítica de servicios y satisfacción</li>
+        <li>Órdenes y estado en tiempo real</li>
+        <li>Trazabilidad completa de cada caso</li>
+      </ul>
+      <p class="note">Interfaz real de Weso · Datos de ejemplo</p>
+    </div>
+    <div class="shot"><img src="img/dashboard.jpg" alt="Dashboard de la aseguradora"></div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 6 · Universo de servicios -->
+<section class="slide">
+  <div class="universe">
+    <div>
+      <p class="eyebrow">Una plataforma.<br>Todo un universo de servicios.</p>
+      <h2><span>6</span> verticales</h2>
+      <ul class="verticals">
+        <li><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-car" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"></path><circle cx="7" cy="17" r="2"></circle><path d="M9 17h6"></path><circle cx="17" cy="17" r="2"></circle></svg></span>Mobility</li>
+        <li><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house lucide-home" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>Home &amp; Property</li>
+        <li><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plane" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path></svg></span>Travel Assist</li>
+        <li><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-paw-print" aria-hidden="true"><circle cx="11" cy="4" r="2"></circle><circle cx="18" cy="8" r="2"></circle><circle cx="20" cy="16" r="2"></circle><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"></path></svg></span>Pet Care</li>
+        <li><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-concierge-bell" aria-hidden="true"><path d="M3 20a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1Z"></path><path d="M20 16a8 8 0 1 0-16 0"></path><path d="M12 4v4"></path><path d="M10 4h4"></path></svg></span>Life Style &amp; Concierge</li>
+        <li><span class="ic"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart" aria-hidden="true"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"></path></svg></span>Health Care</li>
+      </ul>
+      <div class="u-metrics"><p><strong>32</strong>categorías</p><p><strong>+600</strong>servicios</p></div>
+    </div>
+    <div class="cats" id="cats"></div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 7 · IA + cuidado humano -->
+<section class="slide">
+  <div class="human">
+    <div>
+      <p class="eyebrow">Tecnología con criterio humano</p>
+      <h2>Inteligencia artificial.<br><span>Cuidado humano.</span></h2>
+      <p class="lead">La IA coordina el servicio. Nuestro equipo interviene cuando necesitas atención personal.</p>
+      <dl class="roles">
+        <div><dt>La IA coordina</dt><dd>Solicitudes, asignaciones y seguimiento.</dd></div>
+        <div><dt>Las personas acompañan</dt><dd>Atención personal y resolución de casos especiales.</dd></div>
+      </dl>
+    </div>
+    <img src="img/human-care.jpg" alt="">
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 8 · KPIs -->
+<section class="slide dark">
+  <div class="kpi-head">
+    <div><p class="eyebrow">04 · NPS &amp; KPIs</p><h2>Desempeño operativo, <span>en números.</span></h2></div>
+    <p class="lead">La coordinación nativa en IA ya se traduce en un servicio más rápido, mayor automatización y una experiencia de cliente consistentemente sólida.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi hl"><span>01</span><p>Voice AI + automatización</p><strong>100%</strong><small>Cada solicitud es atendida en menos de 10 segundos.</small></div>
+    <div class="kpi"><span>02</span><p>Resolución más rápida</p><strong>8×</strong><small>Asignación de técnicos y resolución del servicio.</small></div>
+    <div class="kpi"><span>03</span><p>Llegada más rápida</p><strong>5×</strong><small>Tiempo desde la solicitud hasta la llegada al servicio.</small></div>
+    <div class="kpi"><span>04</span><p>Resolución al primer contacto</p><strong>98%</strong><small>Casos resueltos durante la primera interacción.</small></div>
+    <div class="kpi"><span>05</span><p>Coordinación autónoma</p><strong>95%</strong><small>Completada automáticamente, sin intervención humana.</small></div>
+    <div class="kpi"><span>06</span><p>Llamadas grabadas</p><strong>100%</strong><small>Cada llamada registrada para trazabilidad y calidad.</small></div>
+    <div class="kpi hl"><span>07</span><p>CSAT</p><strong>4,8/5<em class="stars">★★★★★</em></strong><small>Índice de satisfacción del cliente.</small></div>
+    <div class="kpi"><span>08</span><p>Transferencia a humano</p><strong>&lt;60s</strong><small>Tiempo de transferencia cuando se necesita una persona.</small></div>
+  </div>
+  <div class="foot"><span class="logo-chip"><img src="logo.png" alt=""></span><span>weso.ai</span></div>
+</section>
+
+<!-- 9 · Economía -->
+<section class="slide">
+  <div class="econ">
+    <div>
+      <p class="eyebrow">05 · Cambiando la economía</p>
+      <h2>¿Por qué Weso <span>gana ahora?</span></h2>
+      <p class="lead">De pagar por cada asegurado a pagar solo por los servicios utilizados.</p>
+      <div class="compare">
+        <div><span>ANTES</span><h3>Pagar por cada asegurado</h3></div>
+        <b>→</b>
+        <div class="to"><span>CON WESO</span><h3>Pagar solo por servicios utilizados</h3><p>Cambiamos estructuralmente la economía.</p></div>
+      </div>
+      <div class="badges"><span>Una plataforma</span><span>Operaciones impulsadas por IA</span><span>Economía basada en uso</span></div>
+    </div>
+    <div class="saving">
+      <strong style="color:var(--pink)">45%</strong>
+      <p>de ahorro para las aseguradoras</p>
+      <small>Este ahorro se obtiene comparando el costo por uso de Weso con el pago per cápita promedio que las aseguradoras hacen a las compañías de asistencia.</small>
+    </div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 10 · App -->
+<section class="slide">
+  <div class="app">
+    <div>
+      <p class="eyebrow">La experiencia Weso</p>
+      <h2 style="font-size:58px">Todo el servicio.<br><span>En tus manos.</span></h2>
+      <p class="lead" style="font-size:17px">Desde la solicitud hasta la solución. Una experiencia conectada para clientes y profesionales.</p>
+      <ol class="journey">
+        <li><span class="n">01</span><div><h3>Solicita</h3><p>Encuentra el servicio que necesitas.</p></div></li>
+        <li><span class="n">02</span><div><h3>Sigue cada avance</h3><p>Consulta el estado del servicio y contacta a tu profesional.</p></div></li>
+        <li><span class="n">03</span><div><h3>Listo para atender</h3><p>El proveedor recibe pedidos y organiza su disponibilidad.</p></div></li>
+      </ol>
+    </div>
+    <div>
+      <img src="img/app-three-screens.jpg" alt="Pantallas de la app Weso">
+      <div class="app-labels"><span>APP DEL CLIENTE</span><span>APP DEL PROVEEDOR</span><span>SEGUIMIENTO</span></div>
+    </div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 11 · Cómo funciona -->
+<section class="slide">
+  <p class="eyebrow">Cómo funciona Weso</p>
+  <h2>Una solicitud. Toda una red en movimiento<span>.</span></h2>
+  <div class="how">
+    <div class="step"><div class="visual"><div class="phone"><img src="img/app-client-home.jpg" alt=""></div></div><span class="num">01</span><h3>El usuario solicita</h3><p>Pide un servicio desde su celular.</p></div>
+    <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+    <div class="step"><div class="visual"><div class="globe"><img class="earth" src="img/globe.svg" alt=""><img class="mark" src="logo.png" alt="Weso"></div><span class="net">Red global de operadores</span></div><span class="num">02</span><h3>Weso coordina</h3><p>Elige de su red global de operadores y coordina al operador.</p></div>
+    <div class="arrow"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f20b8f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right" aria-hidden="true"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></div>
+    <div class="step"><div class="visual"><div class="exec"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#171518" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg><svg class="wrench" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6e686c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"></path></svg><span class="ok"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span></div></div><span class="num">03</span><h3>El operador ejecuta</h3><p>Realiza el servicio en terreno.</p></div>
+  </div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 12 · Equipo -->
+<section class="slide">
+  <p class="eyebrow">Construida por seguros + operaciones de software</p>
+  <h2>El equipo detrás de <span>la capa.</span></h2>
+  <div class="team" id="team"></div>
+  <div class="foot"><img src="logo.png" alt=""><span>weso.ai</span></div>
+</section>
+
+<!-- 13 · Cierre -->
+<section class="slide dark closing">
+  <span class="logo-chip logo-chip-lg"><img src="logo.png" alt="Weso"></span>
+  <h2>Transformemos tu operación.<br><span>Juntos.</span></h2>
+  <div class="contacts">
+    <div><span>Escríbenos</span><a href="mailto:sebastian@weso.ai">sebastian@weso.ai</a></div>
+    <div><span>Llámanos</span><a href="tel:+13053396633">+1 (305) 339-6633</a></div>
+    <div><span>Oficina</span>1200 Brickell Av, Suite 1950 #1119<br>Miami, FL 33131, USA</div>
+  </div>
+  <div class="foot" style="justify-content:center"><a href="https://weso.ai" style="color:inherit;text-decoration:none">weso.ai</a></div>
+</section>
+
+<script>
+  const ICONS = {"brush": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-brush\" aria-hidden=\"true\"><path d=\"m11 10 3 3\"></path><path d=\"M6.5 21A3.5 3.5 0 1 0 3 17.5a2.62 2.62 0 0 1-.708 1.792A1 1 0 0 0 3 21z\"></path><path d=\"M9.969 17.031 21.378 5.624a1 1 0 0 0-3.002-3.002L6.967 14.031\"></path></svg>", "utensils": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-utensils lucide-fork-knife\" aria-hidden=\"true\"><path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\"></path><path d=\"M7 2v20\"></path><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\"></path></svg>", "snowflake": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-snowflake\" aria-hidden=\"true\"><path d=\"m10 20-1.25-2.5L6 18\"></path><path d=\"M10 4 8.75 6.5 6 6\"></path><path d=\"m14 20 1.25-2.5L18 18\"></path><path d=\"m14 4 1.25 2.5L18 6\"></path><path d=\"m17 21-3-6h-4\"></path><path d=\"m17 3-3 6 1.5 3\"></path><path d=\"M2 12h6.5L10 9\"></path><path d=\"m20 10-1.5 2 1.5 2\"></path><path d=\"M22 12h-6.5L14 15\"></path><path d=\"m4 10 1.5 2L4 14\"></path><path d=\"m7 21 3-6-1.5-3\"></path><path d=\"m7 3 3 6h4\"></path></svg>", "paint-roller": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-paint-roller\" aria-hidden=\"true\"><rect width=\"16\" height=\"6\" x=\"2\" y=\"2\" rx=\"2\"></rect><path d=\"M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2\"></path><rect width=\"4\" height=\"6\" x=\"8\" y=\"16\" rx=\"1\"></rect></svg>", "waves": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-waves-horizontal lucide-waves\" aria-hidden=\"true\"><path d=\"M2 12q2.5 2 5 0t5 0 5 0 5 0\"></path><path d=\"M2 19q2.5 2 5 0t5 0 5 0 5 0\"></path><path d=\"M2 5q2.5 2 5 0t5 0 5 0 5 0\"></path></svg>", "house": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-house lucide-home\" aria-hidden=\"true\"><path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"></path><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"></path></svg>", "bath": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-bath\" aria-hidden=\"true\"><path d=\"M10 4 8 6\"></path><path d=\"M17 19v2\"></path><path d=\"M2 12h20\"></path><path d=\"M7 19v2\"></path><path d=\"M9 5 7.621 3.621A2.121 2.121 0 0 0 4 5v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5\"></path></svg>", "cooking-pot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-cooking-pot\" aria-hidden=\"true\"><path d=\"M2 12h20\"></path><path d=\"M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8\"></path><path d=\"m4 8 16-4\"></path><path d=\"m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8\"></path></svg>", "laptop": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-laptop\" aria-hidden=\"true\"><path d=\"M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z\"></path><path d=\"M20.054 15.987H3.946\"></path></svg>", "smile": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-face-slightly-smiling lucide-smile\" aria-hidden=\"true\"><path d=\"M15 10V9\"></path><path d=\"M16.472 15a6 6 0 01-8.943 0\"></path><path d=\"M9 10V9\"></path><circle cx=\"12\" cy=\"12\" r=\"10\"></circle></svg>", "key-round": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-key-round\" aria-hidden=\"true\"><path d=\"M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\"></path><circle cx=\"16.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"></circle></svg>", "scale": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-scale\" aria-hidden=\"true\"><path d=\"M12 3v18\"></path><path d=\"m19 8 3 8a5 5 0 0 1-6 0zV7\"></path><path d=\"M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1\"></path><path d=\"m5 8 3 8a5 5 0 0 1-6 0zV7\"></path><path d=\"M7 21h10\"></path></svg>", "wallet": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-wallet\" aria-hidden=\"true\"><path d=\"M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"></path><path d=\"M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4\"></path></svg>", "heart": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-heart\" aria-hidden=\"true\"><path d=\"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5\"></path></svg>", "repeat": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-repeat\" aria-hidden=\"true\"><path d=\"m17 2 4 4-4 4\"></path><path d=\"M3 11v-1a4 4 0 0 1 4-4h14\"></path><path d=\"m7 22-4-4 4-4\"></path><path d=\"M21 13v1a4 4 0 0 1-4 4H3\"></path></svg>", "hospital": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-hospital\" aria-hidden=\"true\"><path d=\"M12 7v4\"></path><path d=\"M14 21v-3a2 2 0 0 0-4 0v3\"></path><path d=\"M14 9h-4\"></path><path d=\"M18 11h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2h2\"></path><path d=\"M18 21V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16\"></path></svg>", "ambulance": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-ambulance\" aria-hidden=\"true\"><path d=\"M10 10H6\"></path><path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"></path><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.28a1 1 0 0 0-.684-.948l-1.923-.641a1 1 0 0 1-.578-.502l-1.539-3.076A1 1 0 0 0 16.382 8H14\"></path><path d=\"M8 8v4\"></path><path d=\"M9 18h6\"></path><circle cx=\"17\" cy=\"18\" r=\"2\"></circle><circle cx=\"7\" cy=\"18\" r=\"2\"></circle></svg>", "car": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-car\" aria-hidden=\"true\"><path d=\"M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2\"></path><circle cx=\"7\" cy=\"17\" r=\"2\"></circle><path d=\"M9 17h6\"></path><circle cx=\"17\" cy=\"17\" r=\"2\"></circle></svg>", "package": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-package\" aria-hidden=\"true\"><path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"></path><path d=\"M12 22V12\"></path><polyline points=\"3.29 7 12 12 20.71 7\"></polyline><path d=\"m7.5 4.27 9 5.15\"></path></svg>", "plane": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plane\" aria-hidden=\"true\"><path d=\"M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z\"></path></svg>", "brain": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-brain\" aria-hidden=\"true\"><path d=\"M12 18V5\"></path><path d=\"M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4\"></path><path d=\"M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5\"></path><path d=\"M17.997 5.125a4 4 0 0 1 2.526 5.77\"></path><path d=\"M18 18a4 4 0 0 0 2-7.464\"></path><path d=\"M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517\"></path><path d=\"M6 18a4 4 0 0 1-2-7.464\"></path><path d=\"M6.003 5.125a4 4 0 0 0-2.526 5.77\"></path></svg>", "graduation-cap": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-graduation-cap\" aria-hidden=\"true\"><path d=\"M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z\"></path><path d=\"M22 10v6\"></path><path d=\"M6 12.5V16a6 3 0 0 0 12 0v-3.5\"></path></svg>", "truck": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-truck\" aria-hidden=\"true\"><path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"></path><path d=\"M15 18H9\"></path><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14\"></path><circle cx=\"17\" cy=\"18\" r=\"2\"></circle><circle cx=\"7\" cy=\"18\" r=\"2\"></circle></svg>", "concierge-bell": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-concierge-bell\" aria-hidden=\"true\"><path d=\"M3 20a1 1 0 0 1-1-1v-1a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a1 1 0 0 1-1 1Z\"></path><path d=\"M20 16a8 8 0 1 0-16 0\"></path><path d=\"M12 4v4\"></path><path d=\"M10 4h4\"></path></svg>", "paw-print": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-paw-print\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"4\" r=\"2\"></circle><circle cx=\"18\" cy=\"8\" r=\"2\"></circle><circle cx=\"20\" cy=\"16\" r=\"2\"></circle><path d=\"M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z\"></path></svg>", "stethoscope": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-stethoscope\" aria-hidden=\"true\"><path d=\"M11 2v2\"></path><path d=\"M5 2v2\"></path><path d=\"M5 3H4a2 2 0 0 0-2 2v4a6 6 0 0 0 12 0V5a2 2 0 0 0-2-2h-1\"></path><path d=\"M8 15a6 6 0 0 0 12 0v-3\"></path><circle cx=\"20\" cy=\"10\" r=\"2\"></circle></svg>", "badge-percent": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-badge-percent\" aria-hidden=\"true\"><path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\"></path><path d=\"m15 9-6 6\"></path><path d=\"M9 9h.01\"></path><path d=\"M15 15h.01\"></path></svg>", "wrench": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-wrench\" aria-hidden=\"true\"><path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z\"></path></svg>", "droplet": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-droplet\" aria-hidden=\"true\"><path d=\"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z\"></path></svg>", "sprout": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-sprout\" aria-hidden=\"true\"><path d=\"M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3\"></path><path d=\"M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4\"></path><path d=\"M5 21h14\"></path></svg>", "panels-top-left": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-panels-top-left lucide-layout\" aria-hidden=\"true\"><rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"></rect><path d=\"M3 9h18\"></path><path d=\"M9 21V9\"></path></svg>", "zap": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-zap\" aria-hidden=\"true\"><path d=\"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z\"></path></svg>", "arrow-right": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-arrow-right\" aria-hidden=\"true\"><path d=\"M5 12h14\"></path><path d=\"m12 5 7 7-7 7\"></path></svg>", "check": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#f20b8f\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-check\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"></path></svg>"};
+  const cats = [["brush","Limpieza"],["utensils","Catering"],["snowflake","Aire acondicionado"],["paint-roller","Pintura"],["waves","Piscina"],["house","Hogar y propiedades"],["bath","Baño"],["cooking-pot","Cocina"],["laptop","Tecnología"],["smile","Odontología"],["key-round","Cerrajero"],["scale","Abogado"],["wallet","Finanzas personales"],["heart","Bienestar"],["repeat","Suscripciones"],["hospital","Red médica"],["ambulance","Ambulancia"],["car","Asistencia en ruta"],["package","Mudanza"],["plane","Asistencia en viaje"],["brain","Psicología"],["graduation-cap","Educación"],["truck","Asistencia a pesados"],["concierge-bell","Estilo de vida"],["paw-print","Veterinario"],["stethoscope","Servicios médicos"],["badge-percent","Beneficios y descuentos"],["wrench","Maestro general"],["droplet","Plomero"],["sprout","Jardinería y paisajismo"],["panels-top-left","Techos y canales"],["zap","Electricidad y luces"]];
+  document.getElementById("cats").innerHTML = cats.map(([i, n]) => `<div>${ICONS[i]}<span>${n}</span></div>`).join("");
+  const team = [["Sebastian Sarovich","CEO · Fundador","Chile","p3-14.jpg"],["Ricardo Aizenman","Chairman ICP · Cofundador","Estados Unidos","p3-4.jpg"],["Eduardo Diaz","COO · Cofundador","Chile","p3-7.jpg"],["Martin Baumann","Head of Growth · Cofundador","Chile","martin-baumann-portrait.jpg"],["Laura Ospina","AI Manager · Cofundadora Tech","Ecuador","p3-5.jpg"],["Jose Vera","CTO · Cofundador","Canadá","team-jose-vera.jpg"],["Ximena Hincapie","Diseño · Cofundadora Tech","Colombia","team-ximena-hincapie.jpg"],["Felipe Botero","Desarrollo · Cofundador Tech","Colombia","team-felipe-botero.jpg"],["Martin Pinto","CCO · Cofundador","Uruguay","p3-9.jpg"]];
+  document.getElementById("team").innerHTML = team.map(([n, r, c, img]) => `<div class="member"><div class="ph"><img src="img/${img}" alt="${n}"></div><span>${c}</span><h3>${n}</h3><p>${r}</p></div>`).join("");
+</script>
+</body>
+</html>
