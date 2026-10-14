@@ -46,7 +46,7 @@ export default function HowWesoWorks({ lang }: { lang: Lang }) {
             <div className="how-weso-wordmark"><Image src="/assets/p1-2.png" alt="Weso" width={400} height={400} unoptimized /></div>
           </div>}
           {index === 2 && <div className="how-weso-execution">
-            <Image className="how-weso-van" src="/assets/how-weso-van.png" alt={es ? "Vehículo de un operador de la red Weso" : "Weso network operator service van"} width={900} height={600} unoptimized />
+            <Image className="how-weso-van" src="/assets/how-weso-van.png" alt={es ? "Vehículo de un operador de la red Weso" : "Weso network operator service van"} width={1254} height={907} unoptimized />
             <span className="how-weso-complete" aria-hidden="true"><Check size={30} strokeWidth={2.5} /></span>
             <span className="how-weso-tool" aria-hidden="true"><Wrench size={26} strokeWidth={1.6} /></span>
           </div>}

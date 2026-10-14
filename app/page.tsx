@@ -6,6 +6,8 @@ import { content, type Lang } from "./content";
 import ServiceUniverse from "./service-universe";
 import InsurerDemo from "./insurer-demo";
 import HowWesoWorks from "./how-weso-works";
+import { IntakeFunnel } from "./intake-funnel";
+import { ClaimsModule } from "./claims-module";
 
 type InvestorBriefProps = {
   compact?: boolean;
@@ -556,6 +558,9 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
           </div>
         </div>
       </section>}
+
+      {compact && <IntakeFunnel t={t.intake} />}
+      {compact && <ClaimsModule t={t.claims} />}
 
       {compact && <InsurerDemo lang={lang} />}
       {compact && <ServiceUniverse lang={lang} />}
