@@ -1,76 +1,75 @@
 @import "tailwindcss/index.css";
 
-/* Request → orchestration → execution, using the pitch's existing brand tokens. */
-.how-weso { background: var(--paper); color: var(--ink); padding: clamp(80px, 9vw, 140px) 0 80px; }
+/* Request → coordination → execution. */
+.how-weso { background: var(--paper); color: var(--ink); padding: clamp(72px, 7vw, 112px) 0 48px; scroll-margin-top: 88px; }
 .how-weso-inner { width: var(--page); margin: 0 auto; }
-.how-weso-heading h2 { margin: 24px 0 0; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(2.8rem, 5.5vw, 6rem); letter-spacing: -.06em; line-height: 1.02; }
+.how-weso-heading h2 { margin: 24px 0 0; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(2.8rem, 5.5vw, 6rem); letter-spacing: -.06em; line-height: 1.04; }
 .how-weso-heading h2 > span { color: var(--pink); }
-.how-weso-flow { display: grid; grid-template-columns: 24% 52% 24%; align-items: center; min-height: 460px; margin: 24px 0 10px; }
-.how-weso-request { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.how-weso-phone { width: 126px; aspect-ratio: 470 / 990; padding: 5px; border: 1.5px solid var(--ink); border-radius: 22px; background: var(--ink); overflow: hidden; }
-.how-weso-phone img { width: 100%; height: 100%; object-fit: contain; border-radius: 17px; }
-.how-weso-replay { display: flex; align-items: center; gap: 8px; border: 0; border-bottom: 1px solid var(--line); padding: 6px 0; background: transparent; color: var(--muted); font-size: .75rem; cursor: pointer; }
-.how-weso-replay:hover { color: var(--pink); border-color: var(--pink); }
+.how-weso-flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; list-style: none; padding: 0; margin: 48px 0 0; }
+.how-weso-stage { min-width: 0; }
+.how-weso-visual { height: clamp(270px, 31vw, 410px); position: relative; display: grid; place-items: center; }
+.how-weso-phone { width: clamp(135px, 16vw, 198px); aspect-ratio: 470 / 990; padding: 6px; border: 2px solid var(--ink); border-radius: 30px; background: var(--ink); overflow: hidden; box-shadow: 0 10px 18px #1715180d; transition: transform .7s; }
+.how-weso-phone img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 23px; }
+.how-weso-stage.is-active .how-weso-phone { transform: translateY(-5px); }
+.how-weso-network { position: relative; width: 118%; max-width: 430px; aspect-ratio: 1; }
+.how-weso-network-image { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform 1s; }
+.how-weso-stage.is-active .how-weso-network-image { transform: scale(1.035); }
+.how-weso-wordmark { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 25%; aspect-ratio: 1; border-radius: 50%; background: var(--paper); display: grid; place-items: center; overflow: hidden; }
+.how-weso-wordmark img { width: 84%; height: 84%; object-fit: contain; }
+.how-weso-connection { position: absolute; left: calc(100% + 2px); top: 50%; transform: translateY(-50%); width: 44px; color: var(--pink); opacity: .55; transition: opacity .4s; }
+.how-weso-connection svg { width: 100%; height: 28px; }
+.how-weso-stage.is-active .how-weso-connection { opacity: 1; animation: how-weso-transfer 1.4s ease-in-out infinite; }
+@keyframes how-weso-transfer { 50% { transform: translate(5px, -50%); } }
+.how-weso-execution { position: relative; width: 112%; max-width: 390px; aspect-ratio: 1; display: grid; place-items: center; }
+.how-weso-van { width: 100%; height: auto; transition: transform .7s; }
+.how-weso-stage.is-active .how-weso-van { transform: translateX(5px); }
+.how-weso-complete, .how-weso-tool { position: absolute; display: grid; place-items: center; border-radius: 50%; }
+.how-weso-complete { top: 17%; right: 15%; width: 52px; height: 52px; background: var(--pink); color: white; opacity: .7; transform: scale(.9); transition: opacity .5s, transform .5s; }
+.how-weso-stage.is-active .how-weso-complete { opacity: 1; transform: scale(1); }
+.how-weso-tool { top: 32%; right: 5%; width: 48px; height: 48px; background: #fff; color: var(--ink); }
+.how-weso-caption { padding: 36px 0 0; }
+.how-weso-number { color: var(--pink); font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.how-weso-caption h3 { margin: 16px 0 10px; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(1.5rem, 2.25vw, 2.15rem); line-height: 1.1; letter-spacing: -.04em; }
+.how-weso-caption p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+.how-weso-footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.how-weso-replay { display: inline-flex; align-items: center; justify-content: center; gap: 12px; border: 0; border-radius: 99px; padding: 18px 28px; background: var(--ink); color: white; font-size: .8rem; font-weight: 600; cursor: pointer; transition: background .2s; flex-shrink: 0; }
+.how-weso-replay:hover { background: var(--pink); }
 .how-weso-replay:focus-visible { outline: 2px solid var(--pink); outline-offset: 5px; }
-.how-weso-network { position: relative; min-width: 0; }
-.how-weso-globe { display: block; width: 100%; max-width: 490px; aspect-ratio: 1; margin: 0 auto; }
-.how-weso-wordmark { position: absolute; top: 48%; left: -10%; width: 96px; height: 42px; transform: translateY(-50%); z-index: 2; background: var(--paper); padding: 5px 0; overflow: hidden; }
-.how-weso-wordmark img { width: 100%; height: 100%; object-fit: cover; }
-.how-weso-network-label { display: block; position: absolute; bottom: 3%; width: 100%; text-align: center; color: var(--muted); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; }
-.how-weso-connection { position: absolute; top: 48%; height: 1px; background: #f20b8f35; }
-.how-weso-connection-in { left: -19%; width: 31%; }
-.how-weso-connection-out { left: 80%; width: 30%; }
-.how-weso-connection-out > svg { position: absolute; top: -8px; right: -2px; color: var(--pink); }
-.how-weso-connection i { position: absolute; top: -2px; left: 0; width: 5px; height: 5px; background: var(--pink); border-radius: 50%; opacity: 0; }
-.how-weso-step-0 .how-weso-connection-in i, .how-weso-step-1 .how-weso-connection-out i { animation: how-weso-transfer 3.5s linear infinite; }
-@keyframes how-weso-transfer { 0% { left: 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
-.how-weso-execution { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-.how-weso-service-icons { display: flex; align-items: flex-end; gap: 8px; }
-.how-weso-service-icons > svg:first-child { width: clamp(80px, 10vw, 135px); height: auto; }
-.how-weso-service-icons > svg:last-child { width: 33px; height: 33px; margin-bottom: 12px; color: var(--muted); }
-.how-weso-complete { position: absolute; top: -20px; right: 18%; width: 29px; height: 29px; display: grid; place-items: center; background: var(--pink); color: white; border-radius: 50%; opacity: .12; transform: scale(.8); transition: opacity .5s, transform .5s; }
-.how-weso-step-2 .how-weso-complete { opacity: 1; transform: scale(1); }
-.how-weso-service-label { font-size: .7rem; color: var(--muted); opacity: .35; transition: opacity .5s; }
-.how-weso-step-2 .how-weso-service-label { opacity: 1; }
-.how-weso-steps { display: grid; grid-template-columns: repeat(3, 1fr); list-style: none; padding: 0 0 42px; margin: 0; border-bottom: 1px solid var(--line); }
-.how-weso-steps li { padding: 20px 26px; border-left: 1px solid var(--line); }
-.how-weso-steps li:first-child { padding-left: 0; border-left: 0; }
-.how-weso-number { color: var(--pink); font-size: .75rem; }
-.how-weso-steps h3 { margin: 12px 0 9px; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(1.35rem, 2.25vw, 2.3rem); line-height: 1.1; letter-spacing: -.035em; }
-.how-weso-steps p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.5; max-width: 29ch; }
-.how-weso-steps .is-active .how-weso-number { border-bottom: 1px solid var(--pink); padding-bottom: 5px; }
-@media (max-width: 820px) {
-  .how-weso { padding: 72px 0 48px; }
-  .how-weso-heading h2 { font-size: clamp(2.7rem, 6vw, 4rem); }
-  .how-weso-flow { min-height: 330px; }
-  .how-weso-phone { width: 94px; border-radius: 17px; }
-  .how-weso-phone img { border-radius: 12px; }
-  .how-weso-wordmark { width: 65px; }
-  .how-weso-service-icons > svg:last-child { width: 23px; height: 23px; }
-  .how-weso-network-label { font-size: .5rem; }
-  .how-weso-steps li { padding: 16px; }
+.how-weso-progress { display: flex; gap: 16px; font-size: .6rem; text-transform: uppercase; color: var(--muted); letter-spacing: .035em; }
+.how-weso-progress > span { display: flex; gap: 16px; align-items: center; transition: color .4s; }
+.how-weso-progress svg, .how-weso-progress .is-active { color: var(--pink); }
+@media (max-width: 900px) {
+  .how-weso-flow { gap: 28px; }
+  .how-weso-connection { width: 24px; }
+  .how-weso-visual { height: 280px; }
+  .how-weso-phone { width: 126px; border-radius: 24px; }
+  .how-weso-phone img { border-radius: 17px; }
+  .how-weso-caption { padding-top: 24px; }
+  .how-weso-caption h3 { font-size: 1.55rem; }
+  .how-weso-caption p { font-size: .85rem; }
+  .how-weso-progress { gap: 8px; font-size: .5rem; }
+  .how-weso-progress > span { gap: 8px; }
 }
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  .how-weso { padding: 64px 0 32px; }
   .how-weso-inner { width: calc(100% - 40px); }
-  .how-weso-flow { display: flex; flex-direction: column; margin: 35px 0; gap: 30px; }
-  .how-weso-network { width: 100%; max-width: 360px; margin: 0 auto; }
-  .how-weso-wordmark { left: 50%; top: 0; width: 72px; height: 32px; transform: translate(-50%, -50%); }
-  .how-weso-connection-in { left: 50%; top: -18px; width: 1px; height: 45px; }
-  .how-weso-connection-out { left: 50%; top: 100%; width: 1px; height: 30px; }
-  .how-weso-connection-out > svg { top: auto; bottom: 0; right: -9px; transform: rotate(90deg); }
-  .how-weso-connection i { display: none; }
-  .how-weso-phone { width: 103px; }
-  .how-weso-execution { margin: 16px 0 0; }
-  .how-weso-service-icons > svg:first-child { width: 95px; }
-  .how-weso-network-label { font-size: .6rem; }
-  .how-weso-steps { grid-template-columns: 1fr; padding-bottom: 20px; }
-  .how-weso-steps li, .how-weso-steps li:first-child { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0; }
-  .how-weso-steps h3 { font-size: 1.5rem; margin-top: 8px; }
-  .how-weso-steps p { max-width: none; }
+  .how-weso-heading h2 { font-size: clamp(2.4rem, 8.5vw, 3.5rem); margin-top: 20px; }
+  .how-weso-flow { grid-template-columns: 1fr; gap: 36px; margin-top: 36px; }
+  .how-weso-stage { display: flex; flex-direction: column; align-items: center; }
+  .how-weso-visual { height: 310px; width: 100%; max-width: 350px; }
+  .how-weso-phone { width: 142px; }
+  .how-weso-network { width: 100%; max-width: 330px; }
+  .how-weso-execution { width: 100%; max-width: 340px; }
+  .how-weso-connection { display: none; }
+  .how-weso-caption { width: 100%; padding: 20px 0 28px; border-bottom: 1px solid var(--line); }
+  .how-weso-caption h3 { font-size: 1.85rem; margin-top: 12px; }
+  .how-weso-caption p { font-size: .95rem; }
+  .how-weso-footer { flex-direction: column; align-items: flex-start; margin-top: 28px; gap: 24px; }
+  .how-weso-progress { flex-wrap: wrap; gap: 10px; font-size: .52rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .how-weso-connection i { animation: none !important; }
-  .how-weso-complete, .how-weso-service-label { opacity: 1; transform: none; transition: none; }
+  .how-weso-stage.is-active .how-weso-connection { animation: none; }
+  .how-weso-phone, .how-weso-network-image, .how-weso-van, .how-weso-complete { transition: none; transform: none !important; }
 }
 
 :root {
