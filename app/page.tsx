@@ -8,6 +8,7 @@ import InsurerDemo from "./insurer-demo";
 import HowWesoWorks from "./how-weso-works";
 import { IntakeFunnel } from "./intake-funnel";
 import { ClaimsModule } from "./claims-module";
+import { showAlphaSections } from "./feature-flags";
 
 type InvestorBriefProps = {
   compact?: boolean;
@@ -559,8 +560,8 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>}
 
-      {compact && <IntakeFunnel t={t.intake} />}
-      {compact && <ClaimsModule t={t.claims} />}
+      {compact && showAlphaSections && <IntakeFunnel t={t.intake} />}
+      {compact && showAlphaSections && <ClaimsModule t={t.claims} />}
 
       {compact && <InsurerDemo lang={lang} />}
       {compact && <ServiceUniverse lang={lang} />}
@@ -696,7 +697,7 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
         </div>
       </section>
 
-      <HowWesoWorks lang={lang} />
+      {showAlphaSections && <HowWesoWorks lang={lang} />}
 
       <section className="scroll-chapter team-chapter" id="team">
         <div className="chapter-background team-background" aria-hidden="true"><span>06</span><strong>team</strong></div>

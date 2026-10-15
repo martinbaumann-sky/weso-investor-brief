@@ -17,3 +17,10 @@ This workspace is the canonical pitch site repository. Use it for all Weso pitch
 - Old copies that look the same and must **never** be edited: `Códigos Hackers\weso-investor-brief`, `Weso\00-investor-brief-snapshot`, `Weso\01-investor-brief-site-copy`. If a request arrives in one of those, do the work here.
 - Bilingual copy (EN/ES) lives in `app/content.ts`; long sections live in their own components in `app/`; styles go at the end of `app/globals.css`.
 - Check before handing off: `VERCEL=1 npm run build` and eslint on the files you touched.
+
+## Branches: `main` (production) and `alpha` (in review)
+
+- `main` is production (weso.click). `alpha` = `main` + one commit that sets `showAlphaSections = true` in `app/feature-flags.ts`.
+- Sections hidden on `main` and visible on `alpha`: El embudo (`intake-funnel.tsx`), Reporte de siniestros (`claims-module.tsx`) and Cómo funciona Weso (`how-weso-works.tsx`). Their code stays in `main`; only the flag hides them. Do not delete them.
+- Normal work goes on `main`; afterwards bring `alpha` up to date with `git checkout alpha && git merge main`.
+- Never merge `alpha` into `main` as-is, because it would turn the flag on in production. To publish a section, change the flag (or the condition for that section in `app/page.tsx`) on `main` only when the user asks.
