@@ -1,64 +1,118 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { ChartColumnIncreasing, Database, FileWarning, Headset, Search } from "lucide-react";
 import type { Copy } from "./content";
-import { useScrollProgress } from "./use-scroll-progress";
 
-// Request chips sit in a 4-column grid; each column pours into the funnel along its own curve.
-const columns = [75, 225, 375, 525];
-const flowPath = (x: number) => `M${x} 0 C ${x} 92, 300 112, 300 196 L300 250`;
-const stageStarts = [0.36, 0.52, 0.68];
-const outputStart = 0.82;
+const requestIcons = [Headset, FileWarning];
+const outputIcons = [ChartColumnIncreasing, Database, Search];
 
 export function IntakeFunnel({ t }: { t: Copy["intake"] }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const visualRef = useRef<HTMLDivElement>(null);
-  const progress = useScrollProgress(sectionRef, visualRef);
+  const [activeStage, setActiveStage] = useState(0);
+  const diagramRef = useRef<HTMLDivElement>(null);
+  const layoutRef = useRef<HTMLDivElement>(null);
 
-  const activeRequests = Math.min(t.requests.length, Math.floor(Math.min(progress / 0.34, 1) * t.requests.length) + 1);
-  const activeStage = stageStarts.filter((start) => progress >= start).length - 1;
-  const outputOn = progress >= outputStart;
+  useEffect(() => {
+    const section = sectionRef.current;
+    const diagram = diagramRef.current;
+    if (!section || !diagram) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktop = window.matchMedia("(min-width: 861px) and (min-height: 600px)");
+    let frame = 0;
+    const clamp = (value: number) => Math.min(1, Math.max(0, value));
+    const ease = (value: number) => value * value * (3 - 2 * value);
+    const update = () => {
+      frame = 0;
+      const viewport = window.innerHeight;
+      const pinned = desktop.matches && !reduced.matches;
+      section.dataset.scrollPinned = String(pinned);
+      const layoutHeight = layoutRef.current?.offsetHeight ?? 1;
+      section.style.setProperty("--funnel-fit", String(pinned ? Math.min(1, Math.max(1, viewport - 124) / layoutHeight) : 1));
+      const sectionBounds = section.getBoundingClientRect();
+      const progress = clamp(-sectionBounds.top / Math.max(1, section.offsetHeight - viewport));
+      const bounds = diagram.getBoundingClientRect();
+      const revealAt = (fraction: number) => reduced.matches ? 1 : ease(pinned
+        ? clamp((progress - fraction * .78) / .2)
+        : clamp((viewport * .94 - bounds.top - bounds.height * fraction) / (viewport * .32)));
+      const intro = reduced.matches ? 1 : ease(clamp((viewport * .94 - section.getBoundingClientRect().top) / (viewport * .25)));
+      const inputs = revealAt(.04);
+      const hub = revealAt(.37);
+      const results = revealAt(.73);
+      section.style.setProperty("--funnel-intro", String(intro));
+      section.style.setProperty("--funnel-inputs", String(inputs));
+      section.style.setProperty("--funnel-hub", String(hub));
+      section.style.setProperty("--funnel-title", String(results));
+      for (let index = 0; index < 3; index++) section.style.setProperty(`--funnel-result-${index}`, String(revealAt(.79 + index * .045)));
+      const route = reduced.matches ? 1 : pinned ? clamp((progress - .07) / .76) : clamp((viewport * .83 - bounds.top) / bounds.height);
+      section.style.setProperty("--funnel-route", String(route));
+      section.dataset.scrollReady = "true";
+      setActiveStage(results > .35 ? 2 : hub > .35 ? 1 : 0);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const observer = new ResizeObserver(schedule);
+    observer.observe(section);
+    if (layoutRef.current) observer.observe(layoutRef.current);
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    reduced.addEventListener("change", schedule);
+    desktop.addEventListener("change", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      reduced.removeEventListener("change", schedule);
+      desktop.removeEventListener("change", schedule);
+    };
+  }, []);
 
-  return (
-    <section className="intake-chapter" id="funnel" ref={sectionRef}>
-      <div className="intake-sticky">
-        <div className="intake-copy" data-scroll-reveal="heading">
-          <p className="eyebrow">{t.label}</p>
-          <h2>{t.titleA}<br />{t.titleB}<span>.</span></h2>
-          <p className="intake-lead">{t.lead}</p>
-        </div>
+  const goToStage = (index: number) => {
+    const diagram = diagramRef.current;
+    if (!diagram) return;
+    const bounds = diagram.getBoundingClientRect();
+    const fraction = [.04, .37, .86][index];
+    const section = sectionRef.current;
+    const pinned = section?.dataset.scrollPinned === "true";
+    const target = pinned && section
+      ? window.scrollY + section.getBoundingClientRect().top + [.23, .5, .94][index] * (section.offsetHeight - window.innerHeight)
+      : window.scrollY + bounds.top + bounds.height * fraction - window.innerHeight * .54;
+    window.scrollTo({ top: Math.max(0, target), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  };
 
-        <div className="intake-visual" ref={visualRef} aria-label={`${t.titleA} ${t.titleB}`}>
-          <p className="intake-label">{t.inLabel}</p>
-          <ul className="intake-requests">
-            {t.requests.map((request, index) => <li className={index < activeRequests ? "is-on" : ""} key={request}>{request}</li>)}
-          </ul>
-          <div className="intake-funnel">
-            <svg viewBox="0 0 600 250" aria-hidden="true">
-              <defs>
-                <linearGradient id="intake-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#6427ff" stopOpacity=".04" /><stop offset="1" stopColor="#f20b8f" stopOpacity=".18" /></linearGradient>
-              </defs>
-              <path className="intake-funnel-shape" d="M4 4 H596 L372 196 V248 H228 V196 Z" />
-              {columns.map((x, column) => (
-                <g className={activeRequests > column ? "is-on" : ""} key={x}>
-                  <path className="intake-flow" d={flowPath(x)} pathLength={1} />
-                  {[0, 1].map((particle) => <circle r="4.5" key={particle}><animateMotion dur="2.6s" begin={`-${column * 0.35 + particle * 1.3}s`} repeatCount="indefinite" path={flowPath(x)} /></circle>)}
-                </g>
-              ))}
-            </svg>
-            <ol className="intake-stages">
-              {t.stages.map((stage, index) => {
-                const state = outputOn || index < activeStage ? "is-done" : index === activeStage ? "is-current" : "";
-                return <li className={state} key={stage}><b>{String(index + 1).padStart(2, "0")}</b><span>{stage}</span></li>;
-              })}
-            </ol>
-          </div>
-          <div className={`intake-output ${outputOn ? "is-on" : ""}`}>
-            <div><p>{t.outLabel}</p><h3>{t.outTitle}</h3></div>
-            <ul>{t.outputs.map((output) => <li key={output}>{output}</li>)}</ul>
-          </div>
-        </div>
+  const [leadStart, leadEnd] = t.lead.split(": ");
+  const outputTitle = t.outTitle.replace(/\.$/, "");
+
+  return <section className={`intake-section funnel-stage-${activeStage}`} id="funnel" lang={t.lang} ref={sectionRef} aria-labelledby="funnel-title">
+    <div className="funnel-pin">
+    <div className="funnel-layout" ref={layoutRef}>
+      <div className="funnel-copy">
+        <p className="eyebrow">{t.label}</p>
+        <h2 id="funnel-title">{t.titleA}<br />{t.titleB}<span>.</span></h2>
+        <p className="funnel-lead">{leadStart}:<br />{leadEnd}</p>
+        <ol className="funnel-stages">{t.stages.map((stage, index) => <li key={stage}>
+          <button type="button" className={index === activeStage ? "is-current" : ""} aria-pressed={index === activeStage} onClick={() => goToStage(index)}>
+            <span className="funnel-step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <span className="funnel-step-copy"><strong>{stage}</strong><span>{t.stageDetails[index]}</span></span>
+          </button>
+        </li>)}</ol>
       </div>
-    </section>
-  );
+      <div className="funnel-diagram" ref={diagramRef}>
+        <Image className="funnel-routing" src="/assets/intake-routing.png" alt="" width={780} height={900} unoptimized />
+        <ul className="funnel-inputs" aria-label={t.inLabel}>{t.requests.map((request, index) => {
+          const Icon = requestIcons[index];
+          return <li key={request}><span className="funnel-input-icon"><Icon strokeWidth={1.8} aria-hidden="true" /></span><strong>{request}</strong></li>;
+        })}</ul>
+        <div className="funnel-hub"><Image src="/assets/p1-2.png" alt="Weso" width={400} height={400} unoptimized /></div>
+        <h3 className="funnel-result-title">{outputTitle}<span>.</span></h3>
+        <ul className="funnel-results">{t.outputs.map((output, index) => {
+          const Icon = outputIcons[index];
+          return <li key={output}><span className="funnel-output-icon"><Icon strokeWidth={2} aria-hidden="true" /></span><span>{output}</span></li>;
+        })}</ul>
+      </div>
+    </div>
+    </div>
+  </section>;
 }

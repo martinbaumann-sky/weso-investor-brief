@@ -1,0 +1,122 @@
+
+> site-creator-vinext-starter@0.1.0 build
+> vinext build
+
+
+  vinext build  (Vite 8.0.13)
+
+[nitro:vercel] i Using nodejs22.x runtime.
+[nitro:vercel] i Using web entry format.
+[1/5] analyze client references...
+[2K
+transforming...✓ 212 modules transformed.
+rendering chunks...
+✓ built in 716ms
+[2/5] analyze server references...
+[2K
+transforming...✓ 142 modules transformed.
+rendering chunks...
+✓ built in 222ms
+[3/5] build rsc environment...
+[2K
+transforming...✓ 210 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/rsc/_next/static/css/index.GClLmoC_.css                                                                                            166.83 kB │ gzip: 32.12 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-B6ei0Guc.js                                                                                                    0.25 kB │ gzip:  0.20 kB
+node_modules/.nitro/vite/services/rsc/_next/static/page-BX0sB6Pl.js                                                                                                    0.32 kB │ gzip:  0.19 kB
+node_modules/.nitro/vite/services/rsc/_next/static/rolldown-runtime-DUnMT5BP.js                                                                                        0.69 kB │ gzip:  0.42 kB
+node_modules/.nitro/vite/services/rsc/_next/static/navigation-runtime-C0cDXYzq.js                                                                                      0.80 kB │ gzip:  0.39 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index~layout~page~app-page-cache-render~app-page-cache~seed-cache~app-route-handl~beoizrd4-qEeJo_4s.js    0.82 kB │ gzip:  0.55 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-static-generation-vbM73Oel.js                                                                                   0.91 kB │ gzip:  0.51 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-page-cache-render-SJy_Fn6v.js                                                                                   1.81 kB │ gzip:  0.84 kB
+node_modules/.nitro/vite/services/rsc/_next/static/seed-cache-BtwNy6zp.js                                                                                              1.94 kB │ gzip:  0.96 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-prerender-endpoints-BpNHsS3Q.js                                                                                 1.94 kB │ gzip:  0.83 kB
+node_modules/.nitro/vite/services/rsc/_next/static/headers-D8IGNj7o.js                                                                                                 2.91 kB │ gzip:  1.31 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-page-cache-BABQj-ld.js                                                                                          5.15 kB │ gzip:  1.71 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index~layout~page~page~app-page-cache-render~app-page-cache~seed-cache~app-route-~k426j5p2-Bws47D6o.js    5.49 kB │ gzip:  2.28 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-route-handler-dispatch-D90QCpyO.js                                                                             25.82 kB │ gzip:  7.98 kB
+node_modules/.nitro/vite/services/rsc/_next/static/app-elements-MotXxWau.js                                                                                           44.07 kB │ gzip: 14.26 kB
+node_modules/.nitro/vite/services/rsc/_next/static/framework~index-v7ECijYB.js                                                                                        56.65 kB │ gzip: 16.92 kB
+node_modules/.nitro/vite/services/rsc/index.js                                                                                                                       227.88 kB │ gzip: 64.93 kB
+
+✓ built in 574ms
+[4/5] build client environment...
+[2K
+transforming...✓ 2003 modules transformed.
+rendering chunks...
+computing gzip size...
+.vercel/output/static/vinext-client-entry-manifest.json                         0.06 kB │ gzip:  0.08 kB
+.vercel/output/static/.vite/manifest.json                                       1.51 kB │ gzip:  0.39 kB
+.vercel/output/static/_next/static/css/page.CXgnPWR0.css                        1.16 kB │ gzip:  0.55 kB
+.vercel/output/static/_next/static/css/index.GClLmoC_.css                     166.83 kB │ gzip: 32.12 kB
+.vercel/output/static/_next/static/chunks/layout-segment-context-5Qq4DP2U.js    0.48 kB │ gzip:  0.33 kB
+.vercel/output/static/_next/static/chunks/rolldown-runtime-C60lm6uB.js          0.69 kB │ gzip:  0.42 kB
+.vercel/output/static/_next/static/chunks/page-D66hz7fK.js                    126.12 kB │ gzip: 38.79 kB
+.vercel/output/static/_next/static/chunks/index-BZXYPWLI.js                   177.04 kB │ gzip: 51.69 kB
+.vercel/output/static/_next/static/chunks/framework-BgSIrAUN.js               190.15 kB │ gzip: 59.78 kB
+
+✓ built in 2.03s
+[5/5] build ssr environment...
+[2K
+transforming...✓ 148 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/_next/static/css/page.CXgnPWR0.css                   1.16 kB │ gzip:  0.55 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-prefetch-fetch-queue-ri_7y6Ld.js    0.00 kB │ gzip:  0.02 kB
+node_modules/.nitro/vite/services/ssr/_next/static/static.edge-xlVAixtc.js                 0.17 kB │ gzip:  0.13 kB
+node_modules/.nitro/vite/services/ssr/_next/static/layout-segment-context-Bmoyw7Af.js      0.38 kB │ gzip:  0.28 kB
+node_modules/.nitro/vite/services/ssr/_next/static/app-router-scroll-BjaUXOMW.js           2.54 kB │ gzip:  1.14 kB
+node_modules/.nitro/vite/services/ssr/_next/static/error-boundary-BHW6l-7s.js              5.39 kB │ gzip:  1.61 kB
+node_modules/.nitro/vite/services/ssr/_next/static/page-BPWgejSs.js                       89.69 kB │ gzip: 27.93 kB
+node_modules/.nitro/vite/services/ssr/index.js                                           277.83 kB │ gzip: 87.12 kB
+
+✓ built in 475ms
+[nitro] i Skipping RSC (already built)
+[nitro] o Building [Nitro] (preset: vercel, compatibility: 2026-10-15)
+[nitro] √ Generated public .vercel/output/static
+[2K
+transforming...✓ 112 modules transformed.
+rendering chunks...
+computing gzip size...
+.vercel/output/functions/__server.func/_ssr/app-prefetch-fetch-queue-ri_7y6Ld.mjs      0.00 kB │ gzip:  0.02 kB
+.vercel/output/functions/__server.func/_ssr/page-B6ei0Guc.mjs                          0.14 kB │ gzip:  0.14 kB
+.vercel/output/functions/__server.func/_ssr/static.edge-xlVAixtc.mjs                   0.16 kB │ gzip:  0.13 kB
+.vercel/output/functions/__server.func/_ssr/page-BX0sB6Pl.mjs                          0.32 kB │ gzip:  0.18 kB
+.vercel/output/functions/__server.func/_ssr/layout-segment-context-Bmoyw7Af.mjs        0.37 kB │ gzip:  0.27 kB
+.vercel/output/functions/__server.func/_chunks/ssr-renderer.mjs                        0.41 kB │ gzip:  0.27 kB
+.vercel/output/functions/__server.func/_runtime.mjs                                    0.69 kB │ gzip:  0.42 kB
+.vercel/output/functions/__server.func/_ssr/navigation-runtime-C0cDXYzq.mjs            0.78 kB │ gzip:  0.38 kB
+.vercel/output/functions/__server.func/_ssr/app-static-generation-vbM73Oel.mjs         0.91 kB │ gzip:  0.51 kB
+.vercel/output/functions/__server.func/_ssr/app-page-cache-render-SJy_Fn6v.mjs         1.76 kB │ gzip:  0.81 kB
+.vercel/output/functions/__server.func/_ssr/seed-cache-BtwNy6zp.mjs                    1.93 kB │ gzip:  0.96 kB
+.vercel/output/functions/__server.func/_ssr/app-prerender-endpoints-BpNHsS3Q.mjs       1.94 kB │ gzip:  0.83 kB
+.vercel/output/functions/__server.func/_ssr/app-router-scroll-BjaUXOMW.mjs             2.53 kB │ gzip:  1.14 kB
+.vercel/output/functions/__server.func/index.mjs                                       3.52 kB │ gzip:  1.69 kB
+.vercel/output/functions/__server.func/_ssr/app-page-cache-BABQj-ld.mjs                5.07 kB │ gzip:  1.67 kB
+.vercel/output/functions/__server.func/_ssr/error-boundary-BHW6l-7s.mjs                5.39 kB │ gzip:  1.60 kB
+.vercel/output/functions/__server.func/_libs/h3+rou3+srvx.mjs                         12.03 kB │ gzip:  4.38 kB
+.vercel/output/functions/__server.func/_libs/ipaddr.js.mjs                            12.51 kB │ gzip:  3.79 kB
+.vercel/output/functions/__server.func/_libs/unpic+unpic__core.mjs                    23.81 kB │ gzip:  7.82 kB
+.vercel/output/functions/__server.func/_ssr/app-route-handler-dispatch-D90QCpyO.mjs   25.58 kB │ gzip:  7.93 kB
+.vercel/output/functions/__server.func/_ssr/page-BPWgejSs.mjs                         89.75 kB │ gzip: 27.96 kB
+.vercel/output/functions/__server.func/_ssr/ssr.mjs                                  280.14 kB │ gzip: 87.58 kB
+.vercel/output/functions/__server.func/_ssr/rsc.mjs                                  337.57 kB │ gzip: 97.91 kB
+
+✓ built in 729ms
+i Generated .vercel/output/nitro.json
+[nitro] √ You can preview this build using npx vite preview
+[nitro] √ You can deploy this build using npx nitro deploy --prebuilt
+[0m
+  Route (app)
+  ┌ ? /     
+  └ ? /pitch
+
+  ? Unknown
+
+  ? Some routes could not be classified. vinext currently uses static analysis
+    and cannot detect dynamic API usage (headers(), cookies(), etc.) at build time.
+    Automatic classification will be improved in a future release.
+
+  Build complete. Run `vinext start` to start the production server.
+
