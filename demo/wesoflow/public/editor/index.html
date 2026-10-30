@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Editor de procesos y esquemas de Weso Flow.">
+  <title>Weso Flow</title>
+  <link rel="stylesheet" href="styles.css?v=12">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Editor de flujos Weso">
+        <img class="brand-logo" src="weso-logo.png" alt="">
+        <span class="brand-copy"><strong>WESO<span>FLOW</span></strong><small>EDITOR DE PROCESOS</small></span>
+      </a>
+      <div class="topbar-center">
+        <div class="document-title"><span class="live-dot"></span><span id="diagramTitle">Mapa de operaciones</span><span class="document-separator">/</span><span id="activeFlowTitle">Flujo de proveedores</span><span class="saved-pill"><span class="saved-dot"></span><span id="savedStatus">Guardado</span></span></div>
+      </div>
+      <div class="top-actions">
+        <button class="quiet-button" id="undoBtn" title="Deshacer (⌘Z)" aria-label="Deshacer"><span class="material-symbols-rounded" aria-hidden="true">undo</span></button>
+        <button class="quiet-button" id="redoBtn" title="Rehacer (⌘⇧Z)" aria-label="Rehacer"><span class="material-symbols-rounded" aria-hidden="true">redo</span></button>
+        <button class="quiet-button code-toggle" id="showCodeBtn" title="Ver código DOT" aria-label="Ver código DOT" aria-controls="inspector"><span class="material-symbols-rounded" aria-hidden="true">code</span></button>
+        <span class="top-divider"></span>
+        <button class="button button-light" id="exportPdfTop" title="Descargar el diagrama completo en PDF"><span class="material-symbols-rounded download-icon" aria-hidden="true">download</span><span class="export-label">Exportar PDF</span></button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside class="flow-sidebar" aria-label="Navegación del diagrama">
+        <div class="sidebar-heading"><div><span class="eyebrow">MAPA DE OPERACIONES</span><h1>Flujos</h1></div><button class="sidebar-icon-button" id="addFlowTab" title="Crear una sección" aria-label="Crear una sección"><span class="material-symbols-rounded" aria-hidden="true">add</span></button></div>
+        <nav class="flow-list" id="clusterTabs" aria-label="Secciones del flujo"></nav>
+        <button class="all-tab" data-focus="all"><span class="material-symbols-rounded" aria-hidden="true">account_tree</span>Ver mapa completo</button>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-tools">
+          <span class="sidebar-label">Herramientas</span>
+          <button class="tool-button active" id="selectTool" title="Seleccionar y mover" aria-label="Seleccionar y mover"><span class="material-symbols-rounded" aria-hidden="true">near_me</span><span>Mover</span></button>
+          <button class="tool-button" id="connectTool" title="Conectar dos pasos" aria-label="Conectar dos pasos"><span class="material-symbols-rounded" aria-hidden="true">conversion_path</span><span>Conectar</span></button>
+          <button class="tool-button" id="addNodeTool" title="Añadir paso" aria-label="Añadir paso"><span class="material-symbols-rounded" aria-hidden="true">add_circle</span><span>Añadir paso</span></button>
+        </div>
+        <div class="sidebar-bottom"><span class="autosave-note"><span class="saved-dot"></span>Guardado automático</span><button class="reset-button" id="resetBtn" title="Restaurar diagrama original"><span class="material-symbols-rounded" aria-hidden="true">restart_alt</span>Restaurar original</button></div>
+      </aside>
+
+      <section class="canvas-column">
+        <div class="canvas-toolbar">
+          <div class="canvas-context"><span class="context-icon"><span class="material-symbols-rounded" aria-hidden="true">touch_app</span></span><span id="modeHint">Arrastra los pasos para moverlos. Doble clic para editar.</span></div>
+          <span class="canvas-tip"><kbd>⌘</kbd><kbd>Z</kbd> Deshacer</span>
+        </div>
+        <div class="board-wrap" id="boardWrap">
+          <svg id="board" class="board" role="img" aria-label="Diagrama editable de los procesos WesoPros">
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#777480"></path></marker>
+            </defs>
+            <g id="world"></g>
+          </svg>
+          <div id="emptyHint" class="board-hint" hidden>Selecciona una sección para empezar</div>
+          <div class="board-footer"><span>Arrastra el fondo para desplazarte</span></div>
+          <div class="canvas-controls" aria-label="Controles del lienzo">
+            <button id="zoomOut" class="zoom-button" aria-label="Alejar" title="Alejar"><span class="material-symbols-rounded" aria-hidden="true">remove</span></button>
+            <span id="zoomLabel" class="zoom-label">100%</span>
+            <button id="zoomIn" class="zoom-button" aria-label="Acercar" title="Acercar"><span class="material-symbols-rounded" aria-hidden="true">add</span></button>
+            <span class="control-separator"></span>
+            <button id="fitBtn" class="zoom-button" aria-label="Ajustar flujo a la pantalla" title="Ajustar flujo a la pantalla"><span class="material-symbols-rounded" aria-hidden="true">fit_screen</span></button>
+          </div>
+          <aside class="inspector" id="inspector" hidden aria-label="Edición contextual">
+            <div class="inspector-head"><div><span class="eyebrow">EDICIÓN RÁPIDA</span><h2 id="inspectorTitle">Tu diagrama</h2></div><button class="icon-button" id="closeInspector" title="Cerrar panel" aria-label="Cerrar panel"><span class="material-symbols-rounded" aria-hidden="true">close</span></button></div>
+            <div class="panel-content" id="propertiesPanel">
+              <div id="noSelection" class="welcome-card"><h3>Edita a tu manera</h3><p>Selecciona un paso para cambiar su texto y apariencia. Muévelo directamente en el lienzo o crea nuevas conexiones.</p><button class="button button-dark full-button" id="welcomeAdd"><span class="material-symbols-rounded" aria-hidden="true">add</span>Añadir un paso</button></div>
+              <div id="nodeEditor" hidden></div>
+              <div id="edgeEditor" hidden></div>
+              <div id="clusterEditor" hidden></div>
+              <div class="section-overview" id="overviewPanel"><span class="eyebrow">ESTE DIAGRAMA CONTIENE</span><div class="stat-row"><span>Pasos</span><strong id="nodeCount">—</strong></div><div class="stat-row"><span>Conexiones</span><strong id="edgeCount">—</strong></div><div class="stat-row"><span>Secciones</span><strong id="clusterCount">—</strong></div><button class="text-button" id="addFromOverview">＋ Añadir paso a un flujo</button><button class="text-button" id="addClusterFromOverview">＋ Crear una sección</button></div>
+            </div>
+            <div class="panel-content code-panel" id="codePanel" hidden>
+              <div class="code-intro"><span class="material-symbols-rounded code-spark" aria-hidden="true">code</span><div><strong>El código se actualiza solo</strong><p>El PDF incluye todas las secciones. Descarga DOT o SVG si necesitas esos formatos.</p></div></div>
+              <div class="code-actions"><button class="button button-dark" id="copyCode">Copiar código</button><button class="button button-outline" id="downloadCode">Descargar .dot</button><button class="button button-outline svg-export" id="downloadSvg">Descargar diagrama .svg</button></div>
+              <textarea id="dotOutput" class="dot-output" readonly spellcheck="false" aria-label="Código DOT generado automáticamente"></textarea>
+              <div class="code-footnote">Solo lectura · Se genera desde el diagrama</div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="addDialog" class="add-dialog">
+    <form method="dialog" id="addForm">
+      <div class="dialog-top"><span class="eyebrow">NUEVO ELEMENTO</span><button type="button" class="dialog-close" id="closeAddDialog" aria-label="Cerrar">×</button></div>
+      <h2>Añadir un paso</h2>
+      <p class="dialog-copy">Escribe qué ocurre en este punto del proceso. Después podrás moverlo y conectarlo.</p>
+      <label class="field-label" for="newNodeLabel">Nombre del paso</label>
+      <textarea id="newNodeLabel" class="field-input new-label" rows="3" placeholder="Ej. Confirmar disponibilidad" required></textarea>
+      <label class="field-label" for="newNodeCluster">Añadir a</label>
+      <select id="newNodeCluster" class="field-input">
+        <option value="cluster_proveedores">Flujo de proveedores</option>
+        <option value="cluster_operaciones">Flujo de operaciones</option>
+        <option value="cluster_ejecucion">Flujo de ejecución</option>
+      </select>
+      <div class="dialog-actions"><button type="button" class="button button-outline" id="cancelAdd">Cancelar</button><button type="button" class="button button-dark" id="confirmAdd">Crear paso <span>→</span></button></div>
+    </form>
+  </dialog>
+
+  <dialog id="sectionDialog" class="add-dialog">
+    <form method="dialog" id="sectionForm">
+      <div class="dialog-top"><span class="eyebrow">NUEVA SECCIÓN</span><button type="button" class="dialog-close" id="closeSectionDialog" aria-label="Cerrar">×</button></div>
+      <h2>Crear un flujo</h2>
+      <p class="dialog-copy">La sección aparecerá como una nueva pestaña y podrás añadirle pasos enseguida.</p>
+      <label class="field-label" for="newSectionLabel">Nombre de la sección</label>
+      <input id="newSectionLabel" class="field-input" type="text" maxlength="80" placeholder="Ej. Atención al cliente" required>
+      <div class="field-row dialog-colors">
+        <div class="field-group"><label class="field-label" for="newSectionColor">COLOR DEL BORDE</label><div class="color-field"><input id="newSectionColor" type="color" value="#8B79C6"><code>#8B79C6</code></div></div>
+        <div class="field-group"><label class="field-label" for="newSectionFill">COLOR DE FONDO</label><div class="color-field"><input id="newSectionFill" type="color" value="#F0ECFA"><code>#F0ECFA</code></div></div>
+      </div>
+      <div class="dialog-actions"><button type="button" class="button button-outline" id="cancelSection">Cancelar</button><button class="button button-dark" id="confirmSection" value="default">Crear sección <span>→</span></button></div>
+    </form>
+  </dialog>
+
+  <dialog id="confirmDialog" class="add-dialog confirm-dialog" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+    <div class="dialog-top"><span class="eyebrow">CONFIRMACIÓN</span><button type="button" class="dialog-close" id="closeConfirmDialog" aria-label="Cerrar">×</button></div>
+    <h2 id="confirmTitle">Confirmar cambio</h2>
+    <p class="dialog-copy" id="confirmMessage"></p>
+    <div class="dialog-actions"><button type="button" class="button button-outline" id="cancelConfirm">Cancelar</button><button type="button" class="button button-dark" id="acceptConfirm">Confirmar</button></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js?v=11"></script>
+</body>
+</html>
