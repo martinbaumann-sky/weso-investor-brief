@@ -13,3 +13,7 @@ La edición compartida se sincroniza por consulta periódica cada 8 segundos mie
 ## Corrección de primera visita
 
 Reproducido en producción: la biblioteca vacía conservaba el indicador de carga pese a estar lista. Se sustituyó por bienvenida con botones centrales para crear un proyecto o importar un respaldo. Los errores ya no muestran una animación de carga y permiten reintentar. La prueba nueva falló antes de la corrección por el indicador visible y pasó después. Build de producción, ESLint, 2 pruebas de ruta/recursos y las 7 pruebas de Flow (2 de seguridad y 5 de navegador) correctos.
+
+## Recuperación de identidad y funciones
+
+Fuente histórica y cambios descritos en `RECOVERY.md`. Regresión adicional de navegador: crear copia del mapa histórico, abrir sus tres secciones, ver controles de biblioteca sin desplazamiento horizontal, descargar SVG y DOT, agregar sección y paso, guardar y recargar. Se conservan las pruebas anteriores de PDF, versiones, enlaces entre navegadores y móvil.

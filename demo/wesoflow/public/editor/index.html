@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Editor de procesos y esquemas de Weso Flow.">
   <title>Weso Flow</title>
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=14">
 </head>
 <body>
   <main class="app-shell">
@@ -21,7 +21,7 @@
       <div class="top-actions">
         <button class="quiet-button" id="undoBtn" title="Deshacer (⌘Z)" aria-label="Deshacer"><span class="material-symbols-rounded" aria-hidden="true">undo</span></button>
         <button class="quiet-button" id="redoBtn" title="Rehacer (⌘⇧Z)" aria-label="Rehacer"><span class="material-symbols-rounded" aria-hidden="true">redo</span></button>
-        <button class="quiet-button code-toggle" id="showCodeBtn" title="Ver código DOT" aria-label="Ver código DOT" aria-controls="inspector"><span class="material-symbols-rounded" aria-hidden="true">code</span></button>
+        <button class="quiet-button code-toggle" id="showCodeBtn" title="Ver código DOT" aria-label="Ver código DOT" aria-controls="inspector"><span class="material-symbols-rounded" aria-hidden="true">code</span><span class="code-label">Código, SVG y DOT</span></button>
         <span class="top-divider"></span>
         <button class="button button-light" id="exportPdfTop" title="Descargar el diagrama completo en PDF"><span class="material-symbols-rounded download-icon" aria-hidden="true">download</span><span class="export-label">Exportar PDF</span></button>
       </div>
@@ -124,6 +124,6 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=11"></script>
+  <script src="app.js?v=13"></script>
 </body>
 </html>

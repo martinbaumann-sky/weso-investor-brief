@@ -362,6 +362,7 @@ window.addEventListener('resize',()=>focusCluster(activeView==='all'?'all':activ
 
 renderAll();syncHistoryButtons();requestAnimationFrame(()=>focusCluster(activeCluster));
 if(EMBEDDED){
+  document.body.classList.add('embedded');
   window.addEventListener('message',onWesoFlowMessage);
   document.getElementById('savedStatus').textContent='Abriendo proyecto…';
   window.parent.postMessage({type:'WESO_FLOW_READY',graph:deepCopy(initialModel)},location.origin);

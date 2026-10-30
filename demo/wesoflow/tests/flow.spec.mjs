@@ -1,5 +1,7 @@
+import { readFile } from 'node:fs/promises';
 import { test, expect } from '@playwright/test';
 async function nameAction(page, button, name) {
+  if (!(await page.locator(button).isVisible())) await page.locator('#libraryPanel summary').click();
   await page.locator(button).click();
   await page.locator('#schemeName').fill(name);
   await page.locator('#nameForm button[type=submit]').click();
@@ -118,4 +120,36 @@ test('First visit offers a visible start action without an endless loading spinn
   await page.locator('#nameForm button[type=submit]').click();
   await expect(page.locator('#loading')).not.toBeVisible();
   await addNode(page, 'Primer paso');
+});
+
+
+test('Recovered Weso editor exposes its library, historical example, sections, SVG and DOT exports', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('#welcomeExample')).toBeEnabled();
+  await nameAction(page, '#welcomeExample', 'Mapa recuperado · ejemplo');
+  await expect(page.locator('#loading')).not.toBeVisible();
+  const editor = page.frameLocator('#editor');
+  await expect(editor.locator('body')).toHaveClass(/embedded/);
+  await expect(editor.locator('.topbar > .brand')).not.toBeVisible();
+  await expect(editor.locator('#clusterTabs .flow-tab')).toHaveCount(3);
+  await expect(page.locator('#saveVersion')).toBeVisible();
+  await expect(page.locator('#newScheme')).toBeVisible();
+  expect(await page.locator('.library-bar').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  expect(await page.locator('#shareProject').evaluate(el => getComputedStyle(el).backgroundColor)).toBe('rgb(109, 52, 244)');
+  await editor.locator('.all-tab').click();
+  expect(await editor.locator('.node-group').count()).toBeGreaterThan(30);
+  await editor.locator('#showCodeBtn').click();
+  const dotDownload = page.waitForEvent('download'); await editor.locator('#downloadCode').click();
+  const dot = await dotDownload;
+  expect(await readFile(await dot.path(), 'utf8')).toContain('cluster_proveedores');
+  const svgDownload = page.waitForEvent('download'); await editor.locator('#downloadSvg').click();
+  const svg = await svgDownload;
+  expect(await readFile(await svg.path(), 'utf8')).toContain('<svg');
+  await editor.locator('#closeInspector').click();
+  await editor.locator('#addFlowTab').click(); await editor.locator('#newSectionLabel').fill('Control de calidad'); await editor.locator('#confirmSection').click();
+  await expect(editor.locator('#clusterTabs .flow-tab')).toHaveCount(4);
+  await addNode(page, 'Confirmar cierre');
+  await page.screenshot({ path: 'test-results/flow-restored-desktop.png', fullPage: true });
+  await page.reload();
+  await expect(editor.locator('#clusterTabs .flow-tab')).toHaveCount(4);
 });

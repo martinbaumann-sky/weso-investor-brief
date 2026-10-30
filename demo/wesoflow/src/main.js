@@ -6,6 +6,7 @@ const base = import.meta.env.BASE_URL;
 const url = import.meta.env.VITE_SUPABASE_URL;
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || import.meta.env.VITE_SUPABASE_ANON_KEY;
 const library = url && key ? new FlowLibrary(url, key) : null;
+let starterGraph = null;
 let frame, activeProject = null, activeScheme = null;
 let frameReady = false, libraryStarted = false, busy = false, savesInFlight = 0;
 let projects = [], schemes = [], versions = [];
@@ -27,34 +28,35 @@ function isGraph(graph) { return graph && Array.isArray(graph.nodes) && Array.is
 function renderWorkspace() {
   root.innerHTML = `<main class="workspace">
     <header class="topbar">
-      <a class="brand" href="${base}" aria-label="Weso Flow, inicio"><img src="${base}editor/weso-logo.png" alt=""><span><b>WESO</b><small>OPERATIONS</small></span></a>
+      <a class="brand" href="${base}" aria-label="Weso Flow, inicio"><img src="${base}editor/weso-logo.png" alt=""><span><b>WESO<em>FLOW</em></b><small>EDITOR DE PROCESOS</small></span></a>
       <div class="doc-heading"><p class="eyebrow">PROYECTO · <span id="activeProjectName">Cargando…</span></p><h1 id="activeName">Cargando biblioteca…</h1></div>
-      <button class="save-state" id="saveState" type="button" title="Reintentar guardado pendiente"><i></i><span>Conectando</span></button>
-      <button class="button icon-button" id="shareProject" type="button" disabled>Compartir enlace</button><button class="button icon-button" id="exportProject" type="button" disabled>Respaldo</button>
+      <div class="header-actions">
+        <button class="save-state" id="saveState" type="button" title="Reintentar guardado pendiente"><i></i><span>Conectando</span></button>
+        <button class="button primary" id="shareProject" type="button" disabled>Compartir enlace</button>
+        <button class="button" id="exportProject" type="button" disabled>Respaldo</button>
+      </div>
     </header>
-    <nav class="library-bar" aria-label="Proyectos y flujos">
-      <div class="library-group project-group">
-        <label class="bar-label" for="projectSelect">Proyecto</label>
-        <select id="projectSelect" disabled><option>Cargando proyectos…</option></select>
-      </div>
-      <button class="button" id="importProject" type="button">Importar respaldo</button><input id="importFile" class="sr-only" type="file" accept=".json,application/json" tabindex="-1" aria-label="Archivo de respaldo"><button class="button" id="newProject" type="button">＋ Proyecto</button>
-      <button class="button project-manage" id="renameProject" type="button" disabled>Renombrar proyecto</button>
-      <button class="button danger-text project-manage" id="deleteProject" type="button" disabled>Eliminar proyecto</button>
-      <span class="divider"></span>
-      <div class="library-group flow-group">
-        <label class="bar-label" for="schemeSelect">Flujo</label>
-        <select id="schemeSelect" disabled><option>Cargando flujos…</option></select>
-      </div>
-      <button class="button" id="newScheme" type="button">＋ Nuevo flujo</button>
-      <button class="button" id="duplicateScheme" type="button" disabled>Duplicar</button>
-      <button class="button" id="renameScheme" type="button" disabled>Renombrar</button>
-      <button class="button danger-text" id="deleteScheme" type="button" disabled>Eliminar</button>
-      <span class="divider"></span>
-      <label class="sr-only" for="versionSelect">Versión</label>
-      <select id="versionSelect" disabled><option>Sin versiones</option></select>
-      <button class="button" id="saveVersion" type="button" disabled>Guardar versión</button>
-      <button class="button" id="restoreVersion" type="button" disabled>Restaurar</button>
-    </nav>
+    <details class="library-panel" id="libraryPanel" open>
+      <summary>Proyectos, flujos e historial <span>Gestionar biblioteca</span></summary>
+      <nav class="library-bar" aria-label="Proyectos y flujos">
+        <section class="library-group" aria-label="Proyecto">
+          <div class="library-group-heading"><label class="bar-label" for="projectSelect">PROYECTO</label><span>Tu espacio de trabajo</span></div>
+          <select id="projectSelect" disabled><option>Cargando proyectos…</option></select>
+          <div class="library-actions"><button class="button" id="newProject" type="button">＋ Proyecto</button><button class="button quiet" id="renameProject" type="button" disabled>Renombrar</button><button class="button quiet danger-text" id="deleteProject" type="button" disabled>Eliminar</button></div>
+          <button class="text-button" id="importProject" type="button">Importar respaldo</button><input id="importFile" class="sr-only" type="file" accept=".json,application/json" tabindex="-1" aria-label="Archivo de respaldo">
+        </section>
+        <section class="library-group" aria-label="Flujo">
+          <div class="library-group-heading"><label class="bar-label" for="schemeSelect">FLUJO</label><span>Diagramas del proyecto</span></div>
+          <select id="schemeSelect" disabled><option>Cargando flujos…</option></select>
+          <div class="library-actions"><button class="button" id="newScheme" type="button">＋ Flujo</button><button class="button quiet" id="duplicateScheme" type="button" disabled>Duplicar</button><button class="button quiet" id="renameScheme" type="button" disabled>Renombrar</button><button class="button quiet danger-text" id="deleteScheme" type="button" disabled>Eliminar</button></div>
+        </section>
+        <section class="library-group" aria-label="Historial de versiones">
+          <div class="library-group-heading"><label class="bar-label" for="versionSelect">HISTORIAL</label><span>Conserva y recupera versiones</span></div>
+          <select id="versionSelect" disabled><option>Sin versiones</option></select>
+          <div class="library-actions"><button class="button primary" id="saveVersion" type="button" disabled>Guardar versión</button><button class="button" id="restoreVersion" type="button" disabled>Restaurar</button></div>
+        </section>
+      </nav>
+    </details>
     <section class="editor-frame" aria-label="Editor visual">
       <iframe id="editor" title="Editor visual de diagramas Weso Flow" src="${base}editor/index.html?embedded=1"></iframe>
       <div class="loading-overlay" id="loading" aria-busy="true">
@@ -63,14 +65,15 @@ function renderWorkspace() {
         <span id="overlayMessage">Abriendo tus proyectos de Flow…</span>
         <div class="welcome-actions" id="welcomeActions" hidden>
           <button class="button primary" id="welcomeCreate" type="button">Crear mi primer proyecto</button>
-          <button class="button" id="welcomeImport" type="button">Importar respaldo</button>
+          <button class="button" id="welcomeExample" type="button">Explorar mapa de ejemplo</button>
+          <button class="button text-button" id="welcomeImport" type="button">Importar respaldo</button>
         </div>
         <button class="button" id="retryOpen" type="button" hidden>Reintentar</button>
       </div>
     </section>
     <footer class="workspace-footer"><span>Guardado en línea · Quien tenga el enlace puede editar este proyecto.</span><span id="userEmail"></span></footer>
     <dialog id="nameDialog" class="dialog"><form id="nameForm" method="dialog">
-      <p class="eyebrow" id="dialogEyebrow">BIBLIOTECA WESO FLOW</p><h2 id="dialogTitle">Nuevo flujo</h2>
+      <p class="eyebrow" id="dialogEyebrow">BIBLIOTECA WESO FLOW</p><h2 id="dialogTitle">Nuevo flujo</h2><p class="dialog-description" id="dialogDescription" hidden>Se creará una copia editable del mapa histórico. Es un ejemplo; no representa datos reales ni reglas operativas vigentes.</p>
       <label for="schemeName" id="dialogLabel">Nombre</label><input id="schemeName" maxlength="120" required>
       <div class="dialog-actions"><button class="button" type="button" id="cancelDialog">Cancelar</button><button class="button primary" type="submit" id="confirmDialog">Guardar</button></div>
     </form></dialog>
@@ -79,6 +82,8 @@ function renderWorkspace() {
 
   root.querySelector('#importProject').addEventListener('click', () => root.querySelector('#importFile').click());
   root.querySelector('#importFile').addEventListener('change', (event) => void importProject(event.target));
+  if (matchMedia('(max-width: 700px)').matches) root.querySelector('#libraryPanel').open = false;
+  root.querySelector('#welcomeExample').addEventListener('click', () => openNameDialog('example'));
   root.querySelector('#welcomeCreate').addEventListener('click', () => openNameDialog('newProject'));
   root.querySelector('#welcomeImport').addEventListener('click', () => root.querySelector('#importFile').click());
   root.querySelector('#retryOpen').addEventListener('click', () => { libraryStarted = false; void initializeLibrary(); });
@@ -160,7 +165,7 @@ function renderControls() {
   for (const id of ['renameProject', 'deleteProject', 'shareProject', 'exportProject', 'newScheme']) root.querySelector(`#${id}`).disabled = busy || !activeProject;
   for (const id of ['renameScheme', 'duplicateScheme', 'saveVersion']) root.querySelector(`#${id}`).disabled = busy || !activeScheme;
   root.querySelector('#deleteScheme').disabled = busy || schemes.length <= 1;
-  for (const id of ['newProject', 'importProject', 'welcomeCreate', 'welcomeImport']) root.querySelector(`#${id}`).disabled = busy || !library || !frameReady;
+  for (const id of ['newProject', 'importProject', 'welcomeCreate', 'welcomeImport', 'welcomeExample']) root.querySelector(`#${id}`).disabled = busy || !library || !frameReady;
   frame.style.pointerEvents = busy ? 'none' : '';
   updateControls();
 }
@@ -212,6 +217,14 @@ function handleBridgeMessage(event) {
   if (event.origin !== location.origin || event.source !== frame?.contentWindow || !event.data) return;
   const message = event.data;
   if (message.type === 'WESO_FLOW_READY') {
+    if (!starterGraph && isGraph(message.graph)) {
+      starterGraph = clone(message.graph);
+      // Historical sections used implicit positions; persist explicit defaults for the public schema.
+      starterGraph.clusters.forEach((section, index) => {
+        if (!Number.isFinite(section.x)) section.x = 70 + index * 1500;
+        if (!Number.isFinite(section.y)) section.y = 40;
+      });
+    }
     frameReady = true;
     if (libraryStarted && activeScheme) showScheme(activeScheme.id);
     else void initializeLibrary();
@@ -253,12 +266,13 @@ async function runAction(action) {
   finally { busy = false; renderControls(); }
 }
 function openNameDialog(mode) {
-  if (busy || (!activeScheme && !['newProject'].includes(mode))) return;
+  if (busy || (!activeScheme && !['newProject', 'example'].includes(mode))) return;
   dialogAction = mode;
-  const titles = { newProject: 'Crear proyecto', renameProject: 'Renombrar proyecto', new: 'Crear flujo', duplicate: 'Duplicar flujo', rename: 'Renombrar flujo', version: 'Guardar versión' };
+  const titles = { example: 'Crear copia del mapa de ejemplo', newProject: 'Crear proyecto', renameProject: 'Renombrar proyecto', new: 'Crear flujo', duplicate: 'Duplicar flujo', rename: 'Renombrar flujo', version: 'Guardar versión' };
   root.querySelector('#dialogTitle').textContent = titles[mode];
-  root.querySelector('#dialogLabel').textContent = mode.includes('Project') ? 'Nombre del proyecto' : mode === 'version' ? 'Nombre de la versión' : 'Nombre del flujo';
-  root.querySelector('#schemeName').value = mode === 'renameProject' ? activeProject.name : mode === 'rename' ? activeScheme.name : mode === 'duplicate' ? `${activeScheme.name} · copia` : '';
+  root.querySelector('#dialogDescription').hidden = mode !== 'example';
+  root.querySelector('#dialogLabel').textContent = (mode.includes('Project') || mode === 'example') ? 'Nombre del proyecto' : mode === 'version' ? 'Nombre de la versión' : 'Nombre del flujo';
+  root.querySelector('#schemeName').value = mode === 'example' ? 'Mapa de operaciones · ejemplo' : mode === 'renameProject' ? activeProject.name : mode === 'rename' ? activeScheme.name : mode === 'duplicate' ? `${activeScheme.name} · copia` : '';
   root.querySelector('#nameDialog').showModal(); root.querySelector('#schemeName').focus();
 }
 async function submitNameDialog() {
@@ -268,8 +282,9 @@ async function submitNameDialog() {
   await runAction(async () => {
     await flushPendingSave();
     let nextId = activeScheme?.id;
-    if (mode === 'newProject') {
-      const project = await library.create(name, emptyGraph());
+    if (mode === 'newProject' || mode === 'example') {
+      if (mode === 'example' && !starterGraph) throw new Error('El mapa de ejemplo todavía se está cargando.');
+      const project = await library.create(name, mode === 'example' ? starterGraph : emptyGraph(), mode === 'example' ? 'Mapa de operaciones · ejemplo' : 'Mi primer flujo');
       activeProject = { ...project, name }; selectProjectUrl(project.token); nextId = project.document.schemes[0].id;
     } else {
       await library.change(activeProject.id, (d) => {

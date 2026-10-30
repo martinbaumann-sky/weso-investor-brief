@@ -48,8 +48,8 @@ export class FlowLibrary {
     if (!token && others.length && results.every((item) => item.status === 'rejected')) throw results[0].reason;
     return [...this.projects.values()];
   }
-  async create(name, graph) {
-    return this.createDocument({ name, schemes: [{ id: crypto.randomUUID(), name: 'Mi primer flujo', graph: clone(graph), updated_at: new Date().toISOString() }], versions: [] });
+  async create(name, graph, schemeName = 'Mi primer flujo') {
+    return this.createDocument({ name, schemes: [{ id: crypto.randomUUID(), name: schemeName, graph: clone(graph), updated_at: new Date().toISOString() }], versions: [] });
   }
   async createDocument(document) {
     const token = [...crypto.getRandomValues(new Uint8Array(32))].map((b) => b.toString(16).padStart(2, '0')).join('');

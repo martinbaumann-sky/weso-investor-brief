@@ -287,3 +287,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+.code-toggle{width:auto;gap:6px;padding:0 8px}.code-label{font-size:11px;font-weight:600}@media(max-width:900px){.code-label{display:none}}
+
+/* The public shell owns branding and the library; keep the embedded editor bounded. */
+.embedded .app-shell{min-height:0}.embedded .topbar>.brand{display:none}.embedded .topbar{height:48px;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:0 16px}
+@media(min-width:601px){.embedded .flow-sidebar{overflow-y:auto}.embedded .flow-sidebar>*{flex-shrink:0}.embedded .flow-list{overflow:visible}}
+@media(max-width:600px){.embedded .topbar{grid-template-columns:minmax(0,1fr) auto;padding:5px 9px}.embedded .topbar-center{display:block}.embedded .document-title{font-size:9px}.embedded .document-separator,.embedded #activeFlowTitle,.embedded .saved-pill{display:none}}
