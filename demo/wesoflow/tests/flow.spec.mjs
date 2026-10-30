@@ -9,7 +9,9 @@ async function addNode(page, label) {
   const editor = page.frameLocator('#editor');
   await editor.locator('#addNodeTool').click();
   await editor.locator('#newNodeLabel').fill(label);
+  const saved = page.waitForResponse((response) => response.url().endsWith('/rpc/flow_link_save') && response.status() === 200);
   await editor.locator('#confirmAdd').click();
+  await saved;
   await expect(page.locator('#saveState')).toHaveText('Guardado en línea');
   await expect(editor.locator('.node-text').filter({ hasText: label })).toHaveCount(1);
 }
@@ -75,6 +77,8 @@ test('Invalid link never opens an unrelated recent project; deletion revokes the
   await expect(page.locator('#loading')).toContainText('Proyecto eliminado');
   await viewer.reload(); await expect(viewer.locator('#loading')).toContainText('no existe');
   await page.goto('./#project=invalid'); await expect(page.locator('#loading')).toContainText('no es válido');
+  await expect(page.locator('#loading .spinner')).not.toBeVisible();
+  await expect(page.locator('#retryOpen')).toBeVisible();
   await expect(page.locator('#schemeSelect')).toHaveText('Sin flujos');
   await other.close();
 });
@@ -103,4 +107,15 @@ test('Backup imports retain graphs under a new link; failed saves retry without 
   fail = false; await page.locator('#saveState').click();
   await expect(page.locator('#saveState')).toHaveText('Guardado en línea');
   await page.reload(); await expect(editor.locator('.node-text')).toHaveCount(2);
+});
+
+test('First visit offers a visible start action without an endless loading spinner', async ({ page }) => {
+  await page.goto('./');
+  await expect(page.locator('#saveState')).toHaveText('Listo para crear');
+  await expect(page.locator('#loading .spinner')).not.toBeVisible();
+  await page.locator('#welcomeCreate').click();
+  await page.locator('#schemeName').fill('Primer proyecto desde bienvenida');
+  await page.locator('#nameForm button[type=submit]').click();
+  await expect(page.locator('#loading')).not.toBeVisible();
+  await addNode(page, 'Primer paso');
 });

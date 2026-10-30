@@ -57,7 +57,16 @@ function renderWorkspace() {
     </nav>
     <section class="editor-frame" aria-label="Editor visual">
       <iframe id="editor" title="Editor visual de diagramas Weso Flow" src="${base}editor/index.html?embedded=1"></iframe>
-      <div class="loading-overlay" id="loading"><div class="spinner"></div><span>Abriendo tus proyectos de Flow…</span></div>
+      <div class="loading-overlay" id="loading" aria-busy="true">
+        <div class="spinner" aria-hidden="true"></div>
+        <h2 id="overlayTitle" hidden></h2>
+        <span id="overlayMessage">Abriendo tus proyectos de Flow…</span>
+        <div class="welcome-actions" id="welcomeActions" hidden>
+          <button class="button primary" id="welcomeCreate" type="button">Crear mi primer proyecto</button>
+          <button class="button" id="welcomeImport" type="button">Importar respaldo</button>
+        </div>
+        <button class="button" id="retryOpen" type="button" hidden>Reintentar</button>
+      </div>
     </section>
     <footer class="workspace-footer"><span>Guardado en línea · Quien tenga el enlace puede editar este proyecto.</span><span id="userEmail"></span></footer>
     <dialog id="nameDialog" class="dialog"><form id="nameForm" method="dialog">
@@ -70,6 +79,9 @@ function renderWorkspace() {
 
   root.querySelector('#importProject').addEventListener('click', () => root.querySelector('#importFile').click());
   root.querySelector('#importFile').addEventListener('change', (event) => void importProject(event.target));
+  root.querySelector('#welcomeCreate').addEventListener('click', () => openNameDialog('newProject'));
+  root.querySelector('#welcomeImport').addEventListener('click', () => root.querySelector('#importFile').click());
+  root.querySelector('#retryOpen').addEventListener('click', () => { libraryStarted = false; void initializeLibrary(); });
   frame = root.querySelector('#editor');
   root.querySelector('#userEmail').textContent = 'Sin cuenta · Acceso independiente del Hub';
   root.querySelector('#shareProject').addEventListener('click', () => void shareProject());
@@ -102,9 +114,18 @@ function setSaveState(label, state = '') {
   const el = root.querySelector('#saveState');
   if (el) { el.className = `save-state ${state}`; el.querySelector('span').textContent = label; }
 }
-function setLoading(loading, message = 'Abriendo proyecto…') {
+function setLoading(loading, message = 'Abriendo proyecto…', mode = 'loading') {
   const el = root.querySelector('#loading');
-  if (el) { el.classList.toggle('hidden', !loading); el.querySelector('span').textContent = message; }
+  if (!el) return;
+  el.classList.toggle('hidden', !loading);
+  el.setAttribute('aria-busy', String(loading && mode === 'loading'));
+  el.querySelector('.spinner').hidden = mode !== 'loading';
+  el.querySelector('#overlayMessage').textContent = message;
+  const title = el.querySelector('#overlayTitle');
+  title.hidden = mode === 'loading';
+  title.textContent = mode === 'empty' ? 'Tu próximo proceso empieza aquí' : 'No se pudo abrir el proyecto';
+  root.querySelector('#welcomeActions').hidden = mode !== 'empty';
+  root.querySelector('#retryOpen').hidden = mode !== 'error' || !library;
 }
 function toast(message) {
   const el = root.querySelector('#toast'); if (!el) return;
@@ -139,7 +160,7 @@ function renderControls() {
   for (const id of ['renameProject', 'deleteProject', 'shareProject', 'exportProject', 'newScheme']) root.querySelector(`#${id}`).disabled = busy || !activeProject;
   for (const id of ['renameScheme', 'duplicateScheme', 'saveVersion']) root.querySelector(`#${id}`).disabled = busy || !activeScheme;
   root.querySelector('#deleteScheme').disabled = busy || schemes.length <= 1;
-  for (const id of ['newProject', 'importProject']) root.querySelector(`#${id}`).disabled = busy || !library || !frameReady;
+  for (const id of ['newProject', 'importProject', 'welcomeCreate', 'welcomeImport']) root.querySelector(`#${id}`).disabled = busy || !library || !frameReady;
   frame.style.pointerEvents = busy ? 'none' : '';
   updateControls();
 }
@@ -167,7 +188,7 @@ async function initializeLibrary() {
   if (!frameReady || libraryStarted) return; libraryStarted = true;
   setLoading(true);
   if (!library) {
-    setLoading(true, 'La conexión de Flow aún no está configurada. Configura su URL y clave pública de Supabase para activar el guardado en línea.');
+    setLoading(true, 'La conexión de Flow aún no está configurada. Configura su URL y clave pública de Supabase para activar el guardado en línea.', 'error');
     setSaveState('Sin configurar', 'error'); renderControls(); return;
   }
   try {
@@ -178,11 +199,11 @@ async function initializeLibrary() {
     if (project) {
       activeProject = project; selectProjectUrl(project.token); showScheme(project.document.schemes[0].id);
     } else {
-      setLoading(true, 'Crea tu primer proyecto con el botón «＋ Proyecto». Después podrás compartirlo por enlace, sin cuentas ni contraseñas.');
+      setLoading(true, 'Crea un proyecto para dibujar tus procesos y compartirlos por enlace, sin cuentas ni contraseñas.', 'empty');
       setSaveState('Listo para crear');
     }
   } catch (error) {
-    setLoading(true, error.message); setSaveState('No se pudo abrir', 'error');
+    setLoading(true, error.message, 'error'); setSaveState('No se pudo abrir', 'error');
     // Keep the invalid URL visible; never silently replace it with a different project.
     renderControls();
   }
@@ -283,7 +304,7 @@ async function deleteProject() {
     selectProjectUrl(null);
     if (projects.length) {
       activeProject = projects[0]; selectProjectUrl(activeProject.token); showScheme(activeProject.document.schemes[0].id);
-    } else { setLoading(true, 'Proyecto eliminado. Crea otro con «＋ Proyecto».'); setSaveState('Listo para crear'); }
+    } else { setLoading(true, 'Proyecto eliminado. Puedes crear uno nuevo cuando quieras.', 'empty'); setSaveState('Listo para crear'); }
   });
 }
 async function restoreVersion() {
