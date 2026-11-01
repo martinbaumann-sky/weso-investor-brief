@@ -1,6 +1,6 @@
 # Weso investor brief
 
-Repositorio del pitch y las demos de Weso: [GitHub](https://github.com/martinbaumann-sky/weso-investor-brief), producción en [weso.click](https://weso.click) mediante el proyecto Vercel `weso-investor-brief`.
+Repositorio del sitio y el pitch de Weso: [GitHub](https://github.com/martinbaumann-sky/weso-investor-brief), producción en [weso.click](https://weso.click) mediante el proyecto Vercel `weso-investor-brief`.
 
 ## Carpeta y remoto
 
@@ -32,7 +32,7 @@ Un push a `main` puede activar el despliegue de Vercel. No publicar copias en ot
 - `/`: pitch compacto para aseguradoras; `/pitch`: pitch completo para inversionistas.
 - `app/content.ts`: textos EN/ES; `app/`: componentes; `app/globals.css`: estilos.
 - `demo/insurer-portal/`: fuente del portal; `public/insurer-portal/`: demo compilada que sirve el pitch.
-- `demo/wesoflow/`: fuente y documentación de Weso Flow; `public/wesoflow/`: salida compilada; `/wesoflow`: acceso público.
+- Weso Flow es una aplicación independiente: su fuente, pruebas y migraciones viven en `Weso/13-weso-flow`, repositorio [weso-flow](https://github.com/We-Solve-it-Out-App/weso-flow). Este sitio conserva solo `public/wesoflow/` (copia compilada con su commit de origen en `source.json`) y la entrada `/wesoflow` para mantener los enlaces existentes. Flow no forma parte del componente del pitch.
 - `output/`, `tmp/`, `test-results/`: evidencia y material temporal local, ignorados por Git. El material antes versionado permanece en el historial.
 - `.env*` y `.vercel/`: configuración local ignorada. `.openai/hosting.json` solo contiene bindings locales.
 
@@ -49,4 +49,4 @@ Remove-Item Env:VERCEL
 ```
 
 Ejecutar ESLint sobre los archivos de código modificados. Las pruebas de renderizado `tests/rendered-html.test.mjs` necesitan el build de Cloudflare (`npm run build` sin `VERCEL`), cuyo servidor se genera en `dist/server/index.js`.
-Weso Flow tiene pruebas independientes descritas en `demo/wesoflow/QA.md`.
+Para actualizar la copia compilada de Flow, ejecutar `npm run build:flow` con el repositorio independiente instalado como carpeta hermana `13-weso-flow`, o definir `WESO_FLOW_SOURCE` con su ubicación. Sus pruebas y documentación están en ese repositorio. El build habitual del sitio no necesita la fuente de Flow ni la reconstruye.
