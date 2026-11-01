@@ -236,6 +236,12 @@ export function InvestorBrief({ compact = false }: InvestorBriefProps) {
   }, []);
 
   useEffect(() => {
+    document.title = lang === "es"
+      ? "Weso — La capa operativa de servicios para asegurados, impulsada por IA."
+      : "Weso — The AI operations layer for insurance services.";
+  }, [lang]);
+
+  useEffect(() => {
     const onScroll = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(max ? (window.scrollY / max) * 100 : 0);
