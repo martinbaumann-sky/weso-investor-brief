@@ -39,3 +39,8 @@ yarn-error.log*
 /outputs/
 /work/
 *.tsbuildinfo
+
+# Local review evidence and historical working copies (never deployed).
+/output/
+/tmp/
+/test-results/
