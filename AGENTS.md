@@ -17,6 +17,7 @@ This workspace is the canonical pitch site repository. Use it for all Weso pitch
 - Routes: `/` renders `InvestorBrief compact` (version for insurers); `/pitch` renders `InvestorBrief` (version for investors). Sections that are only for insurers go behind `compact &&` in `app/page.tsx`.
 - Old copies that look the same and must **never** be edited: `Códigos Hackers\weso-investor-brief`, `Weso\00-investor-brief-snapshot`, `Weso\01-investor-brief-site-copy`. If a request arrives in one of those, do the work here.
 - Bilingual copy (EN/ES) lives in `app/content.ts`; long sections live in their own components in `app/`; styles go at the end of `app/globals.css`.
+- Weso Flow is an independent application: source belongs in `Weso/13-weso-flow`, repository `https://github.com/We-Solve-it-Out-App/weso-flow`. Do not put its source back inside the investor brief. This site only serves the generated `public/wesoflow/` resources and the `/wesoflow` entry to preserve existing links. Regenerate via `npm run build:flow` from the separate checkout; `WESO_FLOW_SOURCE` can override its path.
 - Check before handing off: `VERCEL=1 npm run build` and eslint on the files you touched.
 
 ## Branches: `main` (production) and `alpha` (in review)

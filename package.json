@@ -12,7 +12,7 @@
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate",
-    "build:flow": "vite build --config demo/wesoflow/vite.config.mjs"
+    "build:flow": "node tools/build-wesoflow.mjs"
   },
   "dependencies": {
     "drizzle-orm": "0.45.2",
