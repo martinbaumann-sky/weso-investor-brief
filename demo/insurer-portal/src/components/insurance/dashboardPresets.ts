@@ -2,6 +2,22 @@ export type Placement = { x: number; y: number; w: number; h: number };
 export type PresetLayout = Record<string, Placement>;
 export type InsurancePreset = { id: string; name: string; visible: string[]; summary: PresetLayout; analytics: PresetLayout };
 
+/** Recover desktop layouts accidentally generated from the two-column mobile grid. */
+export function repairCollapsedDesktopLayouts<T extends { i: string; x: number; w: number }>(
+  saved: Record<string, T[]>, defaults: Record<string, T[]>,
+): Record<string, T[]> {
+  const repaired = { ...saved };
+  for (const breakpoint of ['lg', 'md', 'sm']) {
+    const items = saved[breakpoint];
+    const fallback = defaults[breakpoint];
+    if (Array.isArray(items) && items.length >= 3 && fallback?.some(item => item.w > 2)
+      && items.every(item => item.x === 0 && item.w <= 2)) {
+      repaired[breakpoint] = fallback;
+    }
+  }
+  return repaired;
+}
+
 export const INSURANCE_WIDGETS = [
   ['summary-period', 'Operación del período', 'Period activity', 6, 4],
   ['summary-completed', 'Servicios completados', 'Completed services', 3, 4],
