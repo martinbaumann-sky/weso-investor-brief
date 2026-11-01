@@ -1,100 +1,52 @@
-# vinext-starter
+# Weso investor brief
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+Repositorio del pitch y las demos de Weso: [GitHub](https://github.com/martinbaumann-sky/weso-investor-brief), producción en [weso.click](https://weso.click) mediante el proyecto Vercel `weso-investor-brief`.
 
-## Prerequisites
+## Carpeta y remoto
 
-- Node.js `>=22.13.0`
+La copia canónica es `C:/Users/ninch/OneDrive/Escritorio/Códigos Hackers/Weso/01-investor-brief-github`.
+`C:/Users/ninch/OneDrive/Documents/Weso` es una copia secundaria; no trabajar simultáneamente en ambas.
+Las carpetas `00-investor-brief-snapshot`, `01-investor-brief-site-copy` y `Códigos Hackers/weso-investor-brief` son copias históricas.
 
-## Quick Start
+El remoto se llama `origin` y apunta a `https://github.com/martinbaumann-sky/weso-investor-brief.git`.
+Antes de trabajar: `git status`, `git remote -v`, `git fetch origin`.
+Con el árbol limpio, actualizar producción con `git switch main` y `git merge --ff-only origin/main`.
+No usar force push ni eliminar ramas para sincronizar las copias.
 
-```bash
-npm install
-npm run dev
+## Ramas
+
+| Rama | Uso |
+| --- | --- |
+| `main` | Producción; `showAlphaSections = false`. |
+| `alpha` | Revisión; `showAlphaSections = true`, con sus mejoras de embudo y siniestros. Recibe los cambios de `main` sin perder su trabajo. |
+| `codex/app-screens` | Trabajo histórico conservado. |
+| `codex/dashboard-layout-recovery` | Recuperación de los cambios locales del dashboard, pendiente de integración. |
+
+Después de cambios en `main`, actualizar `alpha` con `git switch alpha` y `git merge main`.
+Verificar que su flag siga en `true`, validar y subir con `git push origin alpha`; volver luego a `main`.
+**No fusionar `alpha` completa en `main`**: publicaría las secciones en revisión.
+Un push a `main` puede activar el despliegue de Vercel. No publicar copias en otros servicios.
+
+## Código
+
+- `/`: pitch compacto para aseguradoras; `/pitch`: pitch completo para inversionistas.
+- `app/content.ts`: textos EN/ES; `app/`: componentes; `app/globals.css`: estilos.
+- `demo/insurer-portal/`: fuente del portal; `public/insurer-portal/`: demo compilada que sirve el pitch.
+- `demo/wesoflow/`: fuente y documentación de Weso Flow; `public/wesoflow/`: salida compilada; `/wesoflow`: acceso público.
+- `output/`, `tmp/`, `test-results/`: evidencia y material temporal local, ignorados por Git. El material antes versionado permanece en el historial.
+- `.env*` y `.vercel/`: configuración local ignorada. `.openai/hosting.json` solo contiene bindings locales.
+
+## Desarrollo y validación
+
+Requiere Node.js >=22.13.0. Instalar con `npm ci`; iniciar con `npm run dev`.
+
+En PowerShell, validar el build de Vercel con:
+
+```powershell
+$env:VERCEL = '1'
 npm run build
+Remove-Item Env:VERCEL
 ```
 
-This starter does not use `wrangler.jsonc`.
-
-## Included Shape
-
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-Signed-in visitors receive both `oai-authenticated-user-id` and `oai-authenticated-user-email`. Private Sites require every visitor to sign in; public Sites may also have anonymous visitors, for whom neither header is present.
-
-The user ID is stable for the same user on the same Site and different across Sites. Email and name are intended for display or contact purposes.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const userId = requestHeaders.get("oai-authenticated-user-id");
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
-```
-
-## Optional Dispatch-Owned ChatGPT Sign-In
-
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
-
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
-
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
-
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
-
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
-
-## Useful Commands
-
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+Ejecutar ESLint sobre los archivos de código modificados. Las pruebas de renderizado `tests/rendered-html.test.mjs` necesitan el build de Cloudflare (`npm run build` sin `VERCEL`), cuyo servidor se genera en `dist/server/index.js`.
+Weso Flow tiene pruebas independientes descritas en `demo/wesoflow/QA.md`.
