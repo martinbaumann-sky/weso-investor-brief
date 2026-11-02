@@ -146,9 +146,9 @@ export const content = {
       title: "The team behind the layer.",
       members: [
         ["Sebastian Sarovich", "CEO · Founder", "Chile", "/assets/p3-14.png"],
-        ["Ricardo Aizenman", "Chairman ICP · Co-founder", "United States", "/assets/p3-4.png"],
+        ["Ricardo Aizenman", "Chairman ICP · Co-founder", "United States", "/assets/p3-4.jpg"],
         ["Eduardo Diaz", "COO · Co-founder", "Chile", "/assets/p3-7.png"],
-        ["Martin Baumann", "Head of Growth · Co-founder", "Chile", "/assets/martin-baumann-portrait.png"],
+        ["Martin Baumann", "Head of Growth · Co-founder", "Chile", "/assets/martin-baumann-portrait.jpg"],
         ["Laura Ospina", "AI Manager · Tech Co-founder", "Ecuador", "/assets/p3-5.png"],
         ["Jose Vera", "CTO · Co-founder", "Canada", "/assets/team-jose-vera.png"],
         ["Ximena Hincapie", "Design · Co-founder Tech", "Colombia", "/assets/team-ximena-hincapie.png"],
@@ -313,9 +313,9 @@ export const content = {
       title: "El equipo detrás de la capa.",
       members: [
         ["Sebastian Sarovich", "CEO · Fundador", "Chile", "/assets/p3-14.png"],
-        ["Ricardo Aizenman", "Chairman ICP · Cofundador", "Estados Unidos", "/assets/p3-4.png"],
+        ["Ricardo Aizenman", "Chairman ICP · Cofundador", "Estados Unidos", "/assets/p3-4.jpg"],
         ["Eduardo Diaz", "COO · Cofundador", "Chile", "/assets/p3-7.png"],
-        ["Martin Baumann", "Head of Growth · Cofundador", "Chile", "/assets/martin-baumann-portrait.png"],
+        ["Martin Baumann", "Head of Growth · Cofundador", "Chile", "/assets/martin-baumann-portrait.jpg"],
         ["Laura Ospina", "AI Manager · Cofundadora Tech", "Ecuador", "/assets/p3-5.png"],
         ["Jose Vera", "CTO · Cofundador", "Canadá", "/assets/team-jose-vera.png"],
         ["Ximena Hincapie", "Diseño · Cofundadora Tech", "Colombia", "/assets/team-ximena-hincapie.png"],
