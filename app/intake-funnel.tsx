@@ -36,7 +36,7 @@ export function IntakeFunnel({ t }: { t: Copy["intake"] }) {
           <div className="intake-funnel">
             <svg viewBox="0 0 600 250" aria-hidden="true">
               <defs>
-                <linearGradient id="intake-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#171518" stopOpacity=".04" /><stop offset="1" stopColor="#ff0096" stopOpacity=".18" /></linearGradient>
+                <linearGradient id="intake-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#6427ff" stopOpacity=".04" /><stop offset="1" stopColor="#f20b8f" stopOpacity=".18" /></linearGradient>
               </defs>
               <path className="intake-funnel-shape" d="M4 4 H596 L372 196 V248 H228 V196 Z" />
               {columns.map((x, column) => (
