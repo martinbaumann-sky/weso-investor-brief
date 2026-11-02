@@ -4,6 +4,7 @@ const Responsive = ResponsiveRaw as any;
 
 import { GripVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { repairCollapsedDesktopLayouts } from '@/components/insurance/dashboardPresets';
 
 type LayoutItem = { i: string; x: number; y: number; w: number; h: number; minW?: number; minH?: number };
 type Layouts = { [breakpoint: string]: LayoutItem[] };
@@ -88,7 +89,8 @@ export function DashboardGrid({ widgets, editing, storageKey, activeTemplate, hi
     try {
       const stored = localStorage.getItem(storageKey);
       if (stored && !activeTemplate) {
-        const parsed = JSON.parse(stored) as Layouts;
+        const saved = JSON.parse(stored) as Layouts;
+        const parsed = wideColumns ? repairCollapsedDesktopLayouts(saved, defaultLayouts) : saved;
         const known = new Set((parsed.lg || []).map((l) => l.i));
         const missing = widgets.filter((w) => !known.has(w.id)).map((w) => ({
           i: w.id,
@@ -143,7 +145,6 @@ export function DashboardGrid({ widgets, editing, storageKey, activeTemplate, hi
         const preserved = (prev[breakpoint] || []).filter(item => !nextIds.has(item.i));
         merged[breakpoint] = [...next, ...preserved];
       }
-      layoutChangePending.current = true;
       return merged;
     });
   };
@@ -187,6 +188,10 @@ export function DashboardGrid({ widgets, editing, storageKey, activeTemplate, hi
         containerPadding={[0, 0]}
         dragConfig={{ enabled: editing, cancel: '.no-drag' }}
         resizeConfig={{ enabled: editing }}
+        // Responsive reflow also triggers onLayoutChange. Persist only an
+        // intentional edit, so a temporary iframe width cannot replace it.
+        onDragStop={() => { layoutChangePending.current = true; }}
+        onResizeStop={() => { layoutChangePending.current = true; }}
         onLayoutChange={handleChange}
       >
         {visibleWidgets.map((w) => (
