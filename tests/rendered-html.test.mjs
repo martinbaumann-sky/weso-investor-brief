@@ -75,7 +75,7 @@ test("keeps KPI content bilingual and the lower chapters interactive", async () 
   assert.match(page, /className="market-funnel-stages"/);
   assert.match(css, /\[data-scroll-reveal\]\.is-scroll-visible/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
-  assert.match(layout, /Weso — The AI Operations Layer/);
+  assert.match(layout, /Weso — La capa operativa de servicios para asegurados/);
 
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
