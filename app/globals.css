@@ -2505,8 +2505,8 @@ main { overflow: clip; }
 .funnel-stages li:not(:last-child)::after { content: ""; position: absolute; left: 27px; top: 60px; bottom: -23px; border-left: 1px dashed #c9c5c7; }
 .funnel-stages button { display: flex; align-items: flex-start; gap: 24px; text-align: left; border: 0; padding: 0; width: 100%; background: transparent; cursor: pointer; border-radius: 8px; }
 .funnel-stages button:focus-visible { outline: 2px solid var(--pink); outline-offset: 8px; }
-.funnel-step-number { width: 56px; height: 56px; flex: 0 0 56px; border: 7px solid #fbd7ed; border-radius: 50%; display: grid; place-items: center; background: #fff5fb; color: var(--pink); font-size: 20px; font-weight: 650; line-height: 1; transition: border-color .3s; }
-.funnel-stages button:hover .funnel-step-number, .funnel-stages .is-current .funnel-step-number { border-color: #f8b7df; }
+.funnel-step-number { width: 56px; height: 56px; flex: 0 0 56px; border: 7px solid #fce4f1; border-radius: 50%; display: grid; place-items: center; background: #fff; color: var(--pink); font-size: 20px; font-weight: 650; line-height: 1; transition: border-color .3s; }
+.funnel-stages button:hover .funnel-step-number, .funnel-stages .is-current .funnel-step-number { border-color: #f7b8da; }
 .funnel-step-copy { display: grid; gap: 6px; padding-top: 4px; }
 .funnel-step-copy strong { font-family: var(--font-weso-display), sans-serif; font-size: clamp(1rem, 1.5vw, 1.4rem); font-weight: 550; letter-spacing: -.03em; }
 .funnel-step-copy > span { max-width: 28ch; color: var(--muted); font-size: clamp(.9rem, 1.3vw, 1.2rem); line-height: 1.4; letter-spacing: -.02em; }
@@ -2515,7 +2515,7 @@ main { overflow: clip; }
 .funnel-inputs, .funnel-results { list-style: none; margin: 0; padding: 0; position: absolute; width: 100%; }
 .funnel-inputs { top: 1%; display: flex; justify-content: space-between; }
 .funnel-inputs li { background: var(--paper); width: 34%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.funnel-input-icon { display: grid; place-items: center; width: 108px; aspect-ratio: 1; border-radius: 50%; background: #fce0f2; color: var(--pink); }
+.funnel-input-icon { display: grid; place-items: center; width: 108px; aspect-ratio: 1; border-radius: 50%; background: #fce4f1; color: var(--pink); }
 .funnel-input-icon svg { width: 48%; height: 48%; }
 .funnel-inputs strong { font-family: var(--font-weso-display), sans-serif; font-size: clamp(1.1rem, 2.15vw, 2rem); font-weight: 550; letter-spacing: -.045em; line-height: 1.1; }
 .funnel-hub { position: absolute; left: 50%; top: 45.8%; width: 26%; aspect-ratio: 1; transform: translate(-50%, -50%); display: grid; place-items: center; }
@@ -2523,7 +2523,7 @@ main { overflow: clip; }
 .funnel-result-title { position: absolute; top: 72.5%; background: var(--paper); padding: 0; left: -6%; width: 112%; margin: 0; text-align: center; font-family: var(--font-weso-display), sans-serif; font-weight: 550; font-size: clamp(1.6rem, 3.5vw, 3.2rem); line-height: 1.15; letter-spacing: -.055em; }
 .funnel-results { top: 86%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: 8px; }
 .funnel-results li { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; font-size: clamp(.8rem, 1.4vw, 1.35rem); letter-spacing: -.035em; line-height: 1.25; }
-.funnel-output-icon { width: 66px; aspect-ratio: 1; border-radius: 50%; background: #eae2ff; color: var(--violet); display: grid; place-items: center; }
+.funnel-output-icon { width: 66px; aspect-ratio: 1; border-radius: 50%; background: #ece8e2; color: var(--ink); display: grid; place-items: center; }
 .funnel-output-icon svg { width: 45%; height: 45%; }
 @media (max-width: 1100px) and (min-width: 761px) {
   .funnel-layout { width: calc(100% - 64px); gap: 32px; }
@@ -2587,7 +2587,7 @@ main { overflow: clip; }
 .funnel-results li:nth-child(1) { --result-reveal: var(--funnel-result-0, 1); }
 .funnel-results li:nth-child(2) { --result-reveal: var(--funnel-result-1, 1); }
 .funnel-results li:nth-child(3) { --result-reveal: var(--funnel-result-2, 1); }
-.funnel-stages .is-current .funnel-step-number { background: var(--pink); border-color: #f8b7df; color: white; }
+.funnel-stages .is-current .funnel-step-number { background: var(--pink); border-color: #f7b8da; color: white; }
 .funnel-stages .is-current .funnel-step-copy strong { color: var(--pink); }
 @media (prefers-reduced-motion: reduce) {
   .intake-section[data-scroll-ready] .funnel-copy > .eyebrow,
@@ -2611,7 +2611,7 @@ main { overflow: clip; }
 
 /* Claims demo chat: insurer-branded header, open assistant replies, quiet user bubbles. */
 .claims-screen { background: #fff; }
-.claims-screen .claims-chat-header { display: block; flex-shrink: 0; padding: 24px 14px 36px; border: 0; color: #fff; background: linear-gradient(180deg, transparent 62%, #fff 100%), radial-gradient(ellipse at 60% 6%, #f52be6 0%, #a924b4 38%, #39133f 80%); }
+.claims-screen .claims-chat-header { display: block; flex-shrink: 0; padding: 24px 14px 36px; border: 0; color: #fff; background: linear-gradient(180deg, transparent 62%, #fff 100%), radial-gradient(ellipse at 60% 6%, #ff0096 0%, #b8006c 38%, #171518 80%); }
 .claims-chat-nav { display: flex; align-items: center; gap: 8px; }
 .claims-chat-nav > svg { flex-shrink: 0; }
 .claims-chat-avatar { width: 34px; height: 34px; border-radius: 50%; background: #fff; display: grid; place-items: center; flex-shrink: 0; }
@@ -2632,10 +2632,10 @@ main { overflow: clip; }
 .from-weso .claims-message-meta { position: relative; justify-content: flex-end; margin-top: 12px; }
 .claims-message-avatar { position: absolute; left: -30px; bottom: 0; width: 25px; height: 25px; border: 1px solid #eee; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #1715180a; }
 .claims-message-avatar img { width: 100%; height: 100%; object-fit: contain; }
-.claims-attachment { display: flex; align-items: center; gap: 7px; margin: 0 0 8px; color: #67517f; font-size: .65rem; font-weight: 600; }
+.claims-attachment { display: flex; align-items: center; gap: 7px; margin: 0 0 8px; color: var(--muted); font-size: .65rem; font-weight: 600; }
 .claims-attachment svg { flex-shrink: 0; }
 .claims-tracking-status { margin: 10px 0 0; }
-.claims-screen > footer.claims-compose { flex-shrink: 0; gap: 9px; margin: 8px 9px 10px; padding: 7px 7px 7px 12px; border: 1px solid #e9e8eb; background: #fafafa; box-shadow: 0 5px 12px #6427ff09; color: #92959e; font-size: .65rem; }
+.claims-screen > footer.claims-compose { flex-shrink: 0; gap: 9px; margin: 8px 9px 10px; padding: 7px 7px 7px 12px; border: 1px solid #e9e8eb; background: #fafafa; box-shadow: 0 5px 12px #17151809; color: #92959e; font-size: .65rem; }
 .claims-compose > svg { flex-shrink: 0; }
 .claims-compose > span:not(.claims-compose-send) { flex: 1; }
 .claims-compose-send { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; flex-shrink: 0; background: #959592; color: #fff; }
@@ -2656,7 +2656,7 @@ main { overflow: clip; }
   border: 1px solid #727379;
   border-radius: 48px;
   background: linear-gradient(100deg, #56575d 0%, #151518 2%, #080809 50%, #292a2d 98%, #7e7f84 100%);
-  box-shadow: 0 28px 55px #21152c30, 0 8px 16px #21152c1a, inset 0 0 0 2px #18191d, inset 0 0 0 3px #747579;
+  box-shadow: 0 28px 55px #17151830, 0 8px 16px #1715181a, inset 0 0 0 2px #18191d, inset 0 0 0 3px #747579;
 }
 .claims-screen { position: relative; border-radius: 39px; box-shadow: 0 0 0 1px #000; }
 .claims-device-island { position: absolute; left: 50%; top: 19px; transform: translateX(-50%); z-index: 3; width: 86px; height: 24px; border-radius: 20px; background: #050505; box-shadow: inset 0 0 0 1px #141416; }
@@ -2666,7 +2666,7 @@ main { overflow: clip; }
 .claims-device-volume-up { left: -3px; top: 125px; height: 39px; }
 .claims-device-volume-down { left: -3px; top: 174px; height: 39px; }
 .claims-device-power { right: -3px; top: 149px; height: 63px; }
-.claims-chat-chrome { flex-shrink: 0; background: radial-gradient(ellipse at 60% 6%, #f52be6 0%, #a924b4 38%, #39133f 80%); }
+.claims-chat-chrome { flex-shrink: 0; background: radial-gradient(ellipse at 60% 6%, #ff0096 0%, #b8006c 38%, #171518 80%); }
 .claims-device-status { height: 43px; padding: 12px 19px 0; display: flex; align-items: flex-start; justify-content: space-between; color: #fff; font-size: 10px; font-weight: 650; line-height: 18px; }
 .claims-device-status > div { display: flex; align-items: center; gap: 3px; }
 .claims-screen .claims-chat-header { padding-top: 14px; background: linear-gradient(180deg, transparent 62%, #fff 100%); }
