@@ -55,25 +55,25 @@ function CoreChannelGraphic({ index }: { index: number }) {
   return <div className={`core-network core-network-${index}`} aria-hidden="true">
     <svg className="core-network-map" viewBox="0 0 560 410" fill="none">
       <defs>
-        <linearGradient id={`${id}-line`}><stop stopColor="#c989ea"/><stop offset=".55" stopColor="#ff39aa"/><stop offset="1" stopColor="#dca4eb"/></linearGradient>
-        <linearGradient id={`${id}-tile`} x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".85"/><stop offset="1" stopColor="#fbe6f6" stopOpacity=".6"/></linearGradient>
+        <linearGradient id={`${id}-line`}><stop stopColor="#d8d4dc"/><stop offset=".55" stopColor="#ff0096"/><stop offset="1" stopColor="#d8d4dc"/></linearGradient>
+        <linearGradient id={`${id}-tile`} x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".85"/><stop offset="1" stopColor="#fce4f1" stopOpacity=".6"/></linearGradient>
       </defs>
       {nodes.map(([x, y], n) => <g key={n}>
         {[0, 9, -9].map(offset => <path key={offset} d={`M280 ${205 + offset} C${x < 280 ? 160 : 390} ${205 + offset}, ${x < 280 ? 210 : 365} ${y + offset}, ${x} ${y}`} stroke={`url(#${id}-line)`} strokeWidth={offset ? .65 : 1.4} opacity={offset ? .35 : .75}/>) }
-        <circle className="core-network-pulse" cx={(x + 280) / 2} cy={(y + 205) / 2} r="3.5" fill="#f552ae" style={{ animationDelay: `${n * -.7}s` }}/>
+        <circle className="core-network-pulse" cx={(x + 280) / 2} cy={(y + 205) / 2} r="3.5" fill="#ff0096" style={{ animationDelay: `${n * -.7}s` }}/>
         <g className="core-network-node" style={{ animationDelay: `${n * -.8}s` }}>
-          <rect x={x - 37} y={y - 37} width="74" height="74" rx="17" fill={`url(#${id}-tile)`} stroke="#edbfeb"/>
-          <svg x={x - 23} y={y - 23} width="46" height="46" viewBox="0 0 64 64" stroke="#89549f" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d={icons[n]}/></svg>
+          <rect x={x - 37} y={y - 37} width="74" height="74" rx="17" fill={`url(#${id}-tile)`} stroke="#e6dfe3"/>
+          <svg x={x - 23} y={y - 23} width="46" height="46" viewBox="0 0 64 64" stroke="#171518" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d={icons[n]}/></svg>
         </g>
       </g>)}
-      <g transform="translate(326 14) rotate(-8)" opacity=".6" stroke="#df9cdd">
+      <g transform="translate(326 14) rotate(-8)" opacity=".6" stroke="#f2b6d6">
         <rect width="87" height="61" rx="10" fill={`url(#${id}-tile)`}/>
         <path d="M17 45V33M34 45V25M51 45V30M68 45V15" strokeWidth="6" strokeLinecap="round"/>
       </g>
       <g transform="translate(235 326) rotate(7)" opacity=".65">
-        <rect width="116" height="65" rx="12" fill={`url(#${id}-tile)`} stroke="#edbfeb"/>
+        <rect width="116" height="65" rx="12" fill={`url(#${id}-tile)`} stroke="#e6dfe3"/>
         <path d="M13 42c14 0 12-26 27-22s12 24 27 14 16-24 35-22" stroke={`url(#${id}-line)`} strokeWidth="2"/>
-        <path d="M14 53h22m7 0h12" stroke="#dcb0e6" strokeWidth="3" strokeLinecap="round"/>
+        <path d="M14 53h22m7 0h12" stroke="#d8d4dc" strokeWidth="3" strokeLinecap="round"/>
       </g>
     </svg>
     <div className="core-network-orb"><CoreChannelSymbol index={index}/></div>
