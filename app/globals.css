@@ -2687,3 +2687,14 @@ main { overflow: clip; }
 .claims-screen .claims-chat-identity b { display: block; }
 .claims-screen .claims-chat-identity small { display: flex; align-items: center; gap: 4px; margin-top: 3px; line-height: 1.3; }
 .claims-screen .claims-chat-identity small::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: #42cb86; flex-shrink: 0; }
+
+/* 404 page. */
+.not-found { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; padding: 48px 20px; background: var(--paper); color: var(--ink); text-align: center; }
+.not-found-brand { width: 120px; height: 46px; margin-bottom: 48px; overflow: hidden; }
+.not-found-brand img { width: 100%; height: 100%; object-fit: cover; }
+.not-found-code { margin: 0; color: var(--pink); font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.not-found h1 { margin: 16px 0 0; max-width: 14ch; font-family: var(--font-weso-display), sans-serif; font-weight: 500; font-size: clamp(2.4rem, 6vw, 4.5rem); line-height: 1.04; letter-spacing: -.06em; }
+.not-found-lead { margin: 20px 0 0; max-width: 40ch; color: var(--muted); font-size: 1rem; line-height: 1.5; }
+.not-found-link { margin-top: 36px; display: inline-flex; align-items: center; border-radius: 99px; padding: 18px 28px; background: var(--ink); color: #fff; font-size: .8rem; font-weight: 600; text-decoration: none; transition: background .2s; }
+.not-found-link:hover { background: var(--pink); }
+.not-found-link:focus-visible, .not-found-brand:focus-visible { outline: 2px solid var(--pink); outline-offset: 5px; }
