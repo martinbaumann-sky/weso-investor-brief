@@ -23,7 +23,7 @@ This workspace is the canonical pitch site repository. Use it for all Weso pitch
 ## Branches: `main` (production) and `alpha` (in review)
 
 - `main` is production (weso.click). `alpha` preserves its own review changes and sets `showAlphaSections = true` in `app/feature-flags.ts`; it also contains funnel and claims refinements not yet approved for `main`.
-- Sections hidden on `main` and visible on `alpha`: El embudo (`intake-funnel.tsx`), Reporte de siniestros (`claims-module.tsx`) and Cómo funciona Weso (`how-weso-works.tsx`). Their code stays in `main`; only the flag hides them. Do not delete them.
+- El embudo (`intake-funnel.tsx`), Reporte de siniestros (`claims-module.tsx`) and Cómo funciona Weso (`how-weso-works.tsx`) were published to `main` on 2026-11-17, so `showAlphaSections` is now `true` on both branches. Use the same flag (or a new one) for future sections that must stay in review.
 - Normal work goes on `main`; afterwards bring `alpha` up to date with `git checkout alpha && git merge main`.
 - Never merge `alpha` into `main` as-is, because it would turn the flag on in production. To publish a section, change the flag (or the condition for that section in `app/page.tsx`) on `main` only when the user asks.
 - Preserve `codex/app-screens` as historical work. Keep recovered, unapproved work on its own branch until the user asks to integrate it.

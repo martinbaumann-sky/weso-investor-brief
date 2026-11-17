@@ -1,3 +1,3 @@
-// Sections still in review. Production (`main`) keeps them hidden; the `alpha` branch flips this to true.
-// Do not change this value on `main` when merging from `alpha`.
-export const showAlphaSections = false;
+// Sections approved for production on 2026-11-17: El embudo, Reporte de siniestros and Cómo funciona Weso.
+// `alpha` also keeps this flag on.
+export const showAlphaSections = true;
